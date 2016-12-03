@@ -70,8 +70,8 @@ There is a configuration you have to fill.
 
 ```yaml
 slack:
-    url:
-    channel:
+    url: https://hooks.slack.com/services/<code1>/<code2>/<code3>
+    channel: tracy
 ```
 
 #### Formatters
