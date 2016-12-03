@@ -12,7 +12,7 @@ use Throwable;
  *
  * @author Milan Felix Sulc <sulcmil@gmail.com>
  */
-final class TracyFileLogger extends TracyLogger implements ILogger
+final class TracyFileLogger extends AbstractTracyLogger implements ILogger
 {
 
 	/**

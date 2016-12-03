@@ -7,11 +7,11 @@ use Exception;
 use Throwable;
 
 /**
- * TracyLogger based on official Tracy\Logger (@copyright David Grudl)
+ * AbstractTracyLogger based on official Tracy\Logger (@copyright David Grudl)
  *
  * @author Milan Felix Sulc <sulcmil@gmail.com>
  */
-abstract class TracyLogger implements ILogger
+abstract class AbstractTracyLogger implements ILogger
 {
 
 	/** @var string */

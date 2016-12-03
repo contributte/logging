@@ -13,7 +13,7 @@ use Tracy\BlueScreen;
  *
  * @author Milan Felix Sulc <sulcmil@gmail.com>
  */
-final class TracyBlueScreenLogger extends TracyLogger implements ILogger
+final class TracyBlueScreenLogger extends AbstractTracyLogger implements ILogger
 {
 
 	/** @var BlueScreen */
