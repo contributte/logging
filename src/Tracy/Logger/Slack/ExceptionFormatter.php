@@ -6,6 +6,9 @@ use Exception;
 use Throwable;
 use Tracy\Helpers;
 
+/**
+ * @author Milan Felix Sulc <sulcmil@gmail.com>
+ */
 final class ExceptionFormatter implements IFormatter
 {
 

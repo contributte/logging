@@ -7,6 +7,9 @@ use Contributte\Logging\Tracy\Logger\ILogger;
 use Exception;
 use Throwable;
 
+/**
+ * @author Milan Felix Sulc <sulcmil@gmail.com>
+ */
 final class ColorFormatter implements IFormatter
 {
 

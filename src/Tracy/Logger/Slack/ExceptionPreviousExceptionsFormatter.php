@@ -5,6 +5,9 @@ namespace Contributte\Logging\Tracy\Logger\Slack;
 use Exception;
 use Throwable;
 
+/**
+ * @author Milan Felix Sulc <sulcmil@gmail.com>
+ */
 final class ExceptionPreviousExceptionsFormatter implements IFormatter
 {
 
