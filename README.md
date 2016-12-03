@@ -2,7 +2,9 @@
 
 :boom: Universal logging support to Tracy / Nette Framework (@nette)
 
-- Slack
+- Universal
+    - Slack
+        - Formatters
 - Monolog
     - Handlers
     - Formatters
@@ -93,7 +95,7 @@ services:
 
 ##### `Contributte\Logging\Tracy\Logger\Slack\ContextFormatter`
 
-![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/docs/formatter-exception.png)
+![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/master/docs/formatter-exception.png)
 
 ##### `Contributte\Logging\Tracy\Logger\Slack\ColorFormatter`
 
@@ -103,15 +105,15 @@ services:
 
 ##### `Contributte\Logging\Tracy\Logger\Slack\ExceptionFormatter`
 
-![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/docs/formatter-exception.png)
+![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/master/docs/formatter-exception.png)
 
 ##### `Contributte\Logging\Tracy\Logger\Slack\ExceptionPreviousExceptionsFormatter`
 
-![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/docs/formatter-previous-exceptions.png)
+![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/master/docs/formatter-previous-exceptions.png)
 
 ##### `Contributte\Logging\Tracy\Logger\Slack\ExceptionStackTraceFormatter`
 
-![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/docs/formatter-stack-trace.png)
+![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/master/docs/formatter-stack-trace.png)
 
 -----
 
