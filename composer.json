@@ -2,7 +2,7 @@
   "name": "contributte/logging",
   "description": "Universal logging support to Tracy / Nette Framework",
   "keywords": ["nette", "logging", "tracy", "monolog"],
-  "type": "project",
+  "type": "library",
   "license": "MIT",
   "homepage": "https://github.com/contributte/logging",
   "authors": [
