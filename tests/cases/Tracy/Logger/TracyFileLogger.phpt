@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @Test Tracy\Logger\TracyFileLogger
+ * TEST: Tracy\Logger\TracyFileLogger
  */
 
 use Contributte\Logging\Tracy\Logger\TracyFileLogger;
@@ -17,4 +17,3 @@ test(function () {
     $logger->log($exception, $logger::CRITICAL);
     Assert::true(file_exists(TEMP_DIR . '/critical.log'));
 });
-

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @Test DI\LoggingTracyUniversalExtension
+ * TEST: DI\LoggingTracyUniversalExtension
  */
 
 use Contributte\Logging\DI\LoggingTracyUniversalExtension;
