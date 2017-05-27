@@ -95,7 +95,7 @@ services:
 
 ##### `Contributte\Logging\Tracy\Logger\Slack\ContextFormatter`
 
-![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/master/.docs/formatter-exception.png)
+- Setup `context` with all configured data (channel, icon, etc).
 
 ##### `Contributte\Logging\Tracy\Logger\Slack\ColorFormatter`
 
