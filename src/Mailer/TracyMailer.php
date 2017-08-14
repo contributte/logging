@@ -2,7 +2,7 @@
 
 namespace Contributte\Logging\Mailer;
 
-use Contributte\Logging\AbstractLogger;
+use Contributte\Logging\Utils\Utils;
 use Exception;
 use Throwable;
 use Tracy\Helpers;
@@ -25,7 +25,7 @@ class TracyMailer implements IMailer
 	 * @param string $from
 	 * @param array $to
 	 */
-	public function __construct($from, array $to)
+	public function __construct($from = NULL, array $to)
 	{
 		$this->from = $from;
 		$this->to = $to;
@@ -49,7 +49,7 @@ class TracyMailer implements IMailer
 						'Content-Transfer-Encoding: 8bit',
 					]) . "\n",
 				'subject' => 'PHP: An error occurred on the server ' . $host,
-				'body' => AbstractLogger::formatMessage($message) . "\n\nsource: " . Helpers::getSource(),
+				'body' => Utils::formatMessage($message) . "\n\nsource: " . Helpers::getSource(),
 			]
 		);
 
