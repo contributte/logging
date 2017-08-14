@@ -1,12 +1,12 @@
 <?php
 
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
-use Contributte\Logging\Tracy\Logger\Slack\ColorFormatter;
-use Contributte\Logging\Tracy\Logger\Slack\ContextFormatter;
-use Contributte\Logging\Tracy\Logger\Slack\ExceptionFormatter;
-use Contributte\Logging\Tracy\Logger\Slack\ExceptionPreviousExceptionsFormatter;
-use Contributte\Logging\Tracy\Logger\Slack\ExceptionStackTraceFormatter;
-use Contributte\Logging\Tracy\Logger\SlackLogger;
+use Contributte\Logging\Slack\Formatter\ColorFormatter;
+use Contributte\Logging\Slack\Formatter\ContextFormatter;
+use Contributte\Logging\Slack\Formatter\ExceptionFormatter;
+use Contributte\Logging\Slack\Formatter\ExceptionPreviousExceptionsFormatter;
+use Contributte\Logging\Slack\Formatter\ExceptionStackTraceFormatter;
+use Contributte\Logging\Slack\SlackLogger;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
