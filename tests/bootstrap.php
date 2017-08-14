@@ -11,12 +11,3 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 Environment::setupTester();
 Environment::setupTimezone();
 Environment::setupVariables(__DIR__);
-
-/**
- * @param Closure $function
- * @return void
- */
-function test(\Closure $function)
-{
-	$function();
-}
