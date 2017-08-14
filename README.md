@@ -1,26 +1,20 @@
 # Logging
 
-:boom: Universal logging support to Tracy / Nette Framework (@nette)
-
-- Universal
-    - Slack
-        - Formatters
-- Monolog
-    - Handlers
-    - Formatters
+:boom: Plug-in support logging for [`Tracy`](https://github.com/nette/tracy) & [`Nette Framework`](https://github.com/nette/).
 
 -----
 
 [![Build Status](https://img.shields.io/travis/contributte/logging.svg?style=flat-square)](https://travis-ci.org/contributte/logging)
 [![Code coverage](https://img.shields.io/coveralls/contributte/logging.svg?style=flat-square)](https://coveralls.io/r/contributte/logging)
+[![Licence](https://img.shields.io/packagist/l/contributte/logging.svg?style=flat-square)](https://packagist.org/packages/contributte/logging)
+
 [![Downloads this Month](https://img.shields.io/packagist/dm/contributte/logging.svg?style=flat-square)](https://packagist.org/packages/contributte/logging)
 [![Downloads total](https://img.shields.io/packagist/dt/contributte/logging.svg?style=flat-square)](https://packagist.org/packages/contributte/logging)
 [![Latest stable](https://img.shields.io/packagist/v/contributte/logging.svg?style=flat-square)](https://packagist.org/packages/contributte/logging)
-[![HHVM Status](https://img.shields.io/hhvm/contributte/logging.svg?style=flat-square)](http://hhvm.h4cc.de/package/contributte/logging)
 
 ## Discussion / Help
 
-[![Join the chat](https://img.shields.io/gitter/room/contributte/contributte.svg?style=flat-square)](https://gitter.im/contributte/contributte?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat](https://img.shields.io/gitter/room/contributte/contributte.svg?style=flat-square)](http://bit.ly/ctteg)
 
 ## Install
 
@@ -28,92 +22,32 @@
 composer require contributte/logging
 ```
 
-## Usage
+## Versions
 
-### UniversalExtension
+| State       | Version | Branch   | PHP      |
+|-------------|---------|----------|----------|
+| stable      | `^0.1`  | `master` | `>= 5.6` |
 
-First of all, we need to register our universal logger for future purpose.
+## Overview
 
-```yaml
-extensions:
-    logging: Contributte\Logging\DI\LoggingTracyUniversalExtension
-```
+- [Universal - how to use](https://github.com/contributte/logging/blob/master/.docs/README.md#tracyloggingextension)
+- [Slack - how to use](https://github.com/contributte/logging/blob/master/.docs/README.md#slackloggingextension)
 
-A few settings to our extension.
+## Maintainers
 
-```yaml
-logging:
-    logDir: %appDir%/../log
-    mailer: 
-        from: my@app.com
-        to: [my@email.com]
-```
-
-Basically, it override tracy default logger & mailer by universal, pluggable instance of logger.
-
-### SlackExtension
-
-```yaml
-extensions:
-    slack: Contributte\Logging\DI\LoggingSlackExtension
-```
-
-There is a configuration you have to fill.
-
-| Key        | Requirements | Default  |
-|------------|--------------|----------|
-| url        | required     | -        |
-| channel    | required     | -        |
-| username   | optional     | Tracy    |
-| icon_emoji | optional     | :rocket: |
-| icon_url   | optional     | -        |
-
-```yaml
-slack:
-    url: https://hooks.slack.com/services/<code1>/<code2>/<code3>
-    channel: tracy
-```
-
-#### Formatters
-
-By default, there are 5 formatters for your slack-channel-pleasure.
-
-You can disable it like this:
-
-```yaml
-slack:
-    formatters: []
-```
-
-And configure your own formatters. They will be loaded automatically, if
-you implement needed interface (`Contributte\Logging\Tracy\Logger\Slack\IFormatter`).
-
-```yaml
-services:
-    - App\Slack\MySuperTrouperFormatter
-```
-
-##### `Contributte\Logging\Tracy\Logger\Slack\ContextFormatter`
-
-- Setup `context` with all configured data (channel, icon, etc).
-
-##### `Contributte\Logging\Tracy\Logger\Slack\ColorFormatter`
-
-- `danger` -> `ILogger::CRITICAL`
-- `#ff0000` -> `ILogger::EXCEPTION`
-- `warning` -> `ILogger::ERROR`
-
-##### `Contributte\Logging\Tracy\Logger\Slack\ExceptionFormatter`
-
-![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/master/.docs/formatter-exception.png)
-
-##### `Contributte\Logging\Tracy\Logger\Slack\ExceptionPreviousExceptionsFormatter`
-
-![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/master/.docs/formatter-previous-exceptions.png)
-
-##### `Contributte\Logging\Tracy\Logger\Slack\ExceptionStackTraceFormatter`
-
-![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/master/.docs/formatter-stack-trace.png)
+<table>
+  <tbody>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/f3l1x">
+            <img width="150" height="150" src="https://avatars2.githubusercontent.com/u/538058?v=3&s=150">
+        </a>
+        </br>
+        <a href="https://github.com/f3l1x">Milan Felix Šulc</a>
+      </td>
+    </tr>
+  <tbody>
+</table>
 
 -----
 
