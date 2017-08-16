@@ -4,6 +4,7 @@
 
 - [Universal - how to use](#tracyloggingextension)
 - [Slack - how to use](#slackloggingextension)
+- [Sentry - how to use](#sentryloggingextension)
 
 ## TracyLoggingExtension
 
@@ -31,7 +32,7 @@ Basically, it overrides tracy default logger & mailer by universal, pluggable in
 ```yaml
 extensions:
     logging: Contributte\Logging\DI\TracyLoggingExtension
-    logging2slack: Contributte\Logging\DI\SlackLoggingExtension
+    slack: Contributte\Logging\DI\SlackLoggingExtension
 ```
 
 There is a configuration you have to fill in.
@@ -90,3 +91,27 @@ services:
 #### `Contributte\Logging\Slack\Formatter\ExceptionStackTraceFormatter`
 
 ![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/master/.docs/assets/formatter-stack-trace.png)
+
+## SentryLoggingExtension
+
+You have to require Sentry library
+
+```
+composer require sentry/sentry
+```
+
+Register extensions
+
+
+```yaml
+extensions:
+    logging: Contributte\Logging\DI\TracyLoggingExtension
+    sentry: Contributte\Logging\DI\SentryLoggingExtension
+```
+
+Fill sentry url
+
+```yaml
+sentry:
+    url: https://<key>:<secret>@sentry.io/<project>
+```

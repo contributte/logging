@@ -22,7 +22,8 @@
   },
   "suggest": {
     "monolog/monolog": "to use LoggingMonologExtension",
-    "nette/di": "to use LoggingSlackExtension & LoggingTracyUniversalExtension[CompilerExtension]"
+    "nette/di": "to use LoggingSlackExtension & LoggingTracyUniversalExtension[CompilerExtension]",
+    "sentry/sentry": "to use SentryLoggingExtension"
   },
   "autoload": {
     "psr-4": {

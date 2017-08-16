@@ -50,7 +50,7 @@ final class SlackLoggingExtension extends CompilerExtension
 		Validators::assertField($config, 'channel', 'string', 'slack channel (%)');
 
 		$builder->addDefinition($this->prefix('logger'))
-			->setClass(SlackLogger::class, [$this->defaults]);
+			->setClass(SlackLogger::class, [$config]);
 
 		foreach ($config['formatters'] as $n => $formatter) {
 			$builder->addDefinition($this->prefix('formatter.' . ($n + 1)))
