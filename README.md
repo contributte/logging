@@ -24,15 +24,16 @@ composer require contributte/logging
 
 ## Versions
 
-| State       | Version | Branch   | PHP      |
-|-------------|---------|----------|----------|
-| stable      | `^0.1`  | `master` | `>= 5.6` |
+| State       | Version      | Branch   | PHP      |
+|-------------|--------------|----------|----------|
+| development | `dev-master` | `master` | `>= 5.6` |
+| stable      | `^0.2`       | `master` | `>= 5.6` |
 
 ## Overview
 
-- [Universal - how to use](https://github.com/contributte/logging/blob/master/.docs/README.md#tracyloggingextension)
-- [Slack - how to use](https://github.com/contributte/logging/blob/master/.docs/README.md#slackloggingextension)
-- [Sentry - how to use](https://github.com/contributte/logging/blob/master/.docs/README.md#sentryloggingextension)
+- [Tracy - universal logging](https://github.com/contributte/logging/blob/master/.docs/README.md#tracy)
+- [Slack - send exeptions to channel](https://github.com/contributte/logging/blob/master/.docs/README.md#slack)
+- [Sentry - send exceptions to Sentry](https://github.com/contributte/logging/blob/master/.docs/README.md#sentry)
 
 ## Maintainers
 

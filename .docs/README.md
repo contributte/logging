@@ -2,78 +2,90 @@
 
 ## Content
 
-- [Universal - how to use](#tracyloggingextension)
-- [Slack - how to use](#slackloggingextension)
-- [Sentry - how to use](#sentryloggingextension)
+- [Tracy - universal logging](#tracy)
+- [Slack - send exeptions to channel](#slack)
+- [Sentry - send exceptions to Sentry](#sentry)
 
-## TracyLoggingExtension
+## Tracy
 
-**:warning: Logging works only when debug-mode is disabled**
-
-First of all, we need to register our universal tuned logger for future purpose.
+First of all, we need to register our universal tuned logger for the future purpose.
 
 ```yaml
 extensions:
     logging: Contributte\Logging\DI\TracyLoggingExtension
 ```
 
-After that, we need provide logDir path.
+After that, we need to setup `logDir`.
 
 ```yaml
 logging:
     logDir: %appDir%/../log
 ```
 
-Basically, it overrides tracy default logger by universal, pluggable instance of logger.
+Basically, it overrides Tracy's default logger by our universal, pluggable logger.
 
-### Loggers
-#### Default loggers
- 
-Default loggers in Nette.
- 
+### Default loggers
+
+There are 2 types of loggers defined by default.
+
 - **ExceptionFileLogger** - creates exception.log file
-- **BlueScreenFileLogger** - creates exception-*.html  
+- **BlueScreenFileLogger** - creates exception-*.html
+- **SendMailLogger** - sends exception to email
 
-Wanna use custom logger and keep defaults?
+You can redefine these loggers in `logging.loggers`.
 
 ```yaml
 logging:
     loggers: 
         - Contributte\Logging\ExceptionFileLogger(%logDir%)
         - Contributte\Logging\BlueScreenFileLogger(%logDir%)
-```
-
-#### Email logger
-
-If you need send logs via mail, use Email logger.
-
-```yaml
-services:
-    - Contributte\Logging\Mailer\TracyMailer(
-        from@email, 
-        [to@email, to2@email]
-    )
-
-logging:
-    loggers: 
-        - Contributte\Logging\SendMailLogger(..., %logDir%)
+        - Contributte\Logging\SendMailLogger(
+            Contributte\Logging\Mailer\TracyMailer(
+                from@email,
+                [to@email, to2@email]
+            ),
+            %logDir%
+        )
+        - App\Model\MyCustomerLogger
 ```
  
-#### Custom logger 
+### Custom logger 
 
-You can add custom loggers.
+To create your custom logger you have to implement `Contributte\Logging\ILogger`.
 
-Use interface **Contributte\Logging\ILogger**.
+```php
+<?php
 
-Register logger
+namespace App\Model;
+
+use Contributte\Logging\ILogger;
+
+class MyDatabaseLogger implements ILogger
+{
+
+    /**
+     * @param mixed $message
+     * @param string $priority
+     * @return void
+     */
+    public function log($message, $priority = self::INFO)
+    {
+        // store exception to database...
+    }
+
+}
+
+```
+
+And register it in neon.
 
 ```yaml
 logging:
     loggers: 
-        - SampleLogger(%logDir%)
+        - App\Model\MyDatabaseLogger(@connection)
 ```
 
-## SlackLoggingExtension
+## Slack
 
 ```yaml
 extensions:
@@ -138,16 +150,7 @@ services:
 
 ![ContextFormatter](https://raw.githubusercontent.com/contributte/logging/master/.docs/assets/formatter-stack-trace.png)
 
-## SentryLoggingExtension
-
-You have to require Sentry library
-
-```
-composer require sentry/sentry
-```
-
-Register extensions
-
+## Sentry
 
 ```yaml
 extensions:
@@ -155,7 +158,14 @@ extensions:
     sentry: Contributte\Logging\DI\SentryLoggingExtension
 ```
 
-Fill sentry url
+This extension requires to have sentry installed.
+
+```
+composer require sentry/sentry
+```
+
+Now you should register new company/profile at Sentry's page (https://sentry.io/organizations/new/). There you 
+obtained key, secret and project ID. Put these variables into neon file.
 
 ```yaml
 sentry:
