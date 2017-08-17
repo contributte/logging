@@ -3,6 +3,7 @@
 namespace Contributte\Logging;
 
 use Contributte\Logging\Mailer\IMailer;
+use Exception;
 use Throwable;
 
 class SendMailLogger extends AbstractLogger
@@ -49,10 +50,8 @@ class SendMailLogger extends AbstractLogger
 	 */
 	public function log($message, $priority)
 	{
-		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], TRUE))
-			return;
-		if (!($message instanceof Throwable))
-			return;
+		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], TRUE)) return;
+		if (!($message instanceof Exception) || !($message instanceof Throwable)) return;
 
 		$snooze = is_numeric($this->emailSnooze)
 			? $this->emailSnooze

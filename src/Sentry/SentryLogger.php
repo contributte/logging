@@ -28,10 +28,8 @@ final class SentryLogger implements ILogger
 	 */
 	public function log($message, $priority)
 	{
-		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], TRUE))
-			return;
-		if (!($message instanceof Throwable))
-			return;
+		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], TRUE)) return;
+		if (!($message instanceof Exception) || !($message instanceof Throwable)) return;
 
 		// Send to Sentry
 		$this->makeRequest($message);
