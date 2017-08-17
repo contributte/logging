@@ -8,15 +8,12 @@ use Nette\DI\CompilerExtension;
 use Nette\DI\ServiceCreationException;
 use Nette\Utils\Validators;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 final class SentryLoggingExtension extends CompilerExtension
 {
 
 	/** @var array */
 	private $defaults = [
-		'url' => '',
+		'url' => NULL,
 	];
 
 	/**

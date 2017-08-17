@@ -7,9 +7,6 @@ use Exception;
 use Raven_Client;
 use Throwable;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 final class SentryLogger implements ILogger
 {
 
