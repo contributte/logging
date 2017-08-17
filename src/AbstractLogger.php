@@ -26,6 +26,15 @@ abstract class AbstractLogger implements ILogger
 	}
 
 	/**
+	 * @param string $directory
+	 * @return void
+	 */
+	public function setDirectory($directory)
+	{
+		$this->directory = $directory;
+	}
+
+	/**
 	 * @param Exception|Throwable $exception
 	 * @return string
 	 */
@@ -52,7 +61,7 @@ abstract class AbstractLogger implements ILogger
 			}
 		}
 
-		return $this->directory . 'exception--' . @date('Y-m-d--H-i') . '--' . $hash . '.html'; // @ timezone may not be set
+		return $this->directory . '/exception--' . @date('Y-m-d--H-i') . '--' . $hash . '.html'; // @ timezone may not be set
 	}
 
 }

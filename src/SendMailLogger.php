@@ -1,20 +1,15 @@
 <?php
 
-namespace Contributte\Logging\Listener;
+namespace Contributte\Logging;
 
-use Contributte\Logging\ILogger;
 use Contributte\Logging\Mailer\IMailer;
-use Exception;
 use Throwable;
 
-class SendMailListener extends AbstractListener
+class SendMailLogger extends AbstractLogger
 {
 
 	/** @var string */
 	private $emailSnooze = '2 days';
-
-	/** @var string */
-	private $directory;
 
 	/** @var IMailer */
 	private $mailer;
@@ -23,9 +18,9 @@ class SendMailListener extends AbstractListener
 	 * @param string $directory
 	 * @param IMailer $mailer
 	 */
-	public function __construct($directory, IMailer $mailer = NULL)
+	public function __construct($directory, IMailer $mailer)
 	{
-		$this->directory = $directory;
+		parent::__construct($directory);
 		$this->mailer = $mailer;
 	}
 
@@ -36,15 +31,6 @@ class SendMailListener extends AbstractListener
 	public function setEmailSnooze($emailSnooze)
 	{
 		$this->emailSnooze = $emailSnooze;
-	}
-
-	/**
-	 * @param string $directory
-	 * @return void
-	 */
-	public function setDirectory($directory)
-	{
-		$this->directory = $directory;
 	}
 
 	/**
@@ -61,10 +47,12 @@ class SendMailListener extends AbstractListener
 	 * @param string $priority
 	 * @return void
 	 */
-	public function afterLog($message, $priority)
+	public function log($message, $priority)
 	{
-		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], TRUE)) return;
-		if (!($message instanceof Exception) || !($message instanceof Throwable)) return;
+		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], TRUE))
+			return;
+		if (!($message instanceof Throwable))
+			return;
 
 		$snooze = is_numeric($this->emailSnooze)
 			? $this->emailSnooze

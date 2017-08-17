@@ -21,8 +21,7 @@
     "nette/di": "^2.4.9"
   },
   "suggest": {
-    "monolog/monolog": "to use LoggingMonologExtension",
-    "nette/di": "to use LoggingSlackExtension & LoggingTracyUniversalExtension[CompilerExtension]",
+    "nette/di": "to use TracyLoggingExtension",
     "sentry/sentry": "to use SentryLoggingExtension"
   },
   "autoload": {

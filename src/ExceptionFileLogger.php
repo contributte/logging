@@ -8,11 +8,13 @@ use Exception;
 use Throwable;
 
 /**
- * TracyFileLogger based on official Tracy\Logger (@copyright David Grudl)
+ * ExceptionFileLogger based on official Tracy\Logger (@copyright David Grudl)
+ *
+ * Log all exceptions to exception.log
  *
  * @author Milan Felix Sulc <sulcmil@gmail.com>
  */
-class FileLogger extends AbstractLogger implements ILogger
+class ExceptionFileLogger extends AbstractLogger implements ILogger
 {
 
 	/**
@@ -26,7 +28,7 @@ class FileLogger extends AbstractLogger implements ILogger
 			throw new InvalidStateException('Directory "' . $this->directory . '" is not found or is not directory.');
 		}
 
-		$exceptionFile = ($message instanceof Exception || $message instanceof Throwable) ? $this->getExceptionFile($message) : NULL;
+		$exceptionFile = $message instanceof Throwable ? $this->getExceptionFile($message) : NULL;
 		$line = Utils::formatLogLine($message, $exceptionFile);
 		$file = $this->directory . '/' . strtolower($priority) . '.log';
 

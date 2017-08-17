@@ -26,22 +26,6 @@ test(function () {
 });
 
 test(function () {
-	Assert::exception(function () {
-		$loader = new ContainerLoader(TEMP_DIR, TRUE);
-		$loader->load(function (Compiler $compiler) {
-			$compiler->addExtension('logging', new TracyLoggingExtension());
-			$compiler->addExtension('tracy', new TracyExtension());
-			$compiler->loadConfig(FileMock::create('
-			logging:
-				logDir: some-temp-dir
-				mailer:
-					from: dev@tracy.com
-', 'neon'));
-		}, 2);
-	}, AssertionException::class, 'The mailer to (mailer.to) expects to be array, NULL given.');
-});
-
-test(function () {
 	$loader = new ContainerLoader(TEMP_DIR, TRUE);
 	$class = $loader->load(function (Compiler $compiler) {
 		$compiler->addExtension('logging', new TracyLoggingExtension());
@@ -49,11 +33,8 @@ test(function () {
 		$compiler->loadConfig(FileMock::create('
 		logging:
 			logDir: some-temp-dir
-			mailer:
-				from: dev@tracy.com
-				to: [dev@tracy.com]
 ', 'neon'));
-	}, 3);
+	}, 2);
 
 	/** @var Container $container */
 	$container = new $class;

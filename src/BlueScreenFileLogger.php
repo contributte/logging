@@ -9,11 +9,13 @@ use Throwable;
 use Tracy\BlueScreen;
 
 /**
- * TracyBlueScreenLogger based on official Tracy\Logger (@copyright David Grudl)
+ * BlueScreenFileLogger based on official Tracy\Logger (@copyright David Grudl)
+ *
+ * Log every exception as single html file
  *
  * @author Milan Felix Sulc <sulcmil@gmail.com>
  */
-class BlueScreenLogger extends AbstractLogger implements ILogger
+class BlueScreenFileLogger extends AbstractLogger implements ILogger
 {
 
 	/** @var BlueScreen */
