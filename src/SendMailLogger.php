@@ -15,10 +15,10 @@ class SendMailLogger extends AbstractLogger
 	private $mailer;
 
 	/**
-	 * @param string $directory
 	 * @param IMailer $mailer
+	 * @param string $directory
 	 */
-	public function __construct($directory, IMailer $mailer)
+	public function __construct(IMailer $mailer, $directory)
 	{
 		parent::__construct($directory);
 		$this->mailer = $mailer;
