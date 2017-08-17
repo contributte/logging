@@ -8,6 +8,8 @@
 
 ## TracyLoggingExtension
 
+**:warning: Logging works only when debug-mode is disabled**
+
 First of all, we need to register our universal tuned logger for future purpose.
 
 ```yaml
@@ -15,17 +17,51 @@ extensions:
     logging: Contributte\Logging\DI\TracyLoggingExtension
 ```
 
-A few configuration options:
+After that, we need provide logDir path.
 
 ```yaml
 logging:
     logDir: %appDir%/../log
-    mailer: 
-        from: my@app.com
-        to: [my@email.com]
 ```
 
-Basically, it overrides tracy default logger & mailer by universal, pluggable instance of logger.
+Basically, it overrides tracy default logger by universal, pluggable instance of logger.
+
+### Loggers
+#### Default loggers
+ 
+In Nette are this loggers by default:
+ 
+- **ExceptionFileLogger** - creates exception.log file
+- **BlueScreenFileLogger** - creates exception-*.html  
+
+#### Email logger
+
+If you need send logs via mail, use Email logger.
+
+```yaml
+services:
+    - Contributte\Logging\Mailer\TracyMailer(
+        from@email, #string|NULL
+        [to@email, to@email] #string[]
+    )
+
+loggers: 
+    - Contributte\Logging\SendMailLogger(%logDir%)
+```
+ 
+#### Custom logger 
+
+You can add custom loggers.
+
+Use interface **Contributte\Logging\ILogger**.
+
+Register logger and don't forget provide logDir.
+
+```yaml
+logging:
+    loggers: 
+        - SampleLogger(%logDir%)
+```
 
 ## SlackLoggingExtension
 
