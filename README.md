@@ -32,6 +32,7 @@ composer require contributte/logging
 
 - [Universal - how to use](https://github.com/contributte/logging/blob/master/.docs/README.md#tracyloggingextension)
 - [Slack - how to use](https://github.com/contributte/logging/blob/master/.docs/README.md#slackloggingextension)
+- [Sentry - how to use](https://github.com/contributte/logging/blob/master/.docs/README.md#sentryloggingextension)
 
 ## Maintainers
 
@@ -44,6 +45,13 @@ composer require contributte/logging
         </a>
         </br>
         <a href="https://github.com/f3l1x">Milan Felix Šulc</a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/benijo">
+            <img width="150" height="150" src="https://avatars3.githubusercontent.com/u/6731626?v=3&s=150">
+        </a>
+        </br>
+        <a href="https://github.com/benijo">Josef Benjač</a>
       </td>
     </tr>
   <tbody>

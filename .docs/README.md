@@ -29,10 +29,19 @@ Basically, it overrides tracy default logger by universal, pluggable instance of
 ### Loggers
 #### Default loggers
  
-In Nette are this loggers by default:
+Default loggers in Nette.
  
 - **ExceptionFileLogger** - creates exception.log file
 - **BlueScreenFileLogger** - creates exception-*.html  
+
+Wanna use custom logger and keep defaults?
+
+```yaml
+logging:
+    loggers: 
+        - Contributte\Logging\ExceptionFileLogger(%logDir%)
+        - Contributte\Logging\BlueScreenFileLogger(%logDir%)
+```
 
 #### Email logger
 
@@ -41,12 +50,13 @@ If you need send logs via mail, use Email logger.
 ```yaml
 services:
     - Contributte\Logging\Mailer\TracyMailer(
-        from@email, #string|NULL
-        [to@email, to@email] #string[]
+        from@email, 
+        [to@email, to2@email]
     )
 
-loggers: 
-    - Contributte\Logging\SendMailLogger(%logDir%)
+logging:
+    loggers: 
+        - Contributte\Logging\SendMailLogger(..., %logDir%)
 ```
  
 #### Custom logger 
@@ -55,7 +65,7 @@ You can add custom loggers.
 
 Use interface **Contributte\Logging\ILogger**.
 
-Register logger and don't forget provide logDir.
+Register logger
 
 ```yaml
 logging:
