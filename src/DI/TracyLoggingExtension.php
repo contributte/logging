@@ -19,10 +19,7 @@ final class TracyLoggingExtension extends CompilerExtension
 	/** @var array */
 	private $defaults = [
 		'logDir' => NULL,
-		'loggers' => [
-			ExceptionFileLogger::class,
-			BlueScreenFileLogger::class,
-		],
+		'loggers' => NULL,
 	];
 
 	/**
@@ -36,18 +33,23 @@ final class TracyLoggingExtension extends CompilerExtension
 		$config = $this->validateConfig($this->defaults, $this->config);
 
 		Validators::assertField($config, 'logDir', 'string', 'logging directory (%)');
-		Validators::assertField($config, 'loggers', 'array');
+		Validators::assertField($config, 'loggers', 'array|null');
 
-		$builder->addDefinition($this->prefix('logger'))
+		$logger = $builder->addDefinition($this->prefix('logger'))
 			->setClass(UniversalLogger::class);
 
-		$builder->addDefinition($this->prefix('logger.exceptionfilelogger'))
-			->setClass(ExceptionFileLogger::class, [$config['logDir']])
-			->setAutowired('self');
+		if ($config['loggers'] === NULL) {
+			$exceptionFileLogger = $builder->addDefinition($this->prefix('logger.exceptionfilelogger'))
+				->setClass(ExceptionFileLogger::class, [$config['logDir']])
+				->setAutowired('self');
 
-		$builder->addDefinition($this->prefix('logger.bluescreenfilelogger'))
-			->setClass(BlueScreenFileLogger::class, [$config['logDir']])
-			->setAutowired('self');
+			$blueScreenFileLogger = $builder->addDefinition($this->prefix('logger.bluescreenfilelogger'))
+				->setClass(BlueScreenFileLogger::class, [$config['logDir']])
+				->setAutowired('self');
+
+			$logger->addSetup('addLogger', [$exceptionFileLogger]);
+			$logger->addSetup('addLogger', [$blueScreenFileLogger]);
+		}
 	}
 
 	/**
@@ -70,22 +72,24 @@ final class TracyLoggingExtension extends CompilerExtension
 		$universal = $builder->getDefinition($this->prefix('logger'));
 
 		// Register defined loggers
-		$loggers = 1;
-		foreach ($config['loggers'] as $service) {
+		if ($config['loggers'] !== NULL) {
+			$loggers = 1;
+			foreach ($config['loggers'] as $service) {
 
-			// Create logger as service
-			if (
-				is_array($service)
-				|| $service instanceof Statement
-				|| (is_string($service) && substr($service, 0, 1) === '@')
-			) {
-				$def = $builder->addDefinition($this->prefix('logger' . ($loggers++)));
-				Compiler::loadDefinition($def, $service);
-			} else {
-				$def = $builder->getDefinitionByType($service);
+				// Create logger as service
+				if (
+					is_array($service)
+					|| $service instanceof Statement
+					|| (is_string($service) && substr($service, 0, 1) === '@')
+				) {
+					$def = $builder->addDefinition($this->prefix('logger' . ($loggers++)));
+					Compiler::loadDefinition($def, $service);
+				} else {
+					$def = $builder->getDefinitionByType($service);
+				}
+
+				$universal->addSetup('addLogger', [$def]);
 			}
-
-			$universal->addSetup('addLogger', [$def]);
 		}
 	}
 
