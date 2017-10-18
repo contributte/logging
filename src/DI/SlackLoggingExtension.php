@@ -81,7 +81,7 @@ final class SlackLoggingExtension extends CompilerExtension
 		$builder->getDefinition($logger)
 			->addSetup('addLogger', ['@' . $this->prefix('logger')]);
 
-		foreach ($builder->getByType(IFormatter::class) as $def) {
+		foreach ($builder->findByType(IFormatter::class) as $def) {
 			$builder->getDefinition($this->prefix('logger'))
 				->addSetup('addFormatter', [$def]);
 		}
