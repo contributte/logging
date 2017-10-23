@@ -3,7 +3,6 @@
 namespace Contributte\Logging\Slack\Formatter;
 
 use Exception;
-use Throwable;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
@@ -13,7 +12,7 @@ final class ExceptionPreviousExceptionsFormatter implements IFormatter
 
 	/**
 	 * @param SlackContext $context
-	 * @param Exception|Throwable $exception
+	 * @param Exception $exception
 	 * @param string $priority
 	 * @return SlackContext
 	 */

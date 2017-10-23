@@ -5,7 +5,6 @@ namespace Contributte\Logging;
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
 use Contributte\Logging\Utils\Utils;
 use Exception;
-use Throwable;
 use Tracy\BlueScreen;
 
 /**
@@ -32,7 +31,7 @@ class BlueScreenFileLogger extends AbstractLogger implements ILogger
 	}
 
 	/**
-	 * @param string|Exception|Throwable $message
+	 * @param string|Exception $message
 	 * @param string $priority
 	 * @return void
 	 */
@@ -42,7 +41,7 @@ class BlueScreenFileLogger extends AbstractLogger implements ILogger
 			throw new InvalidStateException('Directory ' . $this->directory . ' is not found or is not directory.');
 		}
 
-		$exceptionFile = ($message instanceof Exception || $message instanceof Throwable) ? $this->getExceptionFile($message) : NULL;
+		$exceptionFile = ($message instanceof Exception) ? $this->getExceptionFile($message) : NULL;
 
 		if ($exceptionFile) {
 			Utils::dumpException($message, $exceptionFile, $this->blueScreen);

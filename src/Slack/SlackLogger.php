@@ -8,7 +8,6 @@ use Contributte\Logging\Slack\Formatter\IFormatter;
 use Contributte\Logging\Slack\Formatter\SlackContext;
 use Exception;
 use Nette\Utils\Arrays;
-use Throwable;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
@@ -40,14 +39,14 @@ final class SlackLogger implements ILogger
 	}
 
 	/**
-	 * @param string|Exception|Throwable $message
+	 * @param string|Exception $message
 	 * @param string $priority
 	 * @return void
 	 */
 	public function log($message, $priority)
 	{
 		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], TRUE)) return;
-		if (!($message instanceof Exception) || !($message instanceof Throwable)) return;
+		if (!($message instanceof Exception)) return;
 
 		$context = new SlackContext($this->config);
 
