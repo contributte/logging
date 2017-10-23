@@ -4,7 +4,6 @@ namespace Contributte\Logging\Mailer;
 
 use Contributte\Logging\AbstractLogger;
 use Exception;
-use Throwable;
 use Tracy\Helpers;
 
 /**
@@ -25,7 +24,7 @@ class FileMailer implements IMailer
 	}
 
 	/**
-	 * @param string|Exception|Throwable $message
+	 * @param string|Exception $message
 	 * @return void
 	 */
 	public function send($message)

@@ -4,7 +4,6 @@ namespace Contributte\Logging;
 
 use DirectoryIterator;
 use Exception;
-use Throwable;
 
 /**
  * AbstractTracyLogger based on official Tracy\Logger (@copyright David Grudl)
@@ -35,7 +34,7 @@ abstract class AbstractLogger implements ILogger
 	}
 
 	/**
-	 * @param Exception|Throwable $exception
+	 * @param Exception $exception
 	 * @return string
 	 */
 	protected function getExceptionFile($exception)

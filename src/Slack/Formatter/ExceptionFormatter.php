@@ -3,7 +3,6 @@
 namespace Contributte\Logging\Slack\Formatter;
 
 use Exception;
-use Throwable;
 use Tracy\Helpers;
 
 /**
@@ -14,7 +13,7 @@ final class ExceptionFormatter implements IFormatter
 
 	/**
 	 * @param SlackContext $context
-	 * @param Exception|Throwable $exception
+	 * @param Exception $exception
 	 * @param string $priority
 	 * @return SlackContext
 	 */

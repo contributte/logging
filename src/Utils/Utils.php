@@ -4,7 +4,6 @@ namespace Contributte\Logging\Utils;
 
 use ErrorException;
 use Exception;
-use Throwable;
 use Tracy\BlueScreen;
 use Tracy\Dumper;
 use Tracy\Helpers;
@@ -18,12 +17,12 @@ final class Utils
 {
 
 	/**
-	 * @param string|Exception|Throwable $message
+	 * @param string|Exception $message
 	 * @return string
 	 */
 	public static function formatMessage($message)
 	{
-		if ($message instanceof Exception || $message instanceof Throwable) {
+		if ($message instanceof Exception) {
 			while ($message) {
 				$tmp[] = ($message instanceof ErrorException
 						? Helpers::errorTypeToString($message->getSeverity()) . ': ' . $message->getMessage()
@@ -41,7 +40,7 @@ final class Utils
 	}
 
 	/**
-	 * @param string|Exception|Throwable $message
+	 * @param string|Exception $message
 	 * @param string $exceptionFile
 	 * @return string
 	 */
@@ -56,7 +55,7 @@ final class Utils
 	}
 
 	/**
-	 * @param Exception|Throwable $exception
+	 * @param Exception $exception
 	 * @param string $file
 	 * @param BlueScreen $blueScreen
 	 * @return string
@@ -70,7 +69,7 @@ final class Utils
 	}
 
 	/**
-	 * @param Exception|Throwable $exception
+	 * @param Exception $exception
 	 * @param string $file
 	 * @param BlueScreen $blueScreen
 	 * @return string

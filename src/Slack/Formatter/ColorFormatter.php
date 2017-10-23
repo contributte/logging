@@ -5,7 +5,6 @@ namespace Contributte\Logging\Slack\Formatter;
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
 use Contributte\Logging\ILogger;
 use Exception;
-use Throwable;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
@@ -15,7 +14,7 @@ final class ColorFormatter implements IFormatter
 
 	/**
 	 * @param SlackContext $context
-	 * @param string|Exception|Throwable $message
+	 * @param string|Exception $message
 	 * @param string $priority
 	 * @return SlackContext
 	 */

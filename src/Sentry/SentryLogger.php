@@ -5,7 +5,6 @@ namespace Contributte\Logging\Sentry;
 use Contributte\Logging\ILogger;
 use Exception;
 use Raven_Client;
-use Throwable;
 
 final class SentryLogger implements ILogger
 {
@@ -22,24 +21,24 @@ final class SentryLogger implements ILogger
 	}
 
 	/**
-	 * @param string|Exception|Throwable $message
+	 * @param string|Exception $message
 	 * @param string $priority
 	 * @return void
 	 */
 	public function log($message, $priority)
 	{
 		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], TRUE)) return;
-		if (!($message instanceof Exception) || !($message instanceof Throwable)) return;
+		if (!($message instanceof Exception)) return;
 
 		// Send to Sentry
 		$this->makeRequest($message);
 	}
 
 	/**
-	 * @param Throwable $message
+	 * @param Exception $message
 	 * @return void
 	 */
-	protected function makeRequest(Throwable $message)
+	protected function makeRequest(Exception $message)
 	{
 		$client = new Raven_Client($this->config['url']);
 		$client->captureException($message);
