@@ -54,9 +54,14 @@ abstract class AbstractLogger implements ILogger
 			$exception = $exception->getPrevious();
 		}
 		$hash = substr(md5(serialize($data)), 0, 10);
+		
+		/** @var \SplFileInfo $file */
 		foreach (new DirectoryIterator($this->directory) as $file) {
+			if ($file->isDot()) {
+				continue;
+			}
 			if (strpos($file, $hash)) {
-				return $this->directory . $file;
+				return $file->getPathname();
 			}
 		}
 
