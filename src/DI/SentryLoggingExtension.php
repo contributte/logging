@@ -14,6 +14,7 @@ final class SentryLoggingExtension extends CompilerExtension
 	/** @var array */
 	private $defaults = [
 		'url' => NULL,
+		'enabled' => TRUE,
 	];
 
 	/**
@@ -25,8 +26,10 @@ final class SentryLoggingExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
+		if ($config['enabled'] === FALSE) return;
 
 		Validators::assertField($config, 'url', 'string', 'sentry URL (%)');
+		Validators::assertField($config, 'enabled', 'bool');
 
 		$builder->addDefinition($this->prefix('logger'))
 			->setClass(SentryLogger::class, [$config]);
@@ -40,6 +43,8 @@ final class SentryLoggingExtension extends CompilerExtension
 	public function beforeCompile()
 	{
 		$builder = $this->getContainerBuilder();
+		$config = $this->validateConfig($this->defaults);
+		if ($config['enabled'] === FALSE) return;
 
 		$logger = $builder->getByType(UniversalLogger::class);
 		if ($logger === NULL) {
