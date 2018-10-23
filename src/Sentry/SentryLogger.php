@@ -28,17 +28,17 @@ final class SentryLogger implements ILogger
 	public function log($message, $priority)
 	{
 		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], TRUE)) return;
-		if (!($message instanceof Exception)) return;
+		if (!($message instanceof \Throwable)) return;
 
 		// Send to Sentry
 		$this->makeRequest($message);
 	}
 
 	/**
-	 * @param Exception $message
+	 * @param \Throwable $message
 	 * @return void
 	 */
-	protected function makeRequest(Exception $message)
+	protected function makeRequest(\Throwable $message)
 	{
 		$client = new Raven_Client($this->config['url']);
 		$client->captureException($message);
