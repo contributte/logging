@@ -5,9 +5,8 @@ namespace Contributte\Logging\Sentry;
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
 use Contributte\Logging\ILogger;
 use Raven_Client;
-use Throwable;
 
-class SentryLogger implements ILogger
+final class SentryLogger implements ILogger
 {
 
 	public const LEVEL_PRIORITY_MAP = [
@@ -28,6 +27,9 @@ class SentryLogger implements ILogger
 	/** @var string[] */
 	private $allowedPriority = [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL];
 
+	/** @var Raven_Client|null */
+	private $client;
+
 	/**
 	 * @param mixed[] $configuration
 	 */
@@ -44,6 +46,18 @@ class SentryLogger implements ILogger
 		$this->configuration = $configuration;
 	}
 
+	private function getClient(): Raven_Client
+	{
+		// todo: delegate to user completely?
+		if ($this->client === null) {
+			$this->client = new Raven_Client(
+				$this->configuration[self::CONFIG_URL],
+				$this->configuration[self::CONFIG_OPTIONS]
+			);
+		}
+		return $this->client;
+	}
+
 	/**
 	 * @param string[] $allowedPriority
 	 */
@@ -52,6 +66,7 @@ class SentryLogger implements ILogger
 		$this->allowedPriority = $allowedPriority;
 	}
 
+
 	/**
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
@@ -59,42 +74,41 @@ class SentryLogger implements ILogger
 	 */
 	public function log($message, string $priority = ILogger::INFO): void
 	{
-		if (!in_array($priority, $this->allowedPriority, true)) {
+		if (in_array($priority, $this->allowedPriority, true)
+			&& ($message instanceof \Throwable)) {
+			$this->sendError($message, [
+				'level' => $this->mapLevel($priority),
+			]);
 			return;
 		}
 
-		$level = $this->getLevel($priority);
-		if ($level === null) {
-			return;
-		}
-
-		$data = [
-			'level' => $level,
-		];
-
-		$this->makeRequest($message, $data);
+		// all other messages:
+		// todo: does this really make sense? Shouldn't be added everything to breadcrumbs and errors handled separately?
+		// todo: this would probably make more sense, as breacrumbs are sent nowhere when no error happens
+		// todo: and it makes send to have also things from not allowed levels, as only last 100 breadcrums are associated with an error
+		$this->getClient()->breadcrumbs->record([
+			'message' => (string) $message,
+			'category' => 'logged-message',
+			'level' => $this->mapLevel($priority),
+		]);
 	}
 
 	/**
 	 * @param mixed $message
 	 * @param mixed[] $data
 	 */
-	protected function makeRequest($message, array $data): void
+	protected function sendError($message, array $data): void
 	{
-		$client = new Raven_Client(
-			$this->configuration[self::CONFIG_URL],
-			$this->configuration[self::CONFIG_OPTIONS]
-		);
-		if ($message instanceof Throwable) {
-			$client->captureException($message, $data);
+		if ($message instanceof \Throwable) {
+			$this->getClient()->captureException($message, $data);
 		} else {
-			$client->captureMessage($message, [], $data);
+			$this->getClient()->captureMessage($message, [], $data);
 		}
 	}
 
-	protected function getLevel(string $priority): ?string
+	private function mapLevel(string $priority): string
 	{
-		return self::LEVEL_PRIORITY_MAP[$priority] ?? null;
+		return self::LEVEL_PRIORITY_MAP[$priority] ?? Raven_Client::INFO;
 	}
 
 }
