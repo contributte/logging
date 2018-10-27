@@ -1,8 +1,6 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Contributte\Logging\Slack\Formatter;
-
-use Throwable;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
@@ -10,7 +8,10 @@ use Throwable;
 final class ExceptionPreviousExceptionsFormatter implements IFormatter
 {
 
-	public function format(SlackContext $context, Throwable $exception, string $priority): SlackContext
+	/**
+	 * {@inheritdoc}
+	 */
+	public function format(SlackContext $context, $exception, string $priority): SlackContext
 	{
 		$context = clone $context;
 
@@ -31,7 +32,7 @@ final class ExceptionPreviousExceptionsFormatter implements IFormatter
 
 			$code = $attachment->createField();
 			$code->setTitle(':1234: Code');
-			$code->setValue($previous->getCode());
+			$code->setValue(strval($previous->getCode()));
 			$code->setShort();
 
 			$file = $attachment->createField();

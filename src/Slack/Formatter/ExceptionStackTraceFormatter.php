@@ -1,8 +1,6 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Contributte\Logging\Slack\Formatter;
-
-use Throwable;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
@@ -10,7 +8,10 @@ use Throwable;
 final class ExceptionStackTraceFormatter implements IFormatter
 {
 
-	public function format(SlackContext $context, Throwable $exception, string $priority): SlackContext
+	/**
+	 * {@inheritdoc}
+	 */
+	public function format(SlackContext $context, $exception, string $priority): SlackContext
 	{
 		// Skip empty trace
 		if (count($exception->getTrace()) < 1) return $context;

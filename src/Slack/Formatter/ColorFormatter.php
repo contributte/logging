@@ -1,10 +1,9 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Contributte\Logging\Slack\Formatter;
 
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
 use Contributte\Logging\ILogger;
-use Exception;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
@@ -13,10 +12,9 @@ final class ColorFormatter implements IFormatter
 {
 
 	/**
-	 * @param string|Exception $message
-	 * @param string $priority
+	 * {@inheritdoc}
 	 */
-	public function format(SlackContext $context, $message, $priority): SlackContext
+	public function format(SlackContext $context, $message, string $priority): SlackContext
 	{
 		switch ($priority) {
 			case ILogger::ERROR:

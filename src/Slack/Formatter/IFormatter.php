@@ -3,6 +3,7 @@
 namespace Contributte\Logging\Slack\Formatter;
 
 use Exception;
+use Throwable;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
@@ -11,9 +12,8 @@ interface IFormatter
 {
 
 	/**
-	 * @param string|Exception $message
-	 * @param string $priority
+	 * @param string|Throwable $message
 	 */
-	public function format(SlackContext $context, $message, $priority): SlackContext;
+	public function format(SlackContext $context, $message, string $priority): SlackContext;
 
 }

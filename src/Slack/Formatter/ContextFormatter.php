@@ -1,8 +1,6 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Contributte\Logging\Slack\Formatter;
-
-use Exception;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
@@ -11,10 +9,9 @@ final class ContextFormatter implements IFormatter
 {
 
 	/**
-	 * @param string|Exception $message
-	 * @param string $priority
+	 * {@inheritdoc}
 	 */
-	public function format(SlackContext $context, $message, $priority): SlackContext
+	public function format(SlackContext $context, $message, string $priority): SlackContext
 	{
 		$context = clone $context;
 

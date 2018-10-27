@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Contributte\Logging\Slack;
 
@@ -8,6 +8,7 @@ use Contributte\Logging\Slack\Formatter\IFormatter;
 use Contributte\Logging\Slack\Formatter\SlackContext;
 use Exception;
 use Nette\Utils\Arrays;
+use Throwable;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
@@ -35,7 +36,7 @@ final class SlackLogger implements ILogger
 	}
 
 	/**
-	 * @param string|Exception $message
+	 * @param string|Throwable $message
 	 * @param string $priority
 	 */
 	public function log($message, $priority): void
