@@ -6,6 +6,8 @@
 /composer.lock
 
 # Tests
-/tests/*.log
 /tests/tmp
 /tests/coverage.html
+
+# Temporary
+/temp
