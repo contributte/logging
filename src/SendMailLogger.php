@@ -43,8 +43,7 @@ class SendMailLogger extends AbstractLogger
 			? $this->emailSnooze
 			: @strtotime($this->emailSnooze) - time(); // @ timezone may not be set
 
-		if ($this->mailer
-			&& @filemtime($this->directory . '/email-sent') + $snooze < time() // @ file may not exist
+		if (@filemtime($this->directory . '/email-sent') + $snooze < time() // @ file may not exist
 			&& @file_put_contents($this->directory . '/email-sent', 'sent') // @ file may not be writable
 		) {
 			$this->mailer->send($message);

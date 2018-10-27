@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\Slack;
 
@@ -70,7 +70,7 @@ final class SlackLogger implements ILogger
 			],
 		];
 
-		$response = @file_get_contents($url, null, stream_context_create($streamcontext));
+		$response = @file_get_contents($url, false, stream_context_create($streamcontext));
 
 		if ($response !== 'ok') {
 			throw new SlackBadRequestException([

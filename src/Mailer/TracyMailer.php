@@ -14,7 +14,7 @@ use Tracy\Helpers;
 class TracyMailer implements IMailer
 {
 
-	/** @var string */
+	/** @var string|null */
 	private $from;
 
 	/** @var mixed[] */

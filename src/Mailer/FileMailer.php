@@ -2,7 +2,7 @@
 
 namespace Contributte\Logging\Mailer;
 
-use Contributte\Logging\AbstractLogger;
+use Contributte\Logging\Utils\Utils;
 use Exception;
 use Tracy\Helpers;
 
@@ -37,7 +37,7 @@ class FileMailer implements IMailer
 						'Content-Transfer-Encoding: 8bit',
 					]) . "\n",
 				'subject' => 'PHP: An error occurred on the server ' . $host,
-				'body' => AbstractLogger::formatMessage($message) . "\n\nsource: " . Helpers::getSource(),
+				'body' => Utils::formatMessage($message) . "\n\nsource: " . Helpers::getSource(),
 			]
 		);
 

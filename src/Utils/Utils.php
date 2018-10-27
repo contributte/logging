@@ -23,6 +23,7 @@ final class Utils
 	public static function formatMessage($message): string
 	{
 		if ($message instanceof Exception) {
+			$tmp = [];
 			while ($message) {
 				$tmp[] = ($message instanceof ErrorException
 						? Helpers::errorTypeToString($message->getSeverity()) . ': ' . $message->getMessage()
@@ -67,8 +68,9 @@ final class Utils
 
 		ob_start();
 		$bs->renderToFile($exception, $file);
+		$contents = ob_get_contents();
 
-		return ob_get_contents();
+		return (string) $contents;
 	}
 
 }
