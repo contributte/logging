@@ -15,6 +15,7 @@ final class SentryLoggingExtension extends CompilerExtension
 	private $defaults = [
 		'url' => null,
 		'enabled' => true,
+		'options' => [],
 	];
 
 	/**
@@ -28,6 +29,7 @@ final class SentryLoggingExtension extends CompilerExtension
 
 		Validators::assertField($config, 'url', 'string', 'sentry URL (%)');
 		Validators::assertField($config, 'enabled', 'bool');
+		Validators::assertField($config, 'options', 'array');
 
 		$builder->addDefinition($this->prefix('logger'))
 			->setFactory(SentryLogger::class, [$config]);
