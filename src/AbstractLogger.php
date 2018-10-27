@@ -3,7 +3,6 @@
 namespace Contributte\Logging;
 
 use DirectoryIterator;
-use SplFileInfo;
 use Throwable;
 
 /**
@@ -29,6 +28,8 @@ abstract class AbstractLogger implements ILogger
 
 	protected function getExceptionFile(Throwable $exception): string
 	{
+		$data = [];
+
 		while ($exception) {
 			$data[] = [
 				$exception->getMessage(),
@@ -45,12 +46,11 @@ abstract class AbstractLogger implements ILogger
 		}
 		$hash = substr(md5(serialize($data)), 0, 10);
 
-		/** @var SplFileInfo $file */
 		foreach (new DirectoryIterator($this->directory) as $file) {
 			if ($file->isDot()) {
 				continue;
 			}
-			if (strpos($file, $hash)) {
+			if (strpos($file->getBasename(), $hash)) {
 				return $file->getPathname();
 			}
 		}

@@ -2,7 +2,6 @@
 
 namespace Contributte\Logging\Slack\Formatter;
 
-use Exception;
 use Throwable;
 
 /**

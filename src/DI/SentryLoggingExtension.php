@@ -30,7 +30,7 @@ final class SentryLoggingExtension extends CompilerExtension
 		Validators::assertField($config, 'enabled', 'bool');
 
 		$builder->addDefinition($this->prefix('logger'))
-			->setClass(SentryLogger::class, [$config]);
+			->setFactory(SentryLogger::class, [$config]);
 	}
 
 	/**

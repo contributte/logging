@@ -34,15 +34,15 @@ final class TracyLoggingExtension extends CompilerExtension
 		Validators::assertField($config, 'loggers', 'array|null');
 
 		$logger = $builder->addDefinition($this->prefix('logger'))
-			->setClass(UniversalLogger::class);
+			->setType(UniversalLogger::class);
 
 		if ($config['loggers'] === null) {
 			$exceptionFileLogger = $builder->addDefinition($this->prefix('logger.exceptionfilelogger'))
-				->setClass(ExceptionFileLogger::class, [$config['logDir']])
+				->setFactory(ExceptionFileLogger::class, [$config['logDir']])
 				->setAutowired('self');
 
 			$blueScreenFileLogger = $builder->addDefinition($this->prefix('logger.bluescreenfilelogger'))
-				->setClass(BlueScreenFileLogger::class, [$config['logDir']])
+				->setFactory(BlueScreenFileLogger::class, [$config['logDir']])
 				->setAutowired('self');
 
 			$logger->addSetup('addLogger', [$exceptionFileLogger]);
