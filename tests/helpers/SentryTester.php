@@ -6,7 +6,7 @@ use Contributte\Logging\Sentry\SentryLogger;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 $logger = new SentryLogger([
-	'url' => '__URL__',
+	'url' => 'https://user:password@test.sentry.somewhere/project/3',
 ]);
 
 $previous = new RuntimeException('Ooo', 100);
