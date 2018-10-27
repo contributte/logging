@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\Slack\Formatter;
 
@@ -11,11 +11,9 @@ interface IFormatter
 {
 
 	/**
-	 * @param SlackContext $context
 	 * @param string|Exception $message
 	 * @param string $priority
-	 * @return SlackContext
 	 */
-	public function format(SlackContext $context, $message, $priority);
+	public function format(SlackContext $context, $message, $priority): SlackContext;
 
 }

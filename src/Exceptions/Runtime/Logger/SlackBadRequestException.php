@@ -1,20 +1,17 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\Exceptions\Runtime\Logger;
 
 use Contributte\Logging\Exceptions\RuntimeException;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 final class SlackBadRequestException extends RuntimeException
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	private $request;
 
 	/**
-	 * @param array $request
+	 * @param mixed[] $request
 	 */
 	public function __construct(array $request)
 	{
@@ -23,9 +20,9 @@ final class SlackBadRequestException extends RuntimeException
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function getRequest()
+	public function getRequest(): array
 	{
 		return $this->request;
 	}

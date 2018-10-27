@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * TEST: Logger\BlueScreenFileLogger
@@ -9,7 +9,7 @@ use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-test(function () {
+test(function (): void {
 	$exception = new RuntimeException('Foobar', 100);
 
 	$logger = new BlueScreenFileLogger(TEMP_DIR);

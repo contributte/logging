@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\Slack\Formatter;
 
@@ -8,40 +8,28 @@ namespace Contributte\Logging\Slack\Formatter;
 final class SlackContextField
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	private $data = [];
 
-	/**
-	 * @param string $title
-	 * @return void
-	 */
-	public function setTitle($title)
+	public function setTitle(string $title): void
 	{
 		$this->data['title'] = $title;
 	}
 
-	/**
-	 * @param string $value
-	 * @return void
-	 */
-	public function setValue($value)
+	public function setValue(string $value): void
 	{
 		$this->data['value'] = $value;
 	}
 
-	/**
-	 * @param bool $short
-	 * @return void
-	 */
-	public function setShort($short = TRUE)
+	public function setShort(bool $short = true): void
 	{
 		$this->data['short'] = $short;
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		return $this->data;
 	}

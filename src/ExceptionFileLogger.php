@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging;
 
@@ -19,15 +19,14 @@ class ExceptionFileLogger extends AbstractLogger implements ILogger
 	/**
 	 * @param string|Exception $message
 	 * @param string $priority
-	 * @return void
 	 */
-	public function log($message, $priority)
+	public function log($message, $priority): void
 	{
 		if (!is_dir($this->directory)) {
 			throw new InvalidStateException('Directory "' . $this->directory . '" is not found or is not directory.');
 		}
 
-		$exceptionFile = ($message instanceof Exception) ? $this->getExceptionFile($message) : NULL;
+		$exceptionFile = ($message instanceof Exception) ? $this->getExceptionFile($message) : null;
 		$line = Utils::formatLogLine($message, $exceptionFile);
 		$file = $this->directory . '/' . strtolower($priority) . '.log';
 

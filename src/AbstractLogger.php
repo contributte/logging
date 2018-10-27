@@ -1,9 +1,10 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging;
 
 use DirectoryIterator;
-use Exception;
+use SplFileInfo;
+use Throwable;
 
 /**
  * AbstractTracyLogger based on official Tracy\Logger (@copyright David Grudl)
@@ -16,28 +17,17 @@ abstract class AbstractLogger implements ILogger
 	/** @var string */
 	protected $directory;
 
-	/**
-	 * @param string $directory
-	 */
-	public function __construct($directory)
+	public function __construct(string $directory)
 	{
 		$this->directory = $directory;
 	}
 
-	/**
-	 * @param string $directory
-	 * @return void
-	 */
-	public function setDirectory($directory)
+	public function setDirectory(string $directory): void
 	{
 		$this->directory = $directory;
 	}
 
-	/**
-	 * @param Exception $exception
-	 * @return string
-	 */
-	protected function getExceptionFile($exception)
+	protected function getExceptionFile(Throwable $exception): string
 	{
 		while ($exception) {
 			$data[] = [
@@ -54,8 +44,8 @@ abstract class AbstractLogger implements ILogger
 			$exception = $exception->getPrevious();
 		}
 		$hash = substr(md5(serialize($data)), 0, 10);
-		
-		/** @var \SplFileInfo $file */
+
+		/** @var SplFileInfo $file */
 		foreach (new DirectoryIterator($this->directory) as $file) {
 			if ($file->isDot()) {
 				continue;

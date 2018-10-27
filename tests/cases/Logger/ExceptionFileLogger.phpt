@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * TEST: Logger\ExceptionFileLogger
@@ -9,7 +9,7 @@ use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-test(function () {
+test(function (): void {
 	Assert::false(file_exists(TEMP_DIR . '/critical.log'));
 	$exception = new RuntimeException('Foobar', 100);
 

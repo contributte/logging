@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging;
 
@@ -14,30 +14,18 @@ class SendMailLogger extends AbstractLogger
 	/** @var IMailer */
 	private $mailer;
 
-	/**
-	 * @param IMailer $mailer
-	 * @param string $directory
-	 */
-	public function __construct(IMailer $mailer, $directory)
+	public function __construct(IMailer $mailer, string $directory)
 	{
 		parent::__construct($directory);
 		$this->mailer = $mailer;
 	}
 
-	/**
-	 * @param string $emailSnooze
-	 * @return void
-	 */
-	public function setEmailSnooze($emailSnooze)
+	public function setEmailSnooze(string $emailSnooze): void
 	{
 		$this->emailSnooze = $emailSnooze;
 	}
 
-	/**
-	 * @param IMailer $mailer
-	 * @return void
-	 */
-	public function setMailer($mailer)
+	public function setMailer(IMailer $mailer): void
 	{
 		$this->mailer = $mailer;
 	}
@@ -45,11 +33,10 @@ class SendMailLogger extends AbstractLogger
 	/**
 	 * @param mixed $message
 	 * @param string $priority
-	 * @return void
 	 */
-	public function log($message, $priority)
+	public function log($message, $priority): void
 	{
-		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], TRUE)) return;
+		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], true)) return;
 		if (!($message instanceof Exception)) return;
 
 		$snooze = is_numeric($this->emailSnooze)

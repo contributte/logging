@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\Slack\Formatter;
 
-use Exception;
+use Throwable;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
@@ -10,17 +10,11 @@ use Exception;
 final class ExceptionPreviousExceptionsFormatter implements IFormatter
 {
 
-	/**
-	 * @param SlackContext $context
-	 * @param Exception $exception
-	 * @param string $priority
-	 * @return SlackContext
-	 */
-	public function format(SlackContext $context, $exception, $priority)
+	public function format(SlackContext $context, Throwable $exception, string $priority): SlackContext
 	{
 		$context = clone $context;
 
-		while (($previous = $exception->getPrevious()) != NULL) {
+		while (($previous = $exception->getPrevious()) !== null) {
 			$attachment = $context->createAttachment();
 			$attachment->setFallback('Required plain-text summary of the attachment.');
 			$attachment->setText(sprintf('*Previous exception* (_%s_)', $previous->getMessage()));

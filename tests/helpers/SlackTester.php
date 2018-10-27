@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
 use Contributte\Logging\Slack\Formatter\ColorFormatter;

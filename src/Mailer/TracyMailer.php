@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\Mailer;
 
@@ -17,14 +17,13 @@ class TracyMailer implements IMailer
 	/** @var string */
 	private $from;
 
-	/** @var array */
+	/** @var mixed[] */
 	private $to = [];
 
 	/**
-	 * @param string $from
-	 * @param array $to
+	 * @param mixed[] $to
 	 */
-	public function __construct($from = NULL, array $to)
+	public function __construct(?string $from = null, array $to)
 	{
 		$this->from = $from;
 		$this->to = $to;
@@ -32,11 +31,10 @@ class TracyMailer implements IMailer
 
 	/**
 	 * @param string|Exception $message
-	 * @return void
 	 */
-	public function send($message)
+	public function send($message): void
 	{
-		$host = preg_replace('#[^\w.-]+#', '', isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : php_uname('n'));
+		$host = preg_replace('#[^\w.-]+#', '', $_SERVER['HTTP_HOST'] ?? php_uname('n'));
 		$parts = str_replace(
 			["\r\n", "\n"],
 			["\n", PHP_EOL],

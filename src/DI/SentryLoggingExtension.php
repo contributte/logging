@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\DI;
 
@@ -11,22 +11,20 @@ use Nette\Utils\Validators;
 final class SentryLoggingExtension extends CompilerExtension
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	private $defaults = [
-		'url' => NULL,
-		'enabled' => TRUE,
+		'url' => null,
+		'enabled' => true,
 	];
 
 	/**
 	 * Register services
-	 *
-	 * @return void
 	 */
-	public function loadConfiguration()
+	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
-		if ($config['enabled'] === FALSE) return;
+		if ($config['enabled'] === false) return;
 
 		Validators::assertField($config, 'url', 'string', 'sentry URL (%)');
 		Validators::assertField($config, 'enabled', 'bool');
@@ -37,17 +35,15 @@ final class SentryLoggingExtension extends CompilerExtension
 
 	/**
 	 * Decorate services
-	 *
-	 * @return void
 	 */
-	public function beforeCompile()
+	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
-		if ($config['enabled'] === FALSE) return;
+		if ($config['enabled'] === false) return;
 
 		$logger = $builder->getByType(UniversalLogger::class);
-		if ($logger === NULL) {
+		if ($logger === null) {
 			throw new ServiceCreationException(
 				sprintf(
 					'Service "%s" is required. Did you register %s extension as well?',

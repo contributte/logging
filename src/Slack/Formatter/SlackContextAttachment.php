@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\Slack\Formatter;
 
@@ -8,153 +8,90 @@ namespace Contributte\Logging\Slack\Formatter;
 final class SlackContextAttachment
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	private $data = [];
 
 	/** @var SlackContextField[] */
 	private $fields = [];
 
-	/**
-	 * @param string $fallback
-	 * @return void
-	 */
-	public function setFallback($fallback)
+	public function setFallback(string $fallback): void
 	{
 		$this->data['fallback'] = $fallback;
 	}
 
-	/**
-	 * @param string $color
-	 * @return void
-	 */
-	public function setColor($color)
+	public function setColor(string $color): void
 	{
 		$this->data['color'] = $color;
 	}
 
-	/**
-	 * @param string $pretext
-	 * @return void
-	 */
-	public function setPretext($pretext)
+	public function setPretext(string $pretext): void
 	{
 		$this->data['pretext'] = $pretext;
 	}
 
-	/**
-	 * @param string $text
-	 * @return void
-	 */
-	public function setText($text)
+	public function setText(string $text): void
 	{
 		$this->data['text'] = $text;
 	}
 
-	/**
-	 * @param string $title
-	 * @return void
-	 */
-	public function setTitle($title)
+	public function setTitle(string $title): void
 	{
 		$this->data['title'] = $title;
 	}
 
-	/**
-	 * @param string $link
-	 * @return void
-	 */
-	public function setTitleLink($link)
+	public function setTitleLink(string $link): void
 	{
 		$this->data['title_link'] = $link;
 	}
 
-	/**
-	 * @param string $name
-	 * @return void
-	 */
-	public function setAuthorName($name)
+	public function setAuthorName(string $name): void
 	{
 		$this->data['author_name'] = $name;
 	}
 
-	/**
-	 * @param string $link
-	 * @return void
-	 */
-	public function setAuthorLink($link)
+	public function setAuthorLink(string $link): void
 	{
 		$this->data['author_link'] = $link;
 	}
 
-	/**
-	 * @param string $icon
-	 * @return void
-	 */
-	public function setAuthorIcon($icon)
+	public function setAuthorIcon(string $icon): void
 	{
 		$this->data['author_icon'] = $icon;
 	}
 
-	/**
-	 * @param string $url
-	 * @return void
-	 */
-	public function setImageUrl($url)
+	public function setImageUrl(string $url): void
 	{
 		$this->data['image_url'] = $url;
 	}
 
-	/**
-	 * @param string $url
-	 * @return void
-	 */
-	public function setThumbUrl($url)
+	public function setThumbUrl(string $url): void
 	{
 		$this->data['thumb_url'] = $url;
 	}
 
-	/**
-	 * @param string $footer
-	 * @return void
-	 */
-	public function setFooter($footer)
+	public function setFooter(string $footer): void
 	{
 		$this->data['footer'] = $footer;
 	}
 
-	/**
-	 * @param string $icon
-	 * @return void
-	 */
-	public function setFooterIcon($icon)
+	public function setFooterIcon(string $icon): void
 	{
 		$this->data['footer_icon'] = $icon;
 	}
 
-	/**
-	 * @param string $timestamp
-	 * @return void
-	 */
-	public function setTimestamp($timestamp)
+	public function setTimestamp(string $timestamp): void
 	{
 		$this->data['ts'] = $timestamp;
 	}
 
-	/**
-	 * @param bool $markdown
-	 * @return void
-	 */
-	public function setMarkdown($markdown = TRUE)
+	public function setMarkdown(bool $markdown = true): void
 	{
 		if ($markdown) {
 			$this->data['mrkdwn_in'] = ['pretext', 'text', 'fields'];
 		}
 	}
 
-	/**
-	 * @return SlackContextField
-	 */
-	public function createField()
+	public function createField(): SlackContextField
 	{
 		$this->fields[] = $field = new SlackContextField();
 
@@ -162,9 +99,9 @@ final class SlackContextAttachment
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		$data = $this->data;
 

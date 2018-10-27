@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\Mailer;
 
@@ -15,21 +15,17 @@ class FileMailer implements IMailer
 	/** @var string */
 	private $directory;
 
-	/**
-	 * @param string $directory
-	 */
-	public function __construct($directory)
+	public function __construct(string $directory)
 	{
 		$this->directory = $directory;
 	}
 
 	/**
 	 * @param string|Exception $message
-	 * @return void
 	 */
-	public function send($message)
+	public function send($message): void
 	{
-		$host = preg_replace('#[^\w.-]+#', '', isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : php_uname('n'));
+		$host = preg_replace('#[^\w.-]+#', '', $_SERVER['HTTP_HOST'] ?? php_uname('n'));
 		$parts = str_replace(
 			["\r\n", "\n"],
 			["\n", PHP_EOL],

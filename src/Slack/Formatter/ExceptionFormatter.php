@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\Slack\Formatter;
 
-use Exception;
+use Throwable;
 use Tracy\Helpers;
 
 /**
@@ -11,13 +11,7 @@ use Tracy\Helpers;
 final class ExceptionFormatter implements IFormatter
 {
 
-	/**
-	 * @param SlackContext $context
-	 * @param Exception $exception
-	 * @param string $priority
-	 * @return SlackContext
-	 */
-	public function format(SlackContext $context, $exception, $priority)
+	public function format(SlackContext $context, Throwable $exception, string $priority): SlackContext
 	{
 		$context = clone $context;
 
