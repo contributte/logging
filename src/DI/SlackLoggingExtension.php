@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\DI;
 
@@ -20,13 +20,13 @@ use Nette\Utils\Validators;
 final class SlackLoggingExtension extends CompilerExtension
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	private $defaults = [
-		'url' => NULL,
-		'channel' => NULL,
+		'url' => null,
+		'channel' => null,
 		'username' => 'Tracy',
 		'icon_emoji' => ':rocket:',
-		'icon_url' => NULL,
+		'icon_url' => null,
 		'formatters' => [
 			ContextFormatter::class,
 			ColorFormatter::class,
@@ -38,10 +38,8 @@ final class SlackLoggingExtension extends CompilerExtension
 
 	/**
 	 * Register services
-	 *
-	 * @return void
 	 */
-	public function loadConfiguration()
+	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
@@ -60,15 +58,13 @@ final class SlackLoggingExtension extends CompilerExtension
 
 	/**
 	 * Decorate services
-	 *
-	 * @return void
 	 */
-	public function beforeCompile()
+	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
 
 		$logger = $builder->getByType(UniversalLogger::class);
-		if ($logger === NULL) {
+		if ($logger === null) {
 			throw new ServiceCreationException(
 				sprintf(
 					'Service "%s" is required. Did you register %s extension as well?',

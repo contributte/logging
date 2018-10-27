@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging;
 
@@ -10,11 +10,7 @@ class UniversalLogger implements TracyLogger
 	/** @var ILogger[] */
 	private $loggers = [];
 
-	/**
-	 * @param ILogger $logger
-	 * @return void
-	 */
-	public function addLogger(ILogger $logger)
+	public function addLogger(ILogger $logger): void
 	{
 		$this->loggers[] = $logger;
 	}
@@ -27,9 +23,8 @@ class UniversalLogger implements TracyLogger
 	/**
 	 * @param mixed $message
 	 * @param string $priority
-	 * @return void
 	 */
-	public function log($message, $priority = self::INFO)
+	public function log($message, $priority = self::INFO): void
 	{
 		// Composite logger
 		foreach ($this->loggers as $logger) {

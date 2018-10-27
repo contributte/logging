@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\Slack;
 
@@ -15,25 +15,21 @@ use Nette\Utils\Arrays;
 final class SlackLogger implements ILogger
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	private $config;
 
 	/** @var IFormatter[] */
 	private $formatters = [];
 
 	/**
-	 * @param array $config
+	 * @param mixed[] $config
 	 */
 	public function __construct(array $config)
 	{
 		$this->config = $config;
 	}
 
-	/**
-	 * @param IFormatter $formatter
-	 * @return void
-	 */
-	public function addFormatter(IFormatter $formatter)
+	public function addFormatter(IFormatter $formatter): void
 	{
 		$this->formatters[] = $formatter;
 	}
@@ -41,11 +37,10 @@ final class SlackLogger implements ILogger
 	/**
 	 * @param string|Exception $message
 	 * @param string $priority
-	 * @return void
 	 */
-	public function log($message, $priority)
+	public function log($message, $priority): void
 	{
-		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], TRUE)) return;
+		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], true)) return;
 		if (!($message instanceof Exception)) return;
 
 		$context = new SlackContext($this->config);
@@ -59,11 +54,7 @@ final class SlackLogger implements ILogger
 		$this->makeRequest($context);
 	}
 
-	/**
-	 * @param SlackContext $context
-	 * @return void
-	 */
-	protected function makeRequest(SlackContext $context)
+	protected function makeRequest(SlackContext $context): void
 	{
 		$url = $this->get('url');
 
@@ -78,7 +69,7 @@ final class SlackLogger implements ILogger
 			],
 		];
 
-		$response = @file_get_contents($url, NULL, stream_context_create($streamcontext));
+		$response = @file_get_contents($url, null, stream_context_create($streamcontext));
 
 		if ($response !== 'ok') {
 			throw new SlackBadRequestException([
@@ -92,11 +83,10 @@ final class SlackLogger implements ILogger
 	}
 
 	/**
-	 * @param string $key
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	protected function get($key, $default = NULL)
+	protected function get(string $key, $default = null)
 	{
 		if (func_num_args() > 1) {
 			$value = Arrays::get($this->config, explode('.', $key), $default);

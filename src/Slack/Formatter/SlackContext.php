@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\Slack\Formatter;
 
@@ -10,10 +10,10 @@ use Nette\Utils\Arrays;
 final class SlackContext
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	private $config = [];
 
-	/** @var array */
+	/** @var mixed[] */
 	private $data = [];
 
 	/** @var SlackContextField[] */
@@ -23,7 +23,7 @@ final class SlackContext
 	private $attachments = [];
 
 	/**
-	 * @param array $config
+	 * @param mixed[] $config
 	 */
 	public function __construct(array $config)
 	{
@@ -31,11 +31,10 @@ final class SlackContext
 	}
 
 	/**
-	 * @param string $key
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public function getConfig($key, $default = NULL)
+	public function getConfig(string $key, $default = null)
 	{
 		if (func_num_args() > 1) {
 			$value = Arrays::get($this->config, explode('.', $key), $default);
@@ -46,87 +45,49 @@ final class SlackContext
 		return $value;
 	}
 
-	/**
-	 * FIELDS ******************************************************************
-	 */
-
-	/**
-	 * @param string $channel
-	 * @return void
-	 */
-	public function setChannel($channel)
+	public function setChannel(string $channel): void
 	{
 		$this->data['channel'] = $channel;
 	}
 
-	/**
-	 * @param string $username
-	 * @return void
-	 */
-	public function setUsername($username)
+	public function setUsername(string $username): void
 	{
 		$this->data['username'] = $username;
 	}
 
-	/**
-	 * @param string $icon
-	 * @return void
-	 */
-	public function setIconEmoji($icon)
+	public function setIconEmoji(string $icon): void
 	{
 		$this->data['icon_emoji'] = sprintf(':%s:', trim($icon, ':'));
 	}
 
-	/**
-	 * @param string $icon
-	 * @return void
-	 */
-	public function setIconUrl($icon)
+	public function setIconUrl(string $icon): void
 	{
 		$this->data['icon_url'] = $icon;
 	}
 
-	/**
-	 * @param string $text
-	 * @return void
-	 */
-	public function setText($text)
+	public function setText(string $text): void
 	{
 		$this->data['text'] = $text;
 	}
 
-	/**
-	 * @param string $color
-	 * @return void
-	 */
-	public function setColor($color)
+	public function setColor(string $color): void
 	{
 		$this->data['color'] = $color;
 	}
 
-	/**
-	 * @param bool $markdown
-	 * @return void
-	 */
-	public function setMarkdown($markdown = TRUE)
+	public function setMarkdown(bool $markdown = true): void
 	{
 		$this->data['mrkdwn'] = $markdown;
 	}
 
-	/**
-	 * @return SlackContextField
-	 */
-	public function createField()
+	public function createField(): SlackContextField
 	{
 		$this->fields[] = $field = new SlackContextField();
 
 		return $field;
 	}
 
-	/**
-	 * @return SlackContextAttachment
-	 */
-	public function createAttachment()
+	public function createAttachment(): SlackContextAttachment
 	{
 		$this->attachments[] = $attachment = new SlackContextAttachment();
 
@@ -134,9 +95,9 @@ final class SlackContext
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		$data = $this->data;
 

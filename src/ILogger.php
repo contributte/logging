@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging;
 
@@ -10,18 +10,17 @@ use Tracy\ILogger as TracyLogger;
 interface ILogger
 {
 
-	const DEBUG = TracyLogger::DEBUG;
-	const INFO = TracyLogger::INFO;
-	const WARNING = TracyLogger::WARNING;
-	const ERROR = TracyLogger::ERROR;
-	const EXCEPTION = TracyLogger::EXCEPTION;
-	const CRITICAL = TracyLogger::CRITICAL;
+	public const DEBUG = TracyLogger::DEBUG;
+	public const INFO = TracyLogger::INFO;
+	public const WARNING = TracyLogger::WARNING;
+	public const ERROR = TracyLogger::ERROR;
+	public const EXCEPTION = TracyLogger::EXCEPTION;
+	public const CRITICAL = TracyLogger::CRITICAL;
 
 	/**
 	 * @param mixed $message
 	 * @param string $priority
-	 * @return void
 	 */
-	public function log($message, $priority);
+	public function log($message, $priority): void;
 
 }

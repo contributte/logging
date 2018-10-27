@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Logging\DI;
 
@@ -16,18 +16,16 @@ use Nette\Utils\Validators;
 final class TracyLoggingExtension extends CompilerExtension
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	private $defaults = [
-		'logDir' => NULL,
-		'loggers' => NULL,
+		'logDir' => null,
+		'loggers' => null,
 	];
 
 	/**
 	 * Register services
-	 *
-	 * @return void
 	 */
-	public function loadConfiguration()
+	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults, $this->config);
@@ -38,7 +36,7 @@ final class TracyLoggingExtension extends CompilerExtension
 		$logger = $builder->addDefinition($this->prefix('logger'))
 			->setClass(UniversalLogger::class);
 
-		if ($config['loggers'] === NULL) {
+		if ($config['loggers'] === null) {
 			$exceptionFileLogger = $builder->addDefinition($this->prefix('logger.exceptionfilelogger'))
 				->setClass(ExceptionFileLogger::class, [$config['logDir']])
 				->setAutowired('self');
@@ -54,10 +52,8 @@ final class TracyLoggingExtension extends CompilerExtension
 
 	/**
 	 * Decorate services
-	 *
-	 * @return void
 	 */
-	public function beforeCompile()
+	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults, $this->config);
@@ -72,7 +68,7 @@ final class TracyLoggingExtension extends CompilerExtension
 		$universal = $builder->getDefinition($this->prefix('logger'));
 
 		// Register defined loggers
-		if ($config['loggers'] !== NULL) {
+		if ($config['loggers'] !== null) {
 			$loggers = 1;
 			foreach ($config['loggers'] as $service) {
 
