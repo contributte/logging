@@ -19,6 +19,9 @@ class SentryLogger implements ILogger
 		self::CRITICAL => Raven_Client::FATAL,
 	];
 
+	public const CONFIG_URL = 'url';
+	public const CONFIG_OPTIONS = 'options';
+
 	/** @var mixed[] */
 	protected $configuration;
 
@@ -30,9 +33,14 @@ class SentryLogger implements ILogger
 	 */
 	public function __construct(array $configuration)
 	{
-		if (!isset($configuration['url'])) {
+		if (!isset($configuration[self::CONFIG_URL])) {
 			throw new InvalidStateException('Missing url in SentryLogger configuration');
 		}
+
+		if (!isset($configuration[self::CONFIG_OPTIONS])) {
+			$configuration[self::CONFIG_OPTIONS] = [];
+		}
+
 		$this->configuration = $configuration;
 	}
 
@@ -73,7 +81,10 @@ class SentryLogger implements ILogger
 	 */
 	protected function makeRequest($message, array $data): void
 	{
-		$client = new Raven_Client($this->configuration['url']);
+		$client = new Raven_Client(
+			$this->configuration[self::CONFIG_URL],
+			$this->configuration[self::CONFIG_OPTIONS]
+		);
 		if ($message instanceof Throwable) {
 			$client->captureException($message, $data);
 		} else {
