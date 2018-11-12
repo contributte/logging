@@ -26,7 +26,7 @@ Basically, it overrides Tracy's default logger by our universal, pluggable logge
 
 ### Default loggers
 
-There are 2 types of loggers defined by default.
+There are 3 types of loggers defined by default.
 
 - **FileLogger** - creates <priority>.log file
 - **BlueScreenFileLogger** - creates exception-*.html
@@ -67,7 +67,7 @@ class MyDatabaseLogger implements ILogger
      * @param mixed $message
      * @return void
      */
-    public function log($message, string $priority = self::INFO)
+    public function log($message, string $priority = self::INFO): void
     {
         // store exception to database...
     }
