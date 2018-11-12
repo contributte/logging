@@ -13,7 +13,7 @@
   ],
   "require": {
     "php": ">= 7.1",
-    "tracy/tracy": "~2.4.15 || ~2.5.0"
+    "tracy/tracy": "~2.5.5"
   },
   "require-dev": {
     "ext-json": "*",

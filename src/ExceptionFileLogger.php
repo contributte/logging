@@ -3,8 +3,8 @@
 namespace Contributte\Logging;
 
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
-use Contributte\Logging\Utils\Utils;
 use Exception;
+use Tracy\Logger;
 
 /**
  * ExceptionFileLogger based on official Tracy\Logger (@copyright David Grudl)
@@ -26,8 +26,8 @@ class ExceptionFileLogger extends AbstractLogger implements ILogger
 			throw new InvalidStateException('Directory "' . $this->directory . '" is not found or is not directory.');
 		}
 
-		$exceptionFile = ($message instanceof Exception) ? $this->getExceptionFile($message) : null;
-		$line = Utils::formatLogLine($message, $exceptionFile);
+		$exceptionFile = ($message instanceof Exception) ? $this->getExceptionFile($message) : NULL;
+		$line = Logger::formatLogLine($message, $exceptionFile);
 		$file = $this->directory . '/' . strtolower($priority) . '.log';
 
 		if (!@file_put_contents($file, $line . PHP_EOL, FILE_APPEND | LOCK_EX)) {
