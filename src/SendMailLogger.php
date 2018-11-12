@@ -3,7 +3,6 @@
 namespace Contributte\Logging;
 
 use Contributte\Logging\Mailer\IMailer;
-use Exception;
 
 class SendMailLogger extends AbstractLogger
 {
@@ -36,7 +35,6 @@ class SendMailLogger extends AbstractLogger
 	public function log($message, string $priority = ILogger::INFO): void
 	{
 		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], true)) return;
-		if (!($message instanceof Exception)) return;
 
 		$snooze = is_numeric($this->emailSnooze)
 			? $this->emailSnooze
