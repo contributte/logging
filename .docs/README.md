@@ -28,7 +28,7 @@ Basically, it overrides Tracy's default logger by our universal, pluggable logge
 
 There are 2 types of loggers defined by default.
 
-- **ExceptionFileLogger** - creates exception.log file
+- **FileLogger** - creates <priority>.log file
 - **BlueScreenFileLogger** - creates exception-*.html
 - **SendMailLogger** - sends exception to email
 
@@ -37,7 +37,7 @@ You can redefine these loggers in `logging.loggers`.
 ```yaml
 logging:
     loggers: 
-        - Contributte\Logging\ExceptionFileLogger(%logDir%)
+        - Contributte\Logging\FileLogger(%logDir%)
         - Contributte\Logging\BlueScreenFileLogger(%logDir%)
         - Contributte\Logging\SendMailLogger(
             Contributte\Logging\Mailer\TracyMailer(
@@ -65,10 +65,9 @@ class MyDatabaseLogger implements ILogger
 
     /**
      * @param mixed $message
-     * @param string $priority
      * @return void
      */
-    public function log($message, $priority = self::INFO)
+    public function log($message, string $priority = self::INFO)
     {
         // store exception to database...
     }

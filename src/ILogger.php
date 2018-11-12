@@ -19,8 +19,7 @@ interface ILogger
 
 	/**
 	 * @param mixed $message
-	 * @param string $priority
 	 */
-	public function log($message, $priority): void;
+	public function log($message, string $priority = ILogger::INFO): void;
 
 }

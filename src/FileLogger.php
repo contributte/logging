@@ -3,30 +3,29 @@
 namespace Contributte\Logging;
 
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
-use Exception;
+use Throwable;
 use Tracy\Logger;
 
 /**
  * ExceptionFileLogger based on official Tracy\Logger (@copyright David Grudl)
  *
- * Log all exceptions to exception.log
+ * Log all exceptions to <priority>.log
  *
  * @author Milan Felix Sulc <sulcmil@gmail.com>
  */
-class ExceptionFileLogger extends AbstractLogger implements ILogger
+class FileLogger extends AbstractLogger implements ILogger
 {
 
 	/**
-	 * @param string|Exception $message
-	 * @param string $priority
+	 * @param mixed $message
 	 */
-	public function log($message, $priority): void
+	public function log($message, string $priority = ILogger::INFO): void
 	{
 		if (!is_dir($this->directory)) {
 			throw new InvalidStateException('Directory "' . $this->directory . '" is not found or is not directory.');
 		}
 
-		$exceptionFile = ($message instanceof Exception) ? $this->getExceptionFile($message) : NULL;
+		$exceptionFile = ($message instanceof Throwable) ? $this->getExceptionFile($message) : NULL;
 		$line = Logger::formatLogLine($message, $exceptionFile);
 		$file = $this->directory . '/' . strtolower($priority) . '.log';
 

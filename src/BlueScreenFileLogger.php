@@ -20,17 +20,16 @@ class BlueScreenFileLogger extends AbstractLogger implements ILogger
 	/** @var BlueScreen|null */
 	private $blueScreen;
 
-	public function __construct(string $directory, ?BlueScreen $blueScreen = null)
+	public function __construct(string $directory, ?BlueScreen $blueScreen = NULL)
 	{
 		parent::__construct($directory);
 		$this->blueScreen = $blueScreen;
 	}
 
 	/**
-	 * @param string|Throwable $message
-	 * @param string $priority
+	 * @param mixed $message
 	 */
-	public function log($message, $priority): void
+	public function log($message, string $priority = ILogger::INFO): void
 	{
 		if (!is_dir($this->directory)) {
 			throw new InvalidStateException('Directory ' . $this->directory . ' is not found or is not directory.');

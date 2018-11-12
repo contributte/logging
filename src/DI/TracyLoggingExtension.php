@@ -3,7 +3,7 @@
 namespace Contributte\Logging\DI;
 
 use Contributte\Logging\BlueScreenFileLogger;
-use Contributte\Logging\ExceptionFileLogger;
+use Contributte\Logging\FileLogger;
 use Contributte\Logging\UniversalLogger;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
@@ -38,7 +38,7 @@ final class TracyLoggingExtension extends CompilerExtension
 
 		if ($config['loggers'] === null) {
 			$exceptionFileLogger = $builder->addDefinition($this->prefix('logger.exceptionfilelogger'))
-				->setFactory(ExceptionFileLogger::class, [$config['logDir']])
+				->setFactory(FileLogger::class, [$config['logDir']])
 				->setAutowired('self');
 
 			$blueScreenFileLogger = $builder->addDefinition($this->prefix('logger.bluescreenfilelogger'))
