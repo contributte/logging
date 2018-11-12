@@ -32,9 +32,8 @@ class SendMailLogger extends AbstractLogger
 
 	/**
 	 * @param mixed $message
-	 * @param string $priority
 	 */
-	public function log($message, $priority): void
+	public function log($message, string $priority = ILogger::INFO): void
 	{
 		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], true)) return;
 		if (!($message instanceof Exception)) return;
