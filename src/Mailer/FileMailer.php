@@ -2,7 +2,6 @@
 
 namespace Contributte\Logging\Mailer;
 
-use Exception;
 use Tracy\Helpers;
 use Tracy\Logger;
 
@@ -21,7 +20,7 @@ class FileMailer implements IMailer
 	}
 
 	/**
-	 * @param string|Exception $message
+	 * @param mixed $message
 	 */
 	public function send($message): void
 	{

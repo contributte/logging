@@ -6,7 +6,6 @@ use Contributte\Logging\Exceptions\Runtime\Logger\SlackBadRequestException;
 use Contributte\Logging\ILogger;
 use Contributte\Logging\Slack\Formatter\IFormatter;
 use Contributte\Logging\Slack\Formatter\SlackContext;
-use Exception;
 use Nette\Utils\Arrays;
 use Throwable;
 
@@ -36,13 +35,13 @@ final class SlackLogger implements ILogger
 	}
 
 	/**
-	 * @param string|Throwable $message
+	 * @param mixed $message
 	 * @param string $priority
 	 */
-	public function log($message, $priority): void
+	public function log($message, string $priority = ILogger::INFO): void
 	{
 		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], true)) return;
-		if (!($message instanceof Exception)) return;
+		if (!($message instanceof Throwable)) return;
 
 		$context = new SlackContext($this->config);
 
