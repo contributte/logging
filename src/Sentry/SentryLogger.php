@@ -7,7 +7,7 @@ use Exception;
 use Raven_Client;
 use Throwable;
 
-final class SentryLogger implements ILogger
+class SentryLogger implements ILogger
 {
 
 	/** @var mixed[] */
