@@ -30,6 +30,7 @@ class SentryLogger implements ILogger
 		if (!isset($configuration['url'])) {
 			throw new InvalidStateException('Missing url in SentryLogger configuration');
 		}
+		$this->configuration = $configuration;
 	}
 
 	/**
