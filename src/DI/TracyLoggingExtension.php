@@ -37,7 +37,7 @@ final class TracyLoggingExtension extends CompilerExtension
 			->setType(UniversalLogger::class);
 
 		if ($config['loggers'] === null) {
-			$exceptionFileLogger = $builder->addDefinition($this->prefix('logger.exceptionfilelogger'))
+			$fileLogger = $builder->addDefinition($this->prefix('logger.filelogger'))
 				->setFactory(FileLogger::class, [$config['logDir']])
 				->setAutowired('self');
 
@@ -45,7 +45,7 @@ final class TracyLoggingExtension extends CompilerExtension
 				->setFactory(BlueScreenFileLogger::class, [$config['logDir']])
 				->setAutowired('self');
 
-			$logger->addSetup('addLogger', [$exceptionFileLogger]);
+			$logger->addSetup('addLogger', [$fileLogger]);
 			$logger->addSetup('addLogger', [$blueScreenFileLogger]);
 		}
 	}

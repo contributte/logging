@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * TEST: Logger\ExceptionFileLogger
+ * TEST: Logger\FileLogger
  */
 
 use Contributte\Logging\FileLogger;
