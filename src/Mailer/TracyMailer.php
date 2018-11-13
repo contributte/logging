@@ -22,7 +22,7 @@ class TracyMailer implements IMailer
 	/**
 	 * @param mixed[] $to
 	 */
-	public function __construct(?string $from = NULL, array $to)
+	public function __construct(?string $from = null, array $to)
 	{
 		$this->from = $from;
 		$this->to = $to;
@@ -33,6 +33,7 @@ class TracyMailer implements IMailer
 	 */
 	public function send($message): void
 	{
+		/** @var string $host */
 		$host = preg_replace('#[^\w.-]+#', '', $_SERVER['HTTP_HOST'] ?? php_uname('n'));
 		$parts = str_replace(
 			["\r\n", "\n"],

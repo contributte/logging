@@ -12,7 +12,7 @@ final class ColorFormatter implements IFormatter
 {
 
 	/**
-	 * {@inheritdoc}
+	 * @param mixed $message
 	 */
 	public function format(SlackContext $context, $message, string $priority): SlackContext
 	{

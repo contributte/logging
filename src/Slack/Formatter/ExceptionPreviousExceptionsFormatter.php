@@ -9,7 +9,7 @@ final class ExceptionPreviousExceptionsFormatter implements IFormatter
 {
 
 	/**
-	 * {@inheritdoc}
+	 * @param mixed $exception
 	 */
 	public function format(SlackContext $context, $exception, string $priority): SlackContext
 	{

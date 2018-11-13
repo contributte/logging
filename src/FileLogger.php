@@ -25,11 +25,11 @@ class FileLogger extends AbstractLogger implements ILogger
 			throw new InvalidStateException('Directory "' . $this->directory . '" is not found or is not directory.');
 		}
 
-		$exceptionFile = ($message instanceof Throwable) ? $this->getExceptionFile($message) : NULL;
+		$exceptionFile = ($message instanceof Throwable) ? $this->getExceptionFile($message) : null;
 		$line = Logger::formatLogLine($message, $exceptionFile);
 		$file = $this->directory . '/' . strtolower($priority) . '.log';
 
-		if (!@file_put_contents($file, $line . PHP_EOL, FILE_APPEND | LOCK_EX)) {
+		if (!(bool) @file_put_contents($file, $line . PHP_EOL, FILE_APPEND | LOCK_EX)) {
 			throw new InvalidStateException('Unable to write to log file "' . $file . '". Is directory writable?');
 		}
 	}

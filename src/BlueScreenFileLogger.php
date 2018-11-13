@@ -20,7 +20,7 @@ class BlueScreenFileLogger extends AbstractLogger implements ILogger
 	/** @var BlueScreen|null */
 	private $blueScreen;
 
-	public function __construct(string $directory, ?BlueScreen $blueScreen = NULL)
+	public function __construct(string $directory, ?BlueScreen $blueScreen = null)
 	{
 		parent::__construct($directory);
 		$this->blueScreen = $blueScreen;

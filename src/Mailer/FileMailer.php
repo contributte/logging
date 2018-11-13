@@ -24,6 +24,7 @@ class FileMailer implements IMailer
 	 */
 	public function send($message): void
 	{
+		/** @var string $host */
 		$host = preg_replace('#[^\w.-]+#', '', $_SERVER['HTTP_HOST'] ?? php_uname('n'));
 		$parts = str_replace(
 			["\r\n", "\n"],

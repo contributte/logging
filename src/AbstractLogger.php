@@ -50,7 +50,7 @@ abstract class AbstractLogger implements ILogger
 			if ($file->isDot()) {
 				continue;
 			}
-			if (strpos($file->getBasename(), $hash)) {
+			if ((bool) strpos($file->getBasename(), $hash)) {
 				return $file->getPathname();
 			}
 		}
