@@ -2,9 +2,4 @@ includes:
 	- temp/phpstan/vendor/phpstan/phpstan-deprecation-rules/rules.neon
 	- temp/phpstan/vendor/phpstan/phpstan-nette/extension.neon
 	- temp/phpstan/vendor/phpstan/phpstan-nette/rules.neon
-
-parameters:
-	ignoreErrors:
-		- "#Binary operation \"\\+\" between int\\|false and int\\|string results in an error\\.#"
-		- "#Binary operation \"\\.\" between 'PHP: An error…' and array\\|string\\|null results in an error\\.#"
-		- "#Binary operation \"\\.\" between 'noreply@' and array\\|string\\|null results in an error\\.#"
+	- temp/phpstan/vendor/phpstan/phpstan-strict-rules/rules.neon

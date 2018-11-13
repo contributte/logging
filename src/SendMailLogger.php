@@ -3,6 +3,8 @@
 namespace Contributte\Logging;
 
 use Contributte\Logging\Mailer\IMailer;
+use Nette\InvalidArgumentException;
+use Nette\InvalidStateException;
 
 class SendMailLogger extends AbstractLogger
 {
@@ -36,12 +38,22 @@ class SendMailLogger extends AbstractLogger
 	{
 		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], true)) return;
 
-		$snooze = is_numeric($this->emailSnooze)
-			? $this->emailSnooze
-			: @strtotime($this->emailSnooze) - time(); // @ timezone may not be set
+		if (is_numeric($this->emailSnooze)) {
+			$snooze = (int) $this->emailSnooze;
+		} else {
+			$strtotime = @strtotime($this->emailSnooze);
+			if ($strtotime === false) {
+				throw new InvalidArgumentException('Email snooze was not parsed');
+			}
+			$snooze = $strtotime - time();
+		}
 
-		if (@filemtime($this->directory . '/email-sent') + $snooze < time() // @ file may not exist
-			&& @file_put_contents($this->directory . '/email-sent', 'sent') // @ file may not be writable
+		$filemtime = @filemtime($this->directory . '/email-sent');
+		if ($filemtime === false) {
+			throw new InvalidStateException('File time cant be reached');
+		}
+
+		if ($filemtime + $snooze < time() && (bool) @file_put_contents($this->directory . '/email-sent', 'sent')
 		) {
 			$this->mailer->send($message);
 		}

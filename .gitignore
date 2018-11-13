@@ -6,8 +6,5 @@
 /composer.lock
 
 # Tests
-/tests/tmp
-/tests/coverage.html
-
-# Temporary
 /temp
+/coverage.xml

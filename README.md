@@ -7,10 +7,10 @@
 [![Build Status](https://img.shields.io/travis/contributte/logging.svg?style=flat-square)](https://travis-ci.org/contributte/logging)
 [![Code coverage](https://img.shields.io/coveralls/contributte/logging.svg?style=flat-square)](https://coveralls.io/r/contributte/logging)
 [![Licence](https://img.shields.io/packagist/l/contributte/logging.svg?style=flat-square)](https://packagist.org/packages/contributte/logging)
-
 [![Downloads this Month](https://img.shields.io/packagist/dm/contributte/logging.svg?style=flat-square)](https://packagist.org/packages/contributte/logging)
 [![Downloads total](https://img.shields.io/packagist/dt/contributte/logging.svg?style=flat-square)](https://packagist.org/packages/contributte/logging)
 [![Latest stable](https://img.shields.io/packagist/v/contributte/logging.svg?style=flat-square)](https://packagist.org/packages/contributte/logging)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
 ## Discussion / Help
 

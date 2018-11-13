@@ -105,7 +105,7 @@ final class SlackContextAttachment
 	{
 		$data = $this->data;
 
-		if ($this->fields) {
+		if (count($this->fields) > 0) {
 			$data['fields'] = [];
 			foreach ($this->fields as $attachment) {
 				$data['fields'][] = $attachment->toArray();

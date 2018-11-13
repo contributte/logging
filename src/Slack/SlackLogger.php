@@ -36,7 +36,6 @@ final class SlackLogger implements ILogger
 
 	/**
 	 * @param mixed $message
-	 * @param string $priority
 	 */
 	public function log($message, string $priority = ILogger::INFO): void
 	{

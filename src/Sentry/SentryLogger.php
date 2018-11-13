@@ -40,11 +40,11 @@ class SentryLogger implements ILogger
 	 */
 	public function log($message, string $priority = ILogger::INFO): void
 	{
-		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], TRUE)) return;
+		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], true)) return;
 
 		$level = $this->getLevel($priority);
 
-		if ($level === NULL) return;
+		if ($level === null) return;
 
 		$data = [
 			'level' => $level,
@@ -67,10 +67,6 @@ class SentryLogger implements ILogger
 		}
 	}
 
-	/**
-	 * @param string $priority
-	 * @return string|null
-	 */
 	protected function getLevel(string $priority): ?string
 	{
 		return self::LEVEL_PRIORITY_MAP[$priority] ?? null;
