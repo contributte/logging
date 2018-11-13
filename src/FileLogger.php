@@ -7,9 +7,9 @@ use Throwable;
 use Tracy\Logger;
 
 /**
- * ExceptionFileLogger based on official Tracy\Logger (@copyright David Grudl)
+ * FileLogger based on official Tracy\Logger (@copyright David Grudl)
  *
- * Log all exceptions to <priority>.log
+ * Log all messages to <priority>.log
  *
  * @author Milan Felix Sulc <sulcmil@gmail.com>
  */

@@ -2,6 +2,7 @@
 
 namespace Contributte\Logging\Sentry;
 
+use Contributte\Logging\Exceptions\Logical\InvalidStateException;
 use Contributte\Logging\ILogger;
 use Raven_Client;
 use Throwable;
@@ -18,15 +19,17 @@ class SentryLogger implements ILogger
 		self::CRITICAL => Raven_Client::FATAL,
 	];
 
-	/** @var string */
-	private $url;
+	/** @var mixed[] */
+	protected $configuration;
 
 	/**
-	 * @param string $url
+	 * @param mixed[] $configuration
 	 */
-	public function __construct(string $url)
+	public function __construct(array $configuration)
 	{
-		$this->url = $url;
+		if (!isset($configuration['url'])) {
+			throw new InvalidStateException('Missing url in SentryLogger configuration');
+		}
 	}
 
 	/**
@@ -55,7 +58,7 @@ class SentryLogger implements ILogger
 	 */
 	protected function makeRequest($message, array $data): void
 	{
-		$client = new Raven_Client($this->url);
+		$client = new Raven_Client($this->configuration['url']);
 		if ($message instanceof Throwable) {
 			$client->captureException($message, $data);
 		} else {
@@ -69,7 +72,7 @@ class SentryLogger implements ILogger
 	 */
 	protected function getLevel(string $priority): ?string
 	{
-		return self::LEVEL_PRIORITY_MAP[$priority] ?? NULL;
+		return self::LEVEL_PRIORITY_MAP[$priority] ?? null;
 	}
 
 }
