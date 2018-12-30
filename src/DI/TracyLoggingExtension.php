@@ -36,6 +36,11 @@ final class TracyLoggingExtension extends CompilerExtension
 		$logger = $builder->addDefinition($this->prefix('logger'))
 			->setType(UniversalLogger::class);
 
+		if ($builder->hasDefinition('tracy.logger')) {
+			$builder->addDefinition($this->prefix('originalLogger'), $builder->getDefinition('tracy.logger'))
+				->setAutowired(false);
+		}
+
 		if ($config['loggers'] === null) {
 			$fileLogger = $builder->addDefinition($this->prefix('logger.filelogger'))
 				->setFactory(FileLogger::class, [$config['logDir']])
