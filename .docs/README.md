@@ -163,10 +163,10 @@ This extension requires to have sentry installed.
 composer require sentry/sentry
 ```
 
-Now you should register new company/profile at Sentry's page (https://sentry.io/organizations/new/). There you 
-obtained key, secret and project ID. Put these variables into neon file.
+Now you should go to project Settings page -> Client Keys (DSN) section. 
+There you obtained DNS url. Put the url into neon file.
 
 ```yaml
 sentry:
-    url: https://<key>:<secret>@sentry.io/<project>
+    url: https://<key>@sentry.io/<project>
 ```
