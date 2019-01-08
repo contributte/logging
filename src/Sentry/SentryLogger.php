@@ -22,6 +22,9 @@ class SentryLogger implements ILogger
 	/** @var mixed[] */
 	protected $configuration;
 
+	/** @var string[] */
+	private $allowedPriority = [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL];
+
 	/**
 	 * @param mixed[] $configuration
 	 */
@@ -34,17 +37,28 @@ class SentryLogger implements ILogger
 	}
 
 	/**
+	 * @param string[] $allowedPriority
+	 */
+	public function setAllowedPriority(array $allowedPriority): void
+	{
+		$this->allowedPriority = $allowedPriority;
+	}
+
+	/**
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
 	 * @param mixed $message
 	 */
 	public function log($message, string $priority = ILogger::INFO): void
 	{
-		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], true)) return;
+		if (!in_array($priority, $this->allowedPriority, true)) {
+			return;
+		}
 
 		$level = $this->getLevel($priority);
-
-		if ($level === null) return;
+		if ($level === null) {
+			return;
+		}
 
 		$data = [
 			'level' => $level,
