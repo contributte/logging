@@ -15,10 +15,21 @@ class SendMailLogger extends AbstractLogger
 	/** @var IMailer */
 	private $mailer;
 
+	/** @var string[] */
+	private $allowedPriority = [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL];
+
 	public function __construct(IMailer $mailer, string $directory)
 	{
 		parent::__construct($directory);
 		$this->mailer = $mailer;
+	}
+
+	/**
+	 * @param string[] $allowedPriority
+	 */
+	public function setAllowedPriority(array $allowedPriority): void
+	{
+		$this->allowedPriority = $allowedPriority;
 	}
 
 	public function setEmailSnooze(string $emailSnooze): void
@@ -36,7 +47,7 @@ class SendMailLogger extends AbstractLogger
 	 */
 	public function log($message, string $priority = ILogger::INFO): void
 	{
-		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], true)) return;
+		if (!in_array($priority, $this->allowedPriority, true)) return;
 
 		if (is_numeric($this->emailSnooze)) {
 			$snooze = (int) $this->emailSnooze;
