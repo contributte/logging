@@ -37,6 +37,11 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
+    "verify": [
+      "@qa",
+      "@tests",
+      "@phpstan"
+    ],
     "qa": [
       "linter src tests",
       "codesniffer src tests"
