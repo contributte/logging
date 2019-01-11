@@ -24,13 +24,15 @@ logging:
 
 Basically, it overrides Tracy's default logger by our universal, pluggable logger.
 
+Original logger is still in DIC with `logging.originalLogger` key.
+
 ### Default loggers
 
 There are 3 types of loggers defined by default.
 
 - **FileLogger** - creates <priority>.log file
-- **BlueScreenFileLogger** - creates exception-*.html
-- **SendMailLogger** - sends exception to email
+- **BlueScreenFileLogger** - creates exception-*.html from all throwable
+- **SendMailLogger** - sends throwable/message to email
 
 You can redefine these loggers in `logging.loggers`.
 
@@ -48,7 +50,23 @@ logging:
         )
         - App\Model\MyCustomerLogger
 ```
- 
+
+This configuration is functionally equal to original Tracy's logger, only separated to multiple classes.
+
+#### SendMailLogger
+
+Our SendMailLogger also allows configure priority levels.
+
+```yaml
+services: 
+    sendMaillogger:
+        setup: 
+            - setAllowedPriority(
+                Contributte\Logging\ILogger::WARNING,
+                Contributte\Logging\ILogger::ERROR
+            )
+```
+
 ### Custom logger 
 
 To create your custom logger you have to implement `Contributte\Logging\ILogger`.
@@ -169,4 +187,20 @@ There you obtained DNS url. Put the url into neon file.
 ```yaml
 sentry:
     url: https://<key>@sentry.io/<project>
+```
+
+`SentryLoggingExtension` adds `SentryLogger` with url configuration. It works as [SendMailLogger](#sendmaillogger). 
+
+It means that it sends messages/throwable with `ILogger::ERROR`, `ILogger::EXCEPTION`, `ILogger::CRITICAL` priorities.
+
+But if you need other priorities, you can change configuration.
+
+```yaml
+services: 
+    sentry.logger:
+        setup: 
+            - setAllowedPriority(
+                Contributte\Logging\ILogger::WARNING,
+                Contributte\Logging\ILogger::ERROR
+            )
 ```

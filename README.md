@@ -26,8 +26,8 @@ composer require contributte/logging
 
 | State       | Version      | Branch   | PHP      |
 |-------------|--------------|----------|----------|
-| development | `dev-master` | `master` | `>= 5.6` |
-| stable      | `^0.2`       | `master` | `>= 5.6` |
+| development | `dev-master` | `master` | `>= 7.1` |
+| stable      | `^0.3`       | `master` | `>= 7.1` |
 
 ## Overview
 
