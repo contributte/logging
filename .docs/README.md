@@ -30,7 +30,7 @@ Original logger is still in DIC with `logging.originalLogger` key.
 
 There are 3 types of loggers defined by default.
 
-- **FileLogger** - creates <priority>.log file
+- **FileLogger** - creates `<priority>.log` file
 - **BlueScreenFileLogger** - creates exception-*.html from all throwable
 - **SendMailLogger** - sends throwable/message to email
 
