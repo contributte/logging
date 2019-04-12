@@ -11,6 +11,7 @@ use Contributte\Logging\Slack\Formatter\IFormatter;
 use Contributte\Logging\Slack\SlackLogger;
 use Contributte\Logging\UniversalLogger;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\FactoryDefinition;
 use Nette\DI\ServiceCreationException;
 use Nette\Utils\Validators;
 
@@ -63,8 +64,8 @@ final class SlackLoggingExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
-		$logger = $builder->getByType(UniversalLogger::class);
-		if ($logger === null) {
+		$universalLogger = $builder->getByType(UniversalLogger::class);
+		if ($universalLogger === null) {
 			throw new ServiceCreationException(
 				sprintf(
 					'Service "%s" is required. Did you register %s extension as well?',
@@ -74,12 +75,24 @@ final class SlackLoggingExtension extends CompilerExtension
 			);
 		}
 
-		$builder->getDefinition($logger)
-			->addSetup('addLogger', ['@' . $this->prefix('logger')]);
+		$universalLoggerDef = $builder->getDefinition($universalLogger);
+		// nette v3 compatibility
+		if ($universalLoggerDef instanceof FactoryDefinition) {
+			$universalLoggerDef = $universalLoggerDef->getResultDefinition();
+		}
+		assert(method_exists($universalLoggerDef, 'addSetup'));
 
-		foreach ($builder->findByType(IFormatter::class) as $def) {
-			$builder->getDefinition($this->prefix('logger'))
-				->addSetup('addFormatter', [$def]);
+		$loggerDef = $builder->getDefinition($this->prefix('logger'));
+		$universalLoggerDef->addSetup('addLogger', [$loggerDef]);
+
+		// nette v3 compatibility
+		if ($loggerDef instanceof FactoryDefinition) {
+			$loggerDef = $loggerDef->getResultDefinition();
+		}
+		assert(method_exists($loggerDef, 'addSetup'));
+
+		foreach ($builder->findByType(IFormatter::class) as $formatter) {
+			$loggerDef->addSetup('addFormatter', [$formatter]);
 		}
 	}
 

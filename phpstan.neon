@@ -1,3 +1,17 @@
+parameters:
+	ignoreErrors:
+		- '~^Call to deprecated method validateConfig\(\) of class Nette\\DI\\CompilerExtension\.$~'
+		- '~^Parameter \#2 \$priority \(string\) of method Contributte\\Logging\\(Null|Universal)Logger::log\(\) should be contravariant with parameter \$priority \(mixed\) of method Tracy\\ILogger::log\(\)$~'
+		- # pre Nette 3.0 compatibility
+			message: "~^Call to function method_exists\\(\\) with \\$this\\(Contributte\\\\Logging\\\\DI\\\\TracyLoggingExtension\\) and 'loadDefinitionsFrom…' will always evaluate to true.$~"
+			path: %currentWorkingDirectory%/src/DI/TracyLoggingExtension.php
+		- # pre Nette 3.0 compatibility
+			message: '~^Call to deprecated method loadDefinition\(\) of class Nette\\DI\\Compiler\.$~'
+			path: %currentWorkingDirectory%/src/DI/TracyLoggingExtension.php
+		- # pre Nette 3.0 compatibility
+			message: '~^Static method Nette\\DI\\Compiler::loadDefinition\(\) invoked with 2 parameters, 0 required\.$~'
+			path: %currentWorkingDirectory%/src/DI/TracyLoggingExtension.php
+
 includes:
 	- temp/phpstan/vendor/phpstan/phpstan-deprecation-rules/rules.neon
 	- temp/phpstan/vendor/phpstan/phpstan-nette/extension.neon

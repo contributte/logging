@@ -5,6 +5,7 @@ namespace Contributte\Logging\DI;
 use Contributte\Logging\Sentry\SentryLogger;
 use Contributte\Logging\UniversalLogger;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\FactoryDefinition;
 use Nette\DI\ServiceCreationException;
 use Nette\Utils\Validators;
 
@@ -55,8 +56,15 @@ final class SentryLoggingExtension extends CompilerExtension
 			);
 		}
 
-		$builder->getDefinition($logger)
-			->addSetup('addLogger', ['@' . $this->prefix('logger')]);
+		$def = $builder->getDefinition($logger);
+
+		// nette v3 compatibility
+		if ($def instanceof FactoryDefinition) {
+			$def = $def->getResultDefinition();
+		}
+		assert(method_exists($def, 'addSetup'));
+
+		$def->addSetup('addLogger', ['@' . $this->prefix('logger')]);
 	}
 
 }
