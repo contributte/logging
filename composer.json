@@ -19,11 +19,11 @@
     "ext-json": "*",
     "ninjify/qa": "^0.8.0",
     "ninjify/nunjuck": "^0.2.0",
-    "nette/di": "^2.4.14 || ^3.0.0",
+    "nette/di": "^3.0.0",
     "sentry/sentry": "^1.9.2"
   },
   "conflict": {
-    "nette/di": "<2.4.14"
+    "nette/di": "<3.0"
   },
   "suggest": {
     "nette/di": "to use TracyLoggingExtension",

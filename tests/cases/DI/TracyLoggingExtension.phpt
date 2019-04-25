@@ -8,7 +8,7 @@ use Contributte\Logging\UniversalLogger;
 use Nette\DI\Compiler;
 use Nette\DI\Container;
 use Nette\DI\ContainerLoader;
-use Nette\Utils\AssertionException;
+use Nette\DI\InvalidConfigurationException;
 use Tester\Assert;
 use Tester\FileMock;
 use Tracy\Bridges\Nette\TracyExtension;
@@ -22,7 +22,7 @@ test(function (): void {
 			$compiler->addExtension('logging', new TracyLoggingExtension());
 			$compiler->addExtension('tracy', new TracyExtension());
 		}, 1);
-	}, AssertionException::class, '~^The logging directory \(logDir\) expects to be string, (null|NULL) given\.$~');
+	}, InvalidConfigurationException::class, 'The mandatory option \'logging › logDir\' is missing.');
 });
 
 test(function (): void {

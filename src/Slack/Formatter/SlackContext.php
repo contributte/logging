@@ -2,7 +2,7 @@
 
 namespace Contributte\Logging\Slack\Formatter;
 
-use Nette\Utils\Arrays;
+use Contributte\Logging\DI\Configuration\SlackConfiguration;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
@@ -10,8 +10,8 @@ use Nette\Utils\Arrays;
 final class SlackContext
 {
 
-	/** @var mixed[] */
-	private $config = [];
+	/** @var SlackConfiguration */
+	private $config;
 
 	/** @var mixed[] */
 	private $data = [];
@@ -22,27 +22,14 @@ final class SlackContext
 	/** @var SlackContextAttachment[] */
 	private $attachments = [];
 
-	/**
-	 * @param mixed[] $config
-	 */
-	public function __construct(array $config)
+	public function __construct(SlackConfiguration $config)
 	{
 		$this->config = $config;
 	}
 
-	/**
-	 * @param mixed $default
-	 * @return mixed
-	 */
-	public function getConfig(string $key, $default = null)
+	public function getConfig(): SlackConfiguration
 	{
-		if (func_num_args() > 1) {
-			$value = Arrays::get($this->config, explode('.', $key), $default);
-		} else {
-			$value = Arrays::get($this->config, explode('.', $key));
-		}
-
-		return $value;
+		return $this->config;
 	}
 
 	public function setChannel(string $channel): void
@@ -60,9 +47,9 @@ final class SlackContext
 		$this->data['icon_emoji'] = sprintf(':%s:', trim($icon, ':'));
 	}
 
-	public function setIconUrl(string $icon): void
+	public function setIconUrl(string $iconUrl): void
 	{
-		$this->data['icon_url'] = $icon;
+		$this->data['icon_url'] = $iconUrl;
 	}
 
 	public function setText(string $text): void

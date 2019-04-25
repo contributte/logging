@@ -2,40 +2,26 @@
 
 namespace Contributte\Logging\DI;
 
-use Contributte\Logging\Slack\Formatter\ColorFormatter;
-use Contributte\Logging\Slack\Formatter\ContextFormatter;
-use Contributte\Logging\Slack\Formatter\ExceptionFormatter;
-use Contributte\Logging\Slack\Formatter\ExceptionPreviousExceptionsFormatter;
-use Contributte\Logging\Slack\Formatter\ExceptionStackTraceFormatter;
+use Contributte\Logging\DI\Configuration\SlackConfiguration;
 use Contributte\Logging\Slack\Formatter\IFormatter;
 use Contributte\Logging\Slack\SlackLogger;
 use Contributte\Logging\UniversalLogger;
 use Nette\DI\CompilerExtension;
-use Nette\DI\Definitions\FactoryDefinition;
+use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\ServiceCreationException;
 use Nette\Utils\Validators;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
+ * @property SlackConfiguration $config
  */
 final class SlackLoggingExtension extends CompilerExtension
 {
 
-	/** @var mixed[] */
-	private $defaults = [
-		'url' => null,
-		'channel' => null,
-		'username' => 'Tracy',
-		'icon_emoji' => ':rocket:',
-		'icon_url' => null,
-		'formatters' => [
-			ContextFormatter::class,
-			ColorFormatter::class,
-			ExceptionFormatter::class,
-			ExceptionStackTraceFormatter::class,
-			ExceptionPreviousExceptionsFormatter::class,
-		],
-	];
+	public function __construct()
+	{
+		$this->config = new SlackConfiguration();
+	}
 
 	/**
 	 * Register services
@@ -43,15 +29,13 @@ final class SlackLoggingExtension extends CompilerExtension
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
-
-		Validators::assertField($config, 'url', 'string', 'slack URL (%)');
-		Validators::assertField($config, 'channel', 'string', 'slack channel (%)');
 
 		$builder->addDefinition($this->prefix('logger'))
-			->setFactory(SlackLogger::class, [$config]);
+			->setFactory(SlackLogger::class, [$this->config]);
 
-		foreach ($config['formatters'] as $n => $formatter) {
+		foreach ($this->config->formatters as $n => $formatter) {
+			Validators::is($formatter, IFormatter::class);
+
 			$builder->addDefinition($this->prefix('formatter.' . ($n + 1)))
 				->setType($formatter);
 		}
@@ -76,20 +60,12 @@ final class SlackLoggingExtension extends CompilerExtension
 		}
 
 		$universalLoggerDef = $builder->getDefinition($universalLogger);
-		// nette v3 compatibility
-		if ($universalLoggerDef instanceof FactoryDefinition) {
-			$universalLoggerDef = $universalLoggerDef->getResultDefinition();
-		}
-		assert(method_exists($universalLoggerDef, 'addSetup'));
+		assert($universalLoggerDef instanceof ServiceDefinition);
 
 		$loggerDef = $builder->getDefinition($this->prefix('logger'));
-		$universalLoggerDef->addSetup('addLogger', [$loggerDef]);
+		assert($loggerDef instanceof ServiceDefinition);
 
-		// nette v3 compatibility
-		if ($loggerDef instanceof FactoryDefinition) {
-			$loggerDef = $loggerDef->getResultDefinition();
-		}
-		assert(method_exists($loggerDef, 'addSetup'));
+		$universalLoggerDef->addSetup('addLogger', [$loggerDef]);
 
 		foreach ($builder->findByType(IFormatter::class) as $formatter) {
 			$loggerDef->addSetup('addFormatter', [$formatter]);

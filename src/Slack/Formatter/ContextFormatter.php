@@ -15,10 +15,12 @@ final class ContextFormatter implements IFormatter
 	{
 		$context = clone $context;
 
-		$context->setChannel($context->getConfig('channel'));
-		$context->setUsername($context->getConfig('username', 'Tracy'));
-		$context->setIconEmoji($context->getConfig('icon_emoji', 'rocket'));
-		$context->setIconUrl($context->getConfig('icon_emoji', null));
+		$context->setChannel($context->getConfig()->channel);
+		$context->setUsername($context->getConfig()->username ?? 'Tracy');
+		$context->setIconEmoji($context->getConfig()->icon_emoji ?? 'rocket');
+		if ($context->getConfig()->icon_url !== null) {
+			$context->setIconUrl($context->getConfig()->icon_url);
+		}
 		$context->setText(':bangbang::bangbang::bangbang: Exception occured :bangbang::bangbang::bangbang:');
 		$context->setMarkdown();
 
