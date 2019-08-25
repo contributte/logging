@@ -5,18 +5,26 @@ namespace Contributte\Logging\DI;
 use Contributte\Logging\Sentry\SentryLogger;
 use Contributte\Logging\UniversalLogger;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\ServiceCreationException;
-use Nette\Utils\Validators;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
+use stdClass;
 
+/**
+ * @property-read stdClass $config
+ */
 final class SentryLoggingExtension extends CompilerExtension
 {
 
-	/** @var mixed[] */
-	private $defaults = [
-		'url' => null,
-		'enabled' => true,
-		'options' => [],
-	];
+	public function getConfigSchema(): Schema
+	{
+		return Expect::structure([
+			'url' => Expect::string()->required(),
+			'enabled' => Expect::bool(true),
+			'options' => Expect::array(),
+		]);
+	}
 
 	/**
 	 * Register services
@@ -24,15 +32,11 @@ final class SentryLoggingExtension extends CompilerExtension
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
-		if ($config['enabled'] === false) return;
-
-		Validators::assertField($config, 'url', 'string', 'sentry URL (%)');
-		Validators::assertField($config, 'enabled', 'bool');
-		Validators::assertField($config, 'options', 'array');
+		$config = $this->config;
+		if ($config->enabled === false) return;
 
 		$builder->addDefinition($this->prefix('logger'))
-			->setFactory(SentryLogger::class, [$config]);
+			->setFactory(SentryLogger::class, [(array) $config]);
 	}
 
 	/**
@@ -41,8 +45,8 @@ final class SentryLoggingExtension extends CompilerExtension
 	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
-		if ($config['enabled'] === false) return;
+		$config = $this->config;
+		if ($config->enabled === false) return;
 
 		$logger = $builder->getByType(UniversalLogger::class);
 		if ($logger === null) {
@@ -55,8 +59,9 @@ final class SentryLoggingExtension extends CompilerExtension
 			);
 		}
 
-		$builder->getDefinition($logger)
-			->addSetup('addLogger', ['@' . $this->prefix('logger')]);
+		$def = $builder->getDefinition($logger);
+		assert($def instanceof ServiceDefinition);
+		$def->addSetup('addLogger', ['@' . $this->prefix('logger')]);
 	}
 
 }

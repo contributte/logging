@@ -7,34 +7,38 @@ use Contributte\Logging\Slack\Formatter\ContextFormatter;
 use Contributte\Logging\Slack\Formatter\ExceptionFormatter;
 use Contributte\Logging\Slack\Formatter\ExceptionPreviousExceptionsFormatter;
 use Contributte\Logging\Slack\Formatter\ExceptionStackTraceFormatter;
-use Contributte\Logging\Slack\Formatter\IFormatter;
 use Contributte\Logging\Slack\SlackLogger;
 use Contributte\Logging\UniversalLogger;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\ServiceCreationException;
-use Nette\Utils\Validators;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
+use stdClass;
 
 /**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
+ * @property-read stdClass $config
  */
 final class SlackLoggingExtension extends CompilerExtension
 {
 
-	/** @var mixed[] */
-	private $defaults = [
-		'url' => null,
-		'channel' => null,
-		'username' => 'Tracy',
-		'icon_emoji' => ':rocket:',
-		'icon_url' => null,
-		'formatters' => [
-			ContextFormatter::class,
-			ColorFormatter::class,
-			ExceptionFormatter::class,
-			ExceptionStackTraceFormatter::class,
-			ExceptionPreviousExceptionsFormatter::class,
-		],
-	];
+	public function getConfigSchema(): Schema
+	{
+		return Expect::structure([
+			'url' => Expect::string()->required(),
+			'channel' => Expect::string()->required(),
+			'username' => Expect::string('Tracy'),
+			'icon_emoji' => Expect::string(':rocket:'),
+			'icon_url' => Expect::string()->nullable(),
+			'formatters' => Expect::listOf('array|string|Nette\DI\Definitions\Statement')->default([
+				ContextFormatter::class,
+				ColorFormatter::class,
+				ExceptionFormatter::class,
+				ExceptionStackTraceFormatter::class,
+				ExceptionPreviousExceptionsFormatter::class,
+			]),
+		]);
+	}
 
 	/**
 	 * Register services
@@ -42,17 +46,16 @@ final class SlackLoggingExtension extends CompilerExtension
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
+		$config = $this->config;
 
-		Validators::assertField($config, 'url', 'string', 'slack URL (%)');
-		Validators::assertField($config, 'channel', 'string', 'slack channel (%)');
+		$loggerSlack = $builder->addDefinition($this->prefix('logger'))
+			->setFactory(SlackLogger::class, [(array) $config]);
 
-		$builder->addDefinition($this->prefix('logger'))
-			->setFactory(SlackLogger::class, [$config]);
-
-		foreach ($config['formatters'] as $n => $formatter) {
-			$builder->addDefinition($this->prefix('formatter.' . ($n + 1)))
+		foreach ($config->formatters as $n => $formatter) {
+			$def = $builder->addDefinition($this->prefix('formatter.' . ($n + 1)))
 				->setType($formatter);
+
+			$loggerSlack->addSetup('addFormatter', [$def]);
 		}
 	}
 
@@ -74,13 +77,9 @@ final class SlackLoggingExtension extends CompilerExtension
 			);
 		}
 
-		$builder->getDefinition($logger)
-			->addSetup('addLogger', ['@' . $this->prefix('logger')]);
-
-		foreach ($builder->findByType(IFormatter::class) as $def) {
-			$builder->getDefinition($this->prefix('logger'))
-				->addSetup('addFormatter', [$def]);
-		}
+		$def = $builder->getDefinition($logger);
+		assert($def instanceof ServiceDefinition);
+		$def->addSetup('addLogger', ['@' . $this->prefix('logger')]);
 	}
 
 }

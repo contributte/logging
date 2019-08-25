@@ -5,22 +5,24 @@ namespace Contributte\Logging\DI;
 use Contributte\Logging\BlueScreenFileLogger;
 use Contributte\Logging\FileLogger;
 use Contributte\Logging\UniversalLogger;
-use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
-use Nette\DI\Statement;
-use Nette\Utils\Validators;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
+use stdClass;
 
 /**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
+ * @property-read stdClass $config
  */
 final class TracyLoggingExtension extends CompilerExtension
 {
 
-	/** @var mixed[] */
-	private $defaults = [
-		'logDir' => null,
-		'loggers' => null,
-	];
+	public function getConfigSchema(): Schema
+	{
+		return Expect::structure([
+			'logDir' => Expect::string()->required(),
+			'loggers' => Expect::listOf('array|string|Nette\DI\Definitions\Statement'),
+		]);
+	}
 
 	/**
 	 * Register services
@@ -28,31 +30,37 @@ final class TracyLoggingExtension extends CompilerExtension
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults, $this->config);
-
-		Validators::assertField($config, 'logDir', 'string', 'logging directory (%)');
-		Validators::assertField($config, 'loggers', 'array|null');
+		$config = $this->config;
 
 		$logger = $builder->addDefinition($this->prefix('logger'))
 			->setType(UniversalLogger::class);
 
-		if ($builder->hasDefinition('tracy.logger')) {
-			$builder->addDefinition($this->prefix('originalLogger'), $builder->getDefinition('tracy.logger'))
-				->setAutowired(false);
+		// Register defined loggers
+		if (count($config->loggers) !== 0) {
+			$loggers = [];
+			foreach ($config->loggers as $k => $v) {
+				$loggers[$this->prefix('logger.' . $k)] = $v;
+			}
+
+			$this->compiler->loadDefinitionsFromConfig($loggers);
+			foreach (array_keys($loggers) as $name) {
+				$logger->addSetup('addLogger', [$builder->getDefinition($name)]);
+			}
+
+			return;
 		}
 
-		if ($config['loggers'] === null) {
-			$fileLogger = $builder->addDefinition($this->prefix('logger.filelogger'))
-				->setFactory(FileLogger::class, [$config['logDir']])
-				->setAutowired('self');
+		// Register default loggers
+		$fileLogger = $builder->addDefinition($this->prefix('logger.filelogger'))
+			->setFactory(FileLogger::class, [$config->logDir])
+			->setAutowired('self');
 
-			$blueScreenFileLogger = $builder->addDefinition($this->prefix('logger.bluescreenfilelogger'))
-				->setFactory(BlueScreenFileLogger::class, [$config['logDir']])
-				->setAutowired('self');
+		$blueScreenFileLogger = $builder->addDefinition($this->prefix('logger.bluescreenfilelogger'))
+			->setFactory(BlueScreenFileLogger::class, [$config->logDir])
+			->setAutowired('self');
 
-			$logger->addSetup('addLogger', [$fileLogger]);
-			$logger->addSetup('addLogger', [$blueScreenFileLogger]);
-		}
+		$logger->addSetup('addLogger', [$fileLogger]);
+		$logger->addSetup('addLogger', [$blueScreenFileLogger]);
 	}
 
 	/**
@@ -61,36 +69,14 @@ final class TracyLoggingExtension extends CompilerExtension
 	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults, $this->config);
 
-		// Remove tracy default logger
+		// Replace tracy default logger for ours
 		if ($builder->hasDefinition('tracy.logger')) {
+			$builder->addDefinition($this->prefix('originalLogger'), clone $builder->getDefinition('tracy.logger'))
+				->setAutowired(false);
+
 			$builder->removeDefinition('tracy.logger');
 			$builder->addAlias('tracy.logger', $this->prefix('logger'));
-		}
-
-		// Obtain universal logger
-		$universal = $builder->getDefinition($this->prefix('logger'));
-
-		// Register defined loggers
-		if ($config['loggers'] !== null) {
-			$loggers = 1;
-			foreach ($config['loggers'] as $service) {
-
-				// Create logger as service
-				if (
-					is_array($service)
-					|| $service instanceof Statement
-					|| (is_string($service) && substr($service, 0, 1) === '@')
-				) {
-					$def = $builder->addDefinition($this->prefix('logger' . ($loggers++)));
-					Compiler::loadDefinition($def, $service);
-				} else {
-					$def = $builder->getDefinitionByType($service);
-				}
-
-				$universal->addSetup('addLogger', [$def]);
-			}
 		}
 	}
 

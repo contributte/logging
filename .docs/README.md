@@ -61,10 +61,10 @@ Our SendMailLogger also allows configure priority levels.
 services: 
     sendMaillogger:
         setup: 
-            - setAllowedPriority(
+            - setAllowedPriority([
                 Contributte\Logging\ILogger::WARNING,
                 Contributte\Logging\ILogger::ERROR
-            )
+            ])
 ```
 
 ### Custom logger 
