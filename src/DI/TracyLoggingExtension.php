@@ -6,6 +6,7 @@ use Contributte\Logging\BlueScreenFileLogger;
 use Contributte\Logging\DI\Configuration\TracyConfiguration;
 use Contributte\Logging\FileLogger;
 use Contributte\Logging\UniversalLogger;
+use Contributte\DI\Helper\ExtensionDefinitionsHelper;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\Statement;
@@ -80,27 +81,12 @@ final class TracyLoggingExtension extends CompilerExtension
 		// Register defined loggers
 		if ($this->config->loggers !== null) {
 			$loggers = 1;
+			$definitionsHelper = new ExtensionDefinitionsHelper($this->compiler);
+
 			foreach ($this->config->loggers as $service) {
+				$loggerDefinition = $definitionsHelper->getDefinitionFromConfig($service, 'logger' . ($loggers++));
 
-				// Create logger as service
-				if (
-					is_array($service)
-					|| $service instanceof Statement
-					|| substr($service, 0, 1) === '@'
-				) {
-					$loggerName = 'logger' . ($loggers++);
-
-					$this->loadDefinitionsFromConfig(
-						[
-							$loggerName => $service,
-						]
-					);
-					$def = $builder->getDefinition($this->prefix($loggerName));
-				} else {
-					$def = $builder->getDefinitionByType($service);
-				}
-
-				$universal->addSetup('addLogger', [$def]);
+				$universal->addSetup('addLogger', [$loggerDefinition]);
 			}
 		}
 	}
