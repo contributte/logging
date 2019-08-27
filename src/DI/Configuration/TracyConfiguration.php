@@ -10,7 +10,7 @@ final class TracyConfiguration
 	/** @var string */
 	public $logDir;
 
-	/** @var array[][]|string[]|Statement[]|null */
+	/** @var mixed[][]|string[]|Statement[]|null */
 	public $loggers = null;
 
 }
