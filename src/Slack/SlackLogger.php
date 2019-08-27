@@ -2,11 +2,11 @@
 
 namespace Contributte\Logging\Slack;
 
+use Contributte\Logging\DI\Configuration\SlackConfiguration;
 use Contributte\Logging\Exceptions\Runtime\Logger\SlackBadRequestException;
 use Contributte\Logging\ILogger;
 use Contributte\Logging\Slack\Formatter\IFormatter;
 use Contributte\Logging\Slack\Formatter\SlackContext;
-use Nette\Utils\Arrays;
 use Throwable;
 
 /**
@@ -15,16 +15,13 @@ use Throwable;
 final class SlackLogger implements ILogger
 {
 
-	/** @var mixed[] */
+	/** @var SlackConfiguration */
 	private $config;
 
 	/** @var IFormatter[] */
 	private $formatters = [];
 
-	/**
-	 * @param mixed[] $config
-	 */
-	public function __construct(array $config)
+	public function __construct(SlackConfiguration $config)
 	{
 		$this->config = $config;
 	}
@@ -55,13 +52,13 @@ final class SlackLogger implements ILogger
 
 	protected function makeRequest(SlackContext $context): void
 	{
-		$url = $this->get('url');
+		$url = $this->config->url;
 
 		$streamcontext = [
 			'http' => [
 				'method' => 'POST',
 				'header' => 'Content-type: application/x-www-form-urlencoded',
-				'timeout' => $this->get('timeout', 30),
+				'timeout' => $this->config->timeout ?? 30,
 				'content' => http_build_query([
 					'payload' => json_encode(array_filter($context->toArray())),
 				]),
@@ -79,21 +76,6 @@ final class SlackLogger implements ILogger
 				],
 			]);
 		}
-	}
-
-	/**
-	 * @param mixed $default
-	 * @return mixed
-	 */
-	protected function get(string $key, $default = null)
-	{
-		if (func_num_args() > 1) {
-			$value = Arrays::get($this->config, explode('.', $key), $default);
-		} else {
-			$value = Arrays::get($this->config, explode('.', $key));
-		}
-
-		return $value;
 	}
 
 }

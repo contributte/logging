@@ -2,25 +2,34 @@
 
 namespace Contributte\Logging\DI;
 
+use Contributte\DI\Helper\ExtensionDefinitionsHelper;
 use Contributte\Logging\BlueScreenFileLogger;
+use Contributte\Logging\DI\Configuration\TracyConfiguration;
 use Contributte\Logging\FileLogger;
 use Contributte\Logging\UniversalLogger;
-use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
-use Nette\DI\Statement;
-use Nette\Utils\Validators;
+use Nette\DI\Definitions\ServiceDefinition;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
 
 /**
  * @author Milan Felix Sulc <sulcmil@gmail.com>
+ * @property TracyConfiguration $config
  */
 final class TracyLoggingExtension extends CompilerExtension
 {
 
-	/** @var mixed[] */
-	private $defaults = [
-		'logDir' => null,
-		'loggers' => null,
-	];
+	public function __construct()
+	{
+		$this->config = new TracyConfiguration();
+	}
+
+	public function getConfigSchema(): Schema
+	{
+		return Expect::from($this->config, [
+			'loggers' => Expect::listOf('array|string|Nette\DI\Definitions\Statement')->nullable()->default(null),
+		]);
+	}
 
 	/**
 	 * Register services
@@ -28,26 +37,22 @@ final class TracyLoggingExtension extends CompilerExtension
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults, $this->config);
-
-		Validators::assertField($config, 'logDir', 'string', 'logging directory (%)');
-		Validators::assertField($config, 'loggers', 'array|null');
 
 		$logger = $builder->addDefinition($this->prefix('logger'))
 			->setType(UniversalLogger::class);
 
 		if ($builder->hasDefinition('tracy.logger')) {
-			$builder->addDefinition($this->prefix('originalLogger'), $builder->getDefinition('tracy.logger'))
-				->setAutowired(false);
+			$builder->getDefinition('tracy.logger')->setAutowired(false);
+			$builder->addAlias($this->prefix('originalLogger'), 'tracy.logger');
 		}
 
-		if ($config['loggers'] === null) {
+		if ($this->config->loggers === null) {
 			$fileLogger = $builder->addDefinition($this->prefix('logger.filelogger'))
-				->setFactory(FileLogger::class, [$config['logDir']])
+				->setFactory(FileLogger::class, [$this->config->logDir])
 				->setAutowired('self');
 
 			$blueScreenFileLogger = $builder->addDefinition($this->prefix('logger.bluescreenfilelogger'))
-				->setFactory(BlueScreenFileLogger::class, [$config['logDir']])
+				->setFactory(BlueScreenFileLogger::class, [$this->config->logDir])
 				->setAutowired('self');
 
 			$logger->addSetup('addLogger', [$fileLogger]);
@@ -61,7 +66,6 @@ final class TracyLoggingExtension extends CompilerExtension
 	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults, $this->config);
 
 		// Remove tracy default logger
 		if ($builder->hasDefinition('tracy.logger')) {
@@ -71,25 +75,17 @@ final class TracyLoggingExtension extends CompilerExtension
 
 		// Obtain universal logger
 		$universal = $builder->getDefinition($this->prefix('logger'));
+		assert($universal instanceof ServiceDefinition);
 
 		// Register defined loggers
-		if ($config['loggers'] !== null) {
+		if ($this->config->loggers !== null) {
 			$loggers = 1;
-			foreach ($config['loggers'] as $service) {
+			$definitionsHelper = new ExtensionDefinitionsHelper($this->compiler);
 
-				// Create logger as service
-				if (
-					is_array($service)
-					|| $service instanceof Statement
-					|| (is_string($service) && substr($service, 0, 1) === '@')
-				) {
-					$def = $builder->addDefinition($this->prefix('logger' . ($loggers++)));
-					Compiler::loadDefinition($def, $service);
-				} else {
-					$def = $builder->getDefinitionByType($service);
-				}
+			foreach ($this->config->loggers as $service) {
+				$loggerDefinition = $definitionsHelper->getDefinitionFromConfig($service, 'logger' . ($loggers++));
 
-				$universal->addSetup('addLogger', [$def]);
+				$universal->addSetup('addLogger', [$loggerDefinition]);
 			}
 		}
 	}
