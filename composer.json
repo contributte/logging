@@ -13,7 +13,7 @@
   ],
   "require": {
     "php": ">= 7.2",
-    "tracy/tracy": "~2.5.5|^2.6.2",
+    "tracy/tracy": "~2.5.5|~2.6.2",
     "nette/di": "^3.0.0",
     "contributte/di": "^0.4.0"
   },
