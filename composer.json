@@ -14,20 +14,16 @@
   "require": {
     "php": ">= 7.2",
     "tracy/tracy": "~2.5.5|^2.6.2",
+    "nette/di": "^3.0.0",
     "contributte/di": "^0.4.0"
   },
   "require-dev": {
     "ext-json": "*",
     "ninjify/qa": "^0.8.0",
     "ninjify/nunjuck": "^0.2.0",
-    "nette/di": "^3.0.0",
     "sentry/sentry": "^1.9.2"
   },
-  "conflict": {
-    "nette/di": "<3.0"
-  },
   "suggest": {
-    "nette/di": "to use TracyLoggingExtension",
     "sentry/sentry": "to use SentryLoggingExtension"
   },
   "autoload": {
