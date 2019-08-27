@@ -2,14 +2,13 @@
 
 namespace Contributte\Logging\DI;
 
+use Contributte\DI\Helper\ExtensionDefinitionsHelper;
 use Contributte\Logging\BlueScreenFileLogger;
 use Contributte\Logging\DI\Configuration\TracyConfiguration;
 use Contributte\Logging\FileLogger;
 use Contributte\Logging\UniversalLogger;
-use Contributte\DI\Helper\ExtensionDefinitionsHelper;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Definitions\ServiceDefinition;
-use Nette\DI\Statement;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
 
