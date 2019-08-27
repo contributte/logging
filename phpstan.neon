@@ -1,10 +1,10 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '~^Parameter \#2 \$priority \(string\) of method Contributte\\Logging\\NullLogger::log\(\) should be contravariant with parameter \$priority \(mixed\) of method Tracy\\ILogger::log\(\)$~'
+			message: '~^Parameter \#2 \$priority \(string\) of method Contributte\\Logging\\NullLogger::log\(\) should be contravariant with parameter \$level \(mixed\) of method Tracy\\ILogger::log\(\)$~'
 			path: %currentWorkingDirectory%/src/NullLogger.php
 		-
-			message: '~^Parameter \#2 \$priority \(string\) of method Contributte\\Logging\\UniversalLogger::log\(\) should be contravariant with parameter \$priority \(mixed\) of method Tracy\\ILogger::log\(\)$~'
+			message: '~^Parameter \#2 \$priority \(string\) of method Contributte\\Logging\\UniversalLogger::log\(\) should be contravariant with parameter \$level \(mixed\) of method Tracy\\ILogger::log\(\)$~'
 			path: %currentWorkingDirectory%/src/UniversalLogger.php
 
 includes:
