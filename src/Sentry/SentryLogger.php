@@ -64,6 +64,7 @@ class SentryLogger implements ILogger
 		}
 
 		$level = $this->getLevel($priority);
+
 		if ($level === null) {
 			return;
 		}
@@ -85,6 +86,7 @@ class SentryLogger implements ILogger
 			$this->configuration[self::CONFIG_URL],
 			$this->configuration[self::CONFIG_OPTIONS]
 		);
+
 		if ($message instanceof Throwable) {
 			$client->captureException($message, $data);
 		} else {

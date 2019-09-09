@@ -4,9 +4,6 @@ namespace Contributte\Logging;
 
 use Tracy\ILogger as TracyLogger;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 interface ILogger
 {
 

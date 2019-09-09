@@ -2,9 +2,6 @@
 
 namespace Contributte\Logging\Mailer;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 interface IMailer
 {
 

@@ -11,7 +11,7 @@ class NullLogger implements TracyLogger
 	 * @param mixed $message
 	 * @param string $priority
 	 */
-	public function log($message, $priority = self::INFO): void
+	public function log($message, $priority = self::INFO): void // phpcs:ignore
 	{
 	}
 

@@ -9,9 +9,6 @@ use Contributte\Logging\Slack\Formatter\SlackContext;
 use Nette\Utils\Arrays;
 use Throwable;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 final class SlackLogger implements ILogger
 {
 
@@ -39,8 +36,13 @@ final class SlackLogger implements ILogger
 	 */
 	public function log($message, string $priority = ILogger::INFO): void
 	{
-		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], true)) return;
-		if (!($message instanceof Throwable)) return;
+		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], true)) {
+			return;
+		}
+
+		if (!($message instanceof Throwable)) {
+			return;
+		}
 
 		$context = new SlackContext($this->config);
 
@@ -87,13 +89,7 @@ final class SlackLogger implements ILogger
 	 */
 	protected function get(string $key, $default = null)
 	{
-		if (func_num_args() > 1) {
-			$value = Arrays::get($this->config, explode('.', $key), $default);
-		} else {
-			$value = Arrays::get($this->config, explode('.', $key));
-		}
-
-		return $value;
+		return Arrays::get($this->config, explode('.', $key), $default);
 	}
 
 }

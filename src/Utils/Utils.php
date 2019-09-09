@@ -7,8 +7,6 @@ use Tracy\BlueScreen;
 
 /**
  * Based on official Tracy\Logger (@copyright David Grudl)
- *
- * @author Milan Felix Sulc <sulcmil@gmail.com>
  */
 final class Utils
 {

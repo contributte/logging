@@ -7,8 +7,6 @@ use Tracy\Logger;
 
 /**
  * TracyMailer based on official Tracy\Logger[default mailer] (@copyright David Grudl)
- *
- * @author Milan Felix Sulc <sulcmil@gmail.com>
  */
 class TracyMailer implements IMailer
 {
@@ -22,7 +20,7 @@ class TracyMailer implements IMailer
 	/**
 	 * @param mixed[] $to
 	 */
-	public function __construct(?string $from = null, array $to)
+	public function __construct(?string $from, array $to)
 	{
 		$this->from = $from;
 		$this->to = $to;

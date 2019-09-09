@@ -5,9 +5,6 @@ namespace Contributte\Logging\Mailer;
 use Tracy\Helpers;
 use Tracy\Logger;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 class FileMailer implements IMailer
 {
 

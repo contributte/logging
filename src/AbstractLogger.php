@@ -7,8 +7,6 @@ use Throwable;
 
 /**
  * AbstractTracyLogger based on official Tracy\Logger (@copyright David Grudl)
- *
- * @author Milan Felix Sulc <sulcmil@gmail.com>
  */
 abstract class AbstractLogger implements ILogger
 {
@@ -44,12 +42,14 @@ abstract class AbstractLogger implements ILogger
 			];
 			$exception = $exception->getPrevious();
 		}
+
 		$hash = substr(md5(serialize($data)), 0, 10);
 
 		foreach (new DirectoryIterator($this->directory) as $file) {
 			if ($file->isDot()) {
 				continue;
 			}
+
 			if ((bool) strpos($file->getBasename(), $hash)) {
 				return $file->getPathname();
 			}

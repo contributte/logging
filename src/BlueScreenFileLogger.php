@@ -11,8 +11,6 @@ use Tracy\BlueScreen;
  * BlueScreenFileLogger based on official Tracy\Logger (@copyright David Grudl)
  *
  * Log every exception as single html file
- *
- * @author Milan Felix Sulc <sulcmil@gmail.com>
  */
 class BlueScreenFileLogger extends AbstractLogger implements ILogger
 {
