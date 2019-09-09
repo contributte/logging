@@ -10,8 +10,6 @@ use Tracy\Logger;
  * FileLogger based on official Tracy\Logger (@copyright David Grudl)
  *
  * Log all messages to <priority>.log
- *
- * @author Milan Felix Sulc <sulcmil@gmail.com>
  */
 class FileLogger extends AbstractLogger implements ILogger
 {
@@ -25,7 +23,10 @@ class FileLogger extends AbstractLogger implements ILogger
 			throw new InvalidStateException('Directory "' . $this->directory . '" is not found or is not directory.');
 		}
 
-		$exceptionFile = ($message instanceof Throwable) ? $this->getExceptionFile($message) : null;
+		$exceptionFile = ($message instanceof Throwable)
+			? $this->getExceptionFile($message)
+			: null;
+
 		$line = Logger::formatLogLine($message, $exceptionFile);
 		$file = $this->directory . '/' . strtolower($priority) . '.log';
 

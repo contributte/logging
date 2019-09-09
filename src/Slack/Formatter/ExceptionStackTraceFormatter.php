@@ -2,9 +2,6 @@
 
 namespace Contributte\Logging\Slack\Formatter;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 final class ExceptionStackTraceFormatter implements IFormatter
 {
 
@@ -14,7 +11,9 @@ final class ExceptionStackTraceFormatter implements IFormatter
 	public function format(SlackContext $context, $exception, string $priority): SlackContext
 	{
 		// Skip empty trace
-		if (count($exception->getTrace()) < 1) return $context;
+		if (count($exception->getTrace()) < 1) {
+			return $context;
+		}
 
 		$context = clone $context;
 		$attachment = $context->createAttachment();

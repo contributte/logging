@@ -38,11 +38,13 @@ final class TracyLoggingExtension extends CompilerExtension
 		// Register defined loggers
 		if (count($config->loggers) !== 0) {
 			$loggers = [];
+
 			foreach ($config->loggers as $k => $v) {
 				$loggers[$this->prefix('logger.' . $k)] = $v;
 			}
 
 			$this->compiler->loadDefinitionsFromConfig($loggers);
+
 			foreach (array_keys($loggers) as $name) {
 				$logger->addSetup('addLogger', [$builder->getDefinition($name)]);
 			}

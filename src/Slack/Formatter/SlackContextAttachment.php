@@ -2,9 +2,6 @@
 
 namespace Contributte\Logging\Slack\Formatter;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 final class SlackContextAttachment
 {
 
@@ -107,6 +104,7 @@ final class SlackContextAttachment
 
 		if (count($this->fields) > 0) {
 			$data['fields'] = [];
+
 			foreach ($this->fields as $attachment) {
 				$data['fields'][] = $attachment->toArray();
 			}

@@ -33,7 +33,10 @@ final class SentryLoggingExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->config;
-		if ($config->enabled === false) return;
+
+		if ($config->enabled === false) {
+			return;
+		}
 
 		$builder->addDefinition($this->prefix('logger'))
 			->setFactory(SentryLogger::class, [(array) $config]);
@@ -46,9 +49,13 @@ final class SentryLoggingExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->config;
-		if ($config->enabled === false) return;
+
+		if ($config->enabled === false) {
+			return;
+		}
 
 		$logger = $builder->getByType(UniversalLogger::class);
+
 		if ($logger === null) {
 			throw new ServiceCreationException(
 				sprintf(

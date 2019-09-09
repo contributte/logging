@@ -2,9 +2,6 @@
 
 namespace Contributte\Logging\Slack\Formatter;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 final class ContextFormatter implements IFormatter
 {
 

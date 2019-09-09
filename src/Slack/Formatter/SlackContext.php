@@ -4,9 +4,6 @@ namespace Contributte\Logging\Slack\Formatter;
 
 use Nette\Utils\Arrays;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 final class SlackContext
 {
 
@@ -36,13 +33,9 @@ final class SlackContext
 	 */
 	public function getConfig(string $key, $default = null)
 	{
-		if (func_num_args() > 1) {
-			$value = Arrays::get($this->config, explode('.', $key), $default);
-		} else {
-			$value = Arrays::get($this->config, explode('.', $key));
-		}
-
-		return $value;
+		return func_num_args() > 1
+			? Arrays::get($this->config, explode('.', $key), $default)
+			: Arrays::get($this->config, explode('.', $key));
 	}
 
 	public function setChannel(string $channel): void
@@ -103,6 +96,7 @@ final class SlackContext
 
 		if (count($this->fields) > 0) {
 			$data['fields'] = [];
+
 			foreach ($this->fields as $attachment) {
 				$data['fields'][] = $attachment->toArray();
 			}
@@ -110,6 +104,7 @@ final class SlackContext
 
 		if (count($this->fields) > 0) {
 			$data['attachments'] = [];
+
 			foreach ($this->attachments as $attachment) {
 				$data['attachments'][] = $attachment->toArray();
 			}

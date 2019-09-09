@@ -24,7 +24,7 @@ class UniversalLogger implements TracyLogger
 	 * @param mixed $message
 	 * @param string $priority
 	 */
-	public function log($message, $priority = self::INFO): void
+	public function log($message, $priority = self::INFO): void // phpcs:ignore
 	{
 		// Composite logger
 		foreach ($this->loggers as $logger) {

@@ -47,19 +47,24 @@ class SendMailLogger extends AbstractLogger
 	 */
 	public function log($message, string $priority = ILogger::INFO): void
 	{
-		if (!in_array($priority, $this->allowedPriority, true)) return;
+		if (!in_array($priority, $this->allowedPriority, true)) {
+			return;
+		}
 
 		if (is_numeric($this->emailSnooze)) {
 			$snooze = (int) $this->emailSnooze;
 		} else {
 			$strtotime = @strtotime($this->emailSnooze);
+
 			if ($strtotime === false) {
 				throw new InvalidArgumentException('Email snooze was not parsed');
 			}
+
 			$snooze = $strtotime - time();
 		}
 
 		$filemtime = @filemtime($this->directory . '/email-sent');
+
 		if ($filemtime === false) {
 			throw new InvalidStateException('File time cant be reached');
 		}

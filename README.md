@@ -26,8 +26,8 @@ composer require contributte/logging
 
 | State       | Version      |  Nette  | Branch   | PHP      |
 |-------------|--------------|---------|----------|----------|
-| development | `^0.5`       |   3.0   | `master` | `^7.2` |
-| stable      | `^0.4`       |   3.0   | `master` | `^7.2` |
+| development | `^0.5`       |   3.0   | `master` | `^7.2`   |
+| stable      | `^0.4`       |   3.0   | `master` | `^7.2`   |
 | stable      | `^0.3`       |   2.4   | `master` | `>= 7.1` |
 
 ## Overview

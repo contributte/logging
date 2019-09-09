@@ -67,6 +67,7 @@ final class SlackLoggingExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$logger = $builder->getByType(UniversalLogger::class);
+
 		if ($logger === null) {
 			throw new ServiceCreationException(
 				sprintf(
