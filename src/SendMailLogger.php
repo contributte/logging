@@ -4,7 +4,6 @@ namespace Contributte\Logging;
 
 use Contributte\Logging\Mailer\IMailer;
 use Nette\InvalidArgumentException;
-use Nette\InvalidStateException;
 
 class SendMailLogger extends AbstractLogger
 {
@@ -66,7 +65,7 @@ class SendMailLogger extends AbstractLogger
 		$filemtime = @filemtime($this->directory . '/email-sent');
 
 		if ($filemtime === false) {
-			throw new InvalidStateException('File time cant be reached');
+			$filemtime = 0;
 		}
 
 		if ($filemtime + $snooze < time() && (bool) @file_put_contents($this->directory . '/email-sent', 'sent')
