@@ -38,6 +38,11 @@
       "Contributte\\Logging\\": "src"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\Helpers\\": "tests/helpers"
+    }
+  },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "extra": {
