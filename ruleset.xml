@@ -10,7 +10,8 @@
         <properties>
             <property name="rootNamespaces" type="array" value="
                 src=>Contributte\Logging,
-                tests/fixtures=>Tests\Fixtures
+                tests/fixtures=>Tests\Fixtures,
+                tests/helpers=>Tests\Helpers
             "/>
         </properties>
     </rule>
