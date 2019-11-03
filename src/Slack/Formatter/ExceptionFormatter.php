@@ -41,7 +41,7 @@ final class ExceptionFormatter implements IFormatter
 
 		$code = $attachment->createField();
 		$code->setTitle(':1234: Code');
-		$code->setValue($exception->getCode());
+		$code->setValue((string) $exception->getCode());
 		$code->setShort();
 
 		$file = $attachment->createField();
