@@ -102,7 +102,7 @@ final class SlackContext
 			}
 		}
 
-		if (count($this->fields) > 0) {
+		if (count($this->attachments) > 0) {
 			$data['attachments'] = [];
 
 			foreach ($this->attachments as $attachment) {
