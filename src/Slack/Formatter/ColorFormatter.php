@@ -4,14 +4,12 @@ namespace Contributte\Logging\Slack\Formatter;
 
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
 use Contributte\Logging\ILogger;
+use Throwable;
 
 final class ColorFormatter implements IFormatter
 {
 
-	/**
-	 * @param mixed $message
-	 */
-	public function format(SlackContext $context, $message, string $priority): SlackContext
+	public function format(SlackContext $context, Throwable $message, string $priority): SlackContext
 	{
 		switch ($priority) {
 			case ILogger::ERROR:

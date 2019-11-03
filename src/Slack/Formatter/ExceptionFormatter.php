@@ -2,15 +2,13 @@
 
 namespace Contributte\Logging\Slack\Formatter;
 
+use Throwable;
 use Tracy\Helpers;
 
 final class ExceptionFormatter implements IFormatter
 {
 
-	/**
-	 * @param mixed $exception
-	 */
-	public function format(SlackContext $context, $exception, string $priority): SlackContext
+	public function format(SlackContext $context, Throwable $exception, string $priority): SlackContext
 	{
 		$context = clone $context;
 
