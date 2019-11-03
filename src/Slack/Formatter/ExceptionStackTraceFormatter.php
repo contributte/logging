@@ -2,13 +2,12 @@
 
 namespace Contributte\Logging\Slack\Formatter;
 
+use Throwable;
+
 final class ExceptionStackTraceFormatter implements IFormatter
 {
 
-	/**
-	 * @param mixed $exception
-	 */
-	public function format(SlackContext $context, $exception, string $priority): SlackContext
+	public function format(SlackContext $context, Throwable $exception, string $priority): SlackContext
 	{
 		// Skip empty trace
 		if (count($exception->getTrace()) < 1) {

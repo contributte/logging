@@ -2,13 +2,12 @@
 
 namespace Contributte\Logging\Slack\Formatter;
 
+use Throwable;
+
 final class ContextFormatter implements IFormatter
 {
 
-	/**
-	 * @param mixed $message
-	 */
-	public function format(SlackContext $context, $message, string $priority): SlackContext
+	public function format(SlackContext $context, Throwable $message, string $priority): SlackContext
 	{
 		$context = clone $context;
 
