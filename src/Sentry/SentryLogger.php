@@ -4,14 +4,14 @@ namespace Contributte\Logging\Sentry;
 
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
 use Contributte\Logging\ILogger;
-use Raven_Client;
+use Sentry\Client;
 use Throwable;
 
 class SentryLogger implements ILogger
 {
 
 	public const LEVEL_PRIORITY_MAP = [
-		self::DEBUG => Raven_Client::DEBUG,
+		self::DEBUG => Client::DEBUG,
 		self::INFO => Raven_Client::INFO,
 		self::WARNING => Raven_Client::WARNING,
 		self::ERROR => Raven_Client::ERROR,
