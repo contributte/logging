@@ -1,102 +1,97 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Contributte\Logging\Sentry;
 
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
 use Contributte\Logging\ILogger;
-use Raven_Client;
 use Throwable;
 
 class SentryLogger implements ILogger
 {
+    public const LEVEL_PRIORITY_MAP = [
+        self::DEBUG => \Sentry\Severity::DEBUG,
+        self::INFO => \Sentry\Severity::INFO,
+        self::WARNING => \Sentry\Severity::WARNING,
+        self::ERROR => \Sentry\Severity::ERROR,
+        self::EXCEPTION => \Sentry\Severity::FATAL,
+        self::CRITICAL => \Sentry\Severity::FATAL,
+    ];
+    public const CONFIG_URL = 'url';
+    public const CONFIG_OPTIONS = 'options';
 
-	public const LEVEL_PRIORITY_MAP = [
-		self::DEBUG => Raven_Client::DEBUG,
-		self::INFO => Raven_Client::INFO,
-		self::WARNING => Raven_Client::WARNING,
-		self::ERROR => Raven_Client::ERROR,
-		self::EXCEPTION => Raven_Client::FATAL,
-		self::CRITICAL => Raven_Client::FATAL,
-	];
+    /** @var mixed[] */
+    protected $configuration;
 
-	public const CONFIG_URL = 'url';
-	public const CONFIG_OPTIONS = 'options';
+    /** @var string[] */
+    private $allowedPriority = [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL];
 
-	/** @var mixed[] */
-	protected $configuration;
+    /**
+     * @param mixed[] $configuration
+     */
+    public function __construct(array $configuration)
+    {
+        if (!isset($configuration[self::CONFIG_URL])) {
+            throw new InvalidStateException('Missing url in SentryLogger configuration');
+        }
 
-	/** @var string[] */
-	private $allowedPriority = [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL];
+        if (!isset($configuration[self::CONFIG_OPTIONS])) {
+            $configuration[self::CONFIG_OPTIONS] = [];
+        }
 
-	/**
-	 * @param mixed[] $configuration
-	 */
-	public function __construct(array $configuration)
-	{
-		if (!isset($configuration[self::CONFIG_URL])) {
-			throw new InvalidStateException('Missing url in SentryLogger configuration');
-		}
+        $this->configuration = $configuration;
+    }
 
-		if (!isset($configuration[self::CONFIG_OPTIONS])) {
-			$configuration[self::CONFIG_OPTIONS] = [];
-		}
+    /**
+     * @param string[] $allowedPriority
+     */
+    public function setAllowedPriority(array $allowedPriority): void
+    {
+        $this->allowedPriority = $allowedPriority;
+    }
 
-		$this->configuration = $configuration;
-	}
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
+     * @param mixed $message
+     */
+    public function log($message, string $priority = ILogger::INFO): void
+    {
+        if (!in_array($priority, $this->allowedPriority, true)) {
+            return;
+        }
 
-	/**
-	 * @param string[] $allowedPriority
-	 */
-	public function setAllowedPriority(array $allowedPriority): void
-	{
-		$this->allowedPriority = $allowedPriority;
-	}
+        $level = $this->getLevel($priority);
 
-	/**
-	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
-	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
-	 * @param mixed $message
-	 */
-	public function log($message, string $priority = ILogger::INFO): void
-	{
-		if (!in_array($priority, $this->allowedPriority, true)) {
-			return;
-		}
+        if ($level === null) {
+            return;
+        }
 
-		$level = $this->getLevel($priority);
+        $scope = (new \Sentry\State\Scope())
+            ->setLevel(new \Sentry\Severity($level));
 
-		if ($level === null) {
-			return;
-		}
+        $this->makeRequest($message, $scope);
+    }
 
-		$data = [
-			'level' => $level,
-		];
+    /**
+     * @param mixed $message
+     * @param \Sentry\State\Scope $scope
+     */
+    protected function makeRequest($message, \Sentry\State\Scope $scope): void
+    {
+        $client = \Sentry\ClientBuilder::create(
+            $this->configuration[self::CONFIG_OPTIONS]
+            + ['dsn' => $this->configuration[self::CONFIG_URL]]
+        )->getClient();
 
-		$this->makeRequest($message, $data);
-	}
+        if ($message instanceof Throwable) {
+            $client->captureException($message, $scope);
+        } else {
+            $client->captureMessage($message, null, $scope);
+        }
+    }
 
-	/**
-	 * @param mixed $message
-	 * @param mixed[] $data
-	 */
-	protected function makeRequest($message, array $data): void
-	{
-		$client = new Raven_Client(
-			$this->configuration[self::CONFIG_URL],
-			$this->configuration[self::CONFIG_OPTIONS]
-		);
-
-		if ($message instanceof Throwable) {
-			$client->captureException($message, $data);
-		} else {
-			$client->captureMessage($message, [], $data);
-		}
-	}
-
-	protected function getLevel(string $priority): ?string
-	{
-		return self::LEVEL_PRIORITY_MAP[$priority] ?? null;
-	}
-
+    protected function getLevel(string $priority): ?string
+    {
+        return self::LEVEL_PRIORITY_MAP[$priority] ?? null;
+    }
 }
