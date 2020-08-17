@@ -4,19 +4,21 @@ namespace Contributte\Logging\Sentry;
 
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
 use Contributte\Logging\ILogger;
-use Raven_Client;
+use Sentry\ClientBuilder;
+use Sentry\Severity;
+use Sentry\State\Scope;
 use Throwable;
 
 class SentryLogger implements ILogger
 {
 
 	public const LEVEL_PRIORITY_MAP = [
-		self::DEBUG => Raven_Client::DEBUG,
-		self::INFO => Raven_Client::INFO,
-		self::WARNING => Raven_Client::WARNING,
-		self::ERROR => Raven_Client::ERROR,
-		self::EXCEPTION => Raven_Client::FATAL,
-		self::CRITICAL => Raven_Client::FATAL,
+		self::DEBUG => Severity::DEBUG,
+		self::INFO => Severity::INFO,
+		self::WARNING => Severity::WARNING,
+		self::ERROR => Severity::ERROR,
+		self::EXCEPTION => Severity::FATAL,
+		self::CRITICAL => Severity::FATAL,
 	];
 
 	public const CONFIG_URL = 'url';
@@ -69,28 +71,23 @@ class SentryLogger implements ILogger
 			return;
 		}
 
-		$data = [
-			'level' => $level,
-		];
+		$scope = (new Scope())->setLevel(new Severity($level));
 
-		$this->makeRequest($message, $data);
+		$this->makeRequest($message, $scope);
 	}
 
 	/**
 	 * @param mixed $message
-	 * @param mixed[] $data
 	 */
-	protected function makeRequest($message, array $data): void
+	protected function makeRequest($message, Scope $scope): void
 	{
-		$client = new Raven_Client(
-			$this->configuration[self::CONFIG_URL],
-			$this->configuration[self::CONFIG_OPTIONS]
-		);
+		$client = ClientBuilder::create($this->configuration[self::CONFIG_OPTIONS] + ['dsn' => $this->configuration[self::CONFIG_URL]])
+			->getClient();
 
 		if ($message instanceof Throwable) {
-			$client->captureException($message, $data);
+			$client->captureException($message, $scope);
 		} else {
-			$client->captureMessage($message, [], $data);
+			$client->captureMessage($message, null, $scope);
 		}
 	}
 
