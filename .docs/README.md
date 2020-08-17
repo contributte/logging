@@ -178,7 +178,7 @@ extensions:
 This extension requires to have sentry installed.
 
 ```
-composer require sentry/sentry:"^1.0"
+composer require sentry/sdk:"^2.0"
 ```
 
 Now you should go to project Settings page -> Client Keys (DSN) section. 
