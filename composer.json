@@ -17,8 +17,8 @@
   },
   "require-dev": {
     "ext-json": "*",
-    "ninjify/qa": "^0.9.0",
-    "ninjify/nunjuck": "^0.2.0",
+    "ninjify/qa": "^0.10",
+    "ninjify/nunjuck": "^0.3",
     "nette/di": "^3.0.0",
     "sentry/sentry": "^1.9.2",
     "phpstan/phpstan-deprecation-rules": "^0.11",
