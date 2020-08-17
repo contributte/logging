@@ -38,7 +38,7 @@ class TracyMailer implements IMailer
 			["\n", PHP_EOL],
 			[
 				'headers' => implode("\n", [
-						'From: ' . ($this->from ?: 'noreply@' . $host),
+						'From: ' . ($this->from ?? 'noreply@' . $host),
 						'X-Mailer: Tracy',
 						'Content-Type: text/plain; charset=UTF-8',
 						'Content-Transfer-Encoding: 8bit',

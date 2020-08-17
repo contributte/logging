@@ -13,7 +13,7 @@ final class Utils
 
 	public static function dumpException(Throwable $exception, string $file, ?BlueScreen $blueScreen = null): string
 	{
-		$bs = $blueScreen ?: new BlueScreen();
+		$bs = $blueScreen ?? new BlueScreen();
 		$bs->renderToFile($exception, $file);
 
 		return $file;
@@ -21,7 +21,7 @@ final class Utils
 
 	public static function captureException(Throwable $exception, string $file, ?BlueScreen $blueScreen = null): string
 	{
-		$bs = $blueScreen ?: new BlueScreen();
+		$bs = $blueScreen ?? new BlueScreen();
 
 		ob_start();
 		$bs->renderToFile($exception, $file);
