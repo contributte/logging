@@ -13,12 +13,12 @@
   ],
   "require": {
     "php": ">= 7.1",
-    "tracy/tracy": "~2.5.5"
+    "tracy/tracy": "^2.5.5"
   },
   "require-dev": {
     "ext-json": "*",
     "ninjify/qa": "^0.8.0",
-    "ninjify/nunjuck": "^0.2.0",
+    "ninjify/nunjuck": "^0.4.0",
     "nette/di": "^2.4.14 || ^3.0.0",
     "sentry/sentry": "^1.9.2"
   },

@@ -22,7 +22,7 @@ test(function (): void {
 			$compiler->addExtension('logging', new TracyLoggingExtension());
 			$compiler->addExtension('tracy', new TracyExtension());
 		}, 1);
-	}, AssertionException::class, 'The logging directory (logDir) expects to be string, NULL given.');
+	}, AssertionException::class, 'The logging directory (logDir) expects to be string, %a% given.');
 });
 
 test(function (): void {
