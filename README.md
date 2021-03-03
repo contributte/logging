@@ -19,7 +19,7 @@
 ## Install
 
 ```
-composer require contributte/logging
+$ composer require contributte/logging
 ```
 
 ## Versions
