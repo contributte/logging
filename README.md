@@ -18,8 +18,8 @@
 
 ## Install
 
-```
-$ composer require contributte/logging
+```bash
+composer require contributte/logging
 ```
 
 ## Versions
