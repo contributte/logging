@@ -38,7 +38,7 @@ You can redefine these loggers in `logging.loggers`.
 
 ```yaml
 logging:
-    loggers: 
+    loggers:
         - Contributte\Logging\FileLogger(%logDir%)
         - Contributte\Logging\BlueScreenFileLogger(%logDir%)
         - Contributte\Logging\SendMailLogger(
@@ -58,16 +58,16 @@ This configuration is functionally equal to original Tracy's logger, only separa
 Our SendMailLogger also allows configure priority levels.
 
 ```yaml
-services: 
+services:
     sendMaillogger:
-        setup: 
+        setup:
             - setAllowedPriority([
                 Contributte\Logging\ILogger::WARNING,
                 Contributte\Logging\ILogger::ERROR
             ])
 ```
 
-### Custom logger 
+### Custom logger
 
 To create your custom logger you have to implement `Contributte\Logging\ILogger`.
 
@@ -98,7 +98,7 @@ And register it in neon.
 
 ```yaml
 logging:
-    loggers: 
+    loggers:
         - App\Model\MyDatabaseLogger(@connection)
 ```
 
@@ -177,11 +177,11 @@ extensions:
 
 This extension requires to have sentry installed.
 
-```
+```bash
 composer require sentry/sdk:"^2.0"
 ```
 
-Now you should go to project Settings page -> Client Keys (DSN) section. 
+Now you should go to project Settings page -> Client Keys (DSN) section.
 There you obtained DNS url. Put the url into neon file.
 
 ```yaml
@@ -189,16 +189,16 @@ sentry:
     url: https://<key>@sentry.io/<project>
 ```
 
-`SentryLoggingExtension` adds `SentryLogger` with url configuration. It works as [SendMailLogger](#sendmaillogger). 
+`SentryLoggingExtension` adds `SentryLogger` with url configuration. It works as [SendMailLogger](#sendmaillogger).
 
 It means that it sends messages/throwable with `ILogger::ERROR`, `ILogger::EXCEPTION`, `ILogger::CRITICAL` priorities.
 
 But if you need other priorities, you can change configuration.
 
 ```yaml
-services: 
+services:
     sentry.logger:
-        setup: 
+        setup:
             - setAllowedPriority(
                 Contributte\Logging\ILogger::WARNING,
                 Contributte\Logging\ILogger::ERROR

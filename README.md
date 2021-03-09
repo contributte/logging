@@ -18,7 +18,7 @@
 
 ## Install
 
-```
+```bash
 composer require contributte/logging
 ```
 
