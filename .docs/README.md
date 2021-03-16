@@ -10,16 +10,16 @@
 
 First of all, we need to register our universal tuned logger for the future purpose.
 
-```yaml
+```neon
 extensions:
-    logging: Contributte\Logging\DI\TracyLoggingExtension
+	logging: Contributte\Logging\DI\TracyLoggingExtension
 ```
 
 After that, we need to setup `logDir`.
 
-```yaml
+```neon
 logging:
-    logDir: %appDir%/../log
+	logDir: %appDir%/../log
 ```
 
 Basically, it overrides Tracy's default logger by our universal, pluggable logger.
@@ -36,19 +36,19 @@ There are 3 types of loggers defined by default.
 
 You can redefine these loggers in `logging.loggers`.
 
-```yaml
+```neon
 logging:
-    loggers: 
-        - Contributte\Logging\FileLogger(%logDir%)
-        - Contributte\Logging\BlueScreenFileLogger(%logDir%)
-        - Contributte\Logging\SendMailLogger(
-            Contributte\Logging\Mailer\TracyMailer(
-                from@email,
-                [to@email, to2@email]
-            ),
-            %logDir%
-        )
-        - App\Model\MyCustomerLogger
+	loggers:
+		- Contributte\Logging\FileLogger(%logDir%)
+		- Contributte\Logging\BlueScreenFileLogger(%logDir%)
+		- Contributte\Logging\SendMailLogger(
+			Contributte\Logging\Mailer\TracyMailer(
+				from@email,
+				[to@email, to2@email]
+			),
+			%logDir%
+		)
+		- App\Model\MyCustomerLogger
 ```
 
 This configuration is functionally equal to original Tracy's logger, only separated to multiple classes.
@@ -57,17 +57,17 @@ This configuration is functionally equal to original Tracy's logger, only separa
 
 Our SendMailLogger also allows configure priority levels.
 
-```yaml
-services: 
-    sendMaillogger:
-        setup: 
-            - setAllowedPriority([
-                Contributte\Logging\ILogger::WARNING,
-                Contributte\Logging\ILogger::ERROR
-            ])
+```neon
+services:
+	sendMaillogger:
+		setup:
+			- setAllowedPriority([
+				Contributte\Logging\ILogger::WARNING,
+				Contributte\Logging\ILogger::ERROR
+			])
 ```
 
-### Custom logger 
+### Custom logger
 
 To create your custom logger you have to implement `Contributte\Logging\ILogger`.
 
@@ -81,14 +81,14 @@ use Contributte\Logging\ILogger;
 class MyDatabaseLogger implements ILogger
 {
 
-    /**
-     * @param mixed $message
-     * @return void
-     */
-    public function log($message, string $priority = self::INFO): void
-    {
-        // store exception to database...
-    }
+	/**
+	 * @param mixed $message
+	 * @return void
+	 */
+	public function log($message, string $priority = self::INFO): void
+	{
+		// store exception to database...
+	}
 
 }
 
@@ -96,18 +96,18 @@ class MyDatabaseLogger implements ILogger
 
 And register it in neon.
 
-```yaml
+```neon
 logging:
-    loggers: 
-        - App\Model\MyDatabaseLogger(@connection)
+	loggers:
+		- App\Model\MyDatabaseLogger(@connection)
 ```
 
 ## Slack
 
-```yaml
+```neon
 extensions:
-    logging: Contributte\Logging\DI\TracyLoggingExtension
-    slack: Contributte\Logging\DI\SlackLoggingExtension
+	logging: Contributte\Logging\DI\TracyLoggingExtension
+	slack: Contributte\Logging\DI\SlackLoggingExtension
 ```
 
 There is a configuration you have to fill in.
@@ -120,10 +120,10 @@ There is a configuration you have to fill in.
 | icon_emoji | optional     | :rocket: |
 | icon_url   | optional     | -        |
 
-```yaml
+```neon
 slack:
-    url: https://hooks.slack.com/services/<code1>/<code2>/<code3>
-    channel: tracy
+	url: https://hooks.slack.com/services/<code1>/<code2>/<code3>
+	channel: tracy
 ```
 
 ### Formatters
@@ -132,17 +132,17 @@ By default, there are 5 formatters for your slack-channel-pleasure.
 
 You can disable it like this:
 
-```yaml
+```neon
 slack:
-    formatters: []
+	formatters: []
 ```
 
 And configure your own formatters. They will be loaded automatically, if
 you implement needed interface (`Contributte\Logging\Slack\Formatter\IFormatter`).
 
-```yaml
+```neon
 services:
-    - App\Slack\MySuperTrouperFormatter
+	- App\Slack\MySuperTrouperFormatter
 ```
 
 #### `Contributte\Logging\Slack\Formatter\ContextFormatter`
@@ -169,38 +169,38 @@ services:
 
 ## Sentry
 
-```yaml
+```neon
 extensions:
-    logging: Contributte\Logging\DI\TracyLoggingExtension
-    sentry: Contributte\Logging\DI\SentryLoggingExtension
+	logging: Contributte\Logging\DI\TracyLoggingExtension
+	sentry: Contributte\Logging\DI\SentryLoggingExtension
 ```
 
 This extension requires to have sentry installed.
 
-```
+```bash
 composer require sentry/sdk:"^2.0"
 ```
 
-Now you should go to project Settings page -> Client Keys (DSN) section. 
+Now you should go to project Settings page -> Client Keys (DSN) section.
 There you obtained DNS url. Put the url into neon file.
 
-```yaml
+```neon
 sentry:
-    url: https://<key>@sentry.io/<project>
+	url: https://<key>@sentry.io/<project>
 ```
 
-`SentryLoggingExtension` adds `SentryLogger` with url configuration. It works as [SendMailLogger](#sendmaillogger). 
+`SentryLoggingExtension` adds `SentryLogger` with url configuration. It works as [SendMailLogger](#sendmaillogger).
 
 It means that it sends messages/throwable with `ILogger::ERROR`, `ILogger::EXCEPTION`, `ILogger::CRITICAL` priorities.
 
 But if you need other priorities, you can change configuration.
 
-```yaml
-services: 
-    sentry.logger:
-        setup: 
-            - setAllowedPriority(
-                Contributte\Logging\ILogger::WARNING,
-                Contributte\Logging\ILogger::ERROR
-            )
+```neon
+services:
+	sentry.logger:
+		setup:
+			- setAllowedPriority(
+				Contributte\Logging\ILogger::WARNING,
+				Contributte\Logging\ILogger::ERROR
+			)
 ```
