@@ -1,64 +1,52 @@
-# Logging
+![](https://heatbadger.now.sh/github/readme/contributte/logging/)
 
-:boom: Plug-in support logging for [`Tracy`](https://github.com/nette/tracy) & [`Nette Framework`](https://github.com/nette/).
+<p align=center>
+  <a href="https://github.com/contributte/logging/actions"><img src="https://badgen.net/github/checks/contributte/logging/master?forms=300"></a>
+  <a href="https://coveralls.io/r/contributte/logging"><img src="https://badgen.net/coveralls/c/github/contributte/logging?forms=300"></a>
+  <a href="https://packagist.org/packages/contributte/logging"><img src="https://badgen.net/packagist/dm/contributte/logging"></a>
+  <a href="https://packagist.org/packages/contributte/logging"><img src="https://badgen.net/packagist/v/contributte/logging"></a>
+</p>
+<p align=center>
+  <a href="https://packagist.org/packages/contributte/logging"><img src="https://badgen.net/packagist/php/contributte/logging"></a>
+  <a href="https://github.com/contributte/logging"><img src="https://badgen.net/github/license/contributte/logging"></a>
+  <a href="https://bit.ly/ctteg"><img src="https://badgen.net/badge/support/gitter/cyan"></a>
+  <a href="https://bit.ly/cttfo"><img src="https://badgen.net/badge/support/forum/yellow"></a>
+  <a href="https://contributte.org/partners.html"><img src="https://badgen.net/badge/sponsor/donations/F96854"></a>
+</p>
 
------
+<p align=center>
+Website 🚀 <a href="https://contributte.org">contributte.org</a> | Contact 👨🏻‍💻 <a href="https://f3l1x.io">f3l1x.io</a> | Twitter 🐦 <a href="https://twitter.com/contributte">@contributte</a>
+</p>
 
-[![Build Status](https://img.shields.io/travis/contributte/logging.svg?style=flat-square)](https://travis-ci.org/contributte/logging)
-[![Code coverage](https://img.shields.io/coveralls/contributte/logging.svg?style=flat-square)](https://coveralls.io/r/contributte/logging)
-[![Licence](https://img.shields.io/packagist/l/contributte/logging.svg?style=flat-square)](https://packagist.org/packages/contributte/logging)
-[![Downloads this Month](https://img.shields.io/packagist/dm/contributte/logging.svg?style=flat-square)](https://packagist.org/packages/contributte/logging)
-[![Downloads total](https://img.shields.io/packagist/dt/contributte/logging.svg?style=flat-square)](https://packagist.org/packages/contributte/logging)
-[![Latest stable](https://img.shields.io/packagist/v/contributte/logging.svg?style=flat-square)](https://packagist.org/packages/contributte/logging)
-[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
+## Usage
 
-## Discussion / Help
-
-[![Join the chat](https://img.shields.io/gitter/room/contributte/contributte.svg?style=flat-square)](http://bit.ly/ctteg)
-
-## Install
+To install latest version of `contributte/logging` use [Composer](https://getcomposer.com).
 
 ```bash
 composer require contributte/logging
 ```
 
+## Documentation
+
+For details on how to use this package, check out our [documentation](.docs).
+
 ## Versions
 
-| State       | Version      |  Nette  | Branch   | PHP      |
-|-------------|--------------|---------|----------|----------|
-| development | `^0.6`       |   3.0   | `master` | `^7.2`   |
-| stable      | `^0.5`       |   3.0   | `master` | `^7.2`   |
-| stable      | `^0.3`       |   2.4   | `master` | `>= 7.1` |
+| State       | Version | Branch   | Nette | PHP     |
+|-------------|---------|----------|-------|---------|
+| dev         | `^0.6`  | `master` | 3.0+  | `>=7.2` |
+| stable      | `^0.5`  | `master` | 3.0+  | `^7.2`  |
+| stable      | `^0.3`  | `master` | 2.4   | `>=7.1` |
 
-## Overview
+## Development
 
-- [Tracy - universal logging](https://github.com/contributte/logging/blob/master/.docs/README.md#tracy)
-- [Slack - send exeptions to channel](https://github.com/contributte/logging/blob/master/.docs/README.md#slack)
-- [Sentry - send exceptions to Sentry](https://github.com/contributte/logging/blob/master/.docs/README.md#sentry)
+See [how to contribute](https://contributte.org) to this package. This package is currently maintained by these authors.
 
-## Maintainers
-
-<table>
-  <tbody>
-    <tr>
-      <td align="center">
-        <a href="https://github.com/f3l1x">
-            <img width="150" height="150" src="https://avatars2.githubusercontent.com/u/538058?v=3&s=150">
-        </a>
-        </br>
-        <a href="https://github.com/f3l1x">Milan Felix Šulc</a>
-      </td>
-      <td align="center">
-        <a href="https://github.com/benijo">
-            <img width="150" height="150" src="https://avatars3.githubusercontent.com/u/6731626?v=3&s=150">
-        </a>
-        </br>
-        <a href="https://github.com/benijo">Josef Benjač</a>
-      </td>
-    </tr>
-  <tbody>
-</table>
+<a href="https://github.com/f3l1x">
+    <img width="80" height="80" src="https://avatars2.githubusercontent.com/u/538058?v=3&s=80">
+</a>
 
 -----
 
-Thank you for testing, reporting and contributing.
+Consider to [support](https://contributte.org/partners) **contributte** development team.
+Also thank you for using this package.

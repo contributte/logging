@@ -22,7 +22,7 @@ test(function (): void {
 			$compiler->addExtension('logging', new TracyLoggingExtension());
 			$compiler->addExtension('tracy', new TracyExtension());
 		}, 1);
-	}, InvalidConfigurationException::class, 'The mandatory option \'logging › logDir\' is missing.');
+	}, InvalidConfigurationException::class, '#The mandatory \\w+ \'logging › logDir\' is missing\.#');
 });
 
 test(function (): void {

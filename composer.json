@@ -12,15 +12,15 @@
     }
   ],
   "require": {
-    "php": "^7.2",
+    "php": ">=7.2",
     "tracy/tracy": "~2.5.5|~2.6.2|~2.7.0"
   },
   "require-dev": {
     "ext-json": "*",
-    "ninjify/qa": "^0.10",
-    "ninjify/nunjuck": "^0.3",
+    "ninjify/qa": "^0.12",
+    "ninjify/nunjuck": "^0.4",
     "nette/di": "^3.0.0",
-    "sentry/sdk": "^2.1",
+    "sentry/sdk": "^3.0.0",
     "phpstan/phpstan": "^0.12",
     "phpstan/phpstan-deprecation-rules": "^0.12",
     "phpstan/phpstan-nette": "^0.12",
