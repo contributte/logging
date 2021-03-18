@@ -90,9 +90,7 @@ final class SlackContextAttachment
 
 	public function createField(): SlackContextField
 	{
-		$this->fields[] = $field = new SlackContextField();
-
-		return $field;
+		return $this->fields[] = new SlackContextField();
 	}
 
 	/**

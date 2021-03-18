@@ -75,16 +75,12 @@ final class SlackContext
 
 	public function createField(): SlackContextField
 	{
-		$this->fields[] = $field = new SlackContextField();
-
-		return $field;
+		return $this->fields[] = new SlackContextField();
 	}
 
 	public function createAttachment(): SlackContextAttachment
 	{
-		$this->attachments[] = $attachment = new SlackContextAttachment();
-
-		return $attachment;
+		return $this->attachments[] = new SlackContextAttachment();
 	}
 
 	/**
