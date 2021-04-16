@@ -5,6 +5,7 @@ namespace Contributte\Logging\Sentry;
 use Contributte\Logging\Exceptions\Logical\InvalidStateException;
 use Contributte\Logging\ILogger;
 use Sentry\ClientBuilder;
+use Sentry\SentrySdk;
 use Sentry\Severity;
 use Sentry\State\Scope;
 use Throwable;
@@ -83,6 +84,7 @@ class SentryLogger implements ILogger
 	{
 		$client = ClientBuilder::create($this->configuration[self::CONFIG_OPTIONS] + ['dsn' => $this->configuration[self::CONFIG_URL]])
 			->getClient();
+		SentrySdk::init()->bindClient($client);
 
 		if ($message instanceof Throwable) {
 			$client->captureException($message, $scope);
