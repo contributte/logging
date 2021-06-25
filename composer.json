@@ -1,7 +1,13 @@
 {
   "name": "contributte/logging",
   "description": "Plug-in support logging for Tracy / Nette Framework",
-  "keywords": ["nette", "logging", "tracy", "monolog", "plugins"],
+  "keywords": [
+    "nette",
+    "logging",
+    "tracy",
+    "monolog",
+    "plugins"
+  ],
   "type": "library",
   "license": "MIT",
   "homepage": "https://github.com/contributte/logging",
