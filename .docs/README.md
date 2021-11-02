@@ -199,8 +199,8 @@ But if you need other priorities, you can change configuration.
 services:
 	sentry.logger:
 		setup:
-			- setAllowedPriority(
+			- setAllowedPriority([
 				Contributte\Logging\ILogger::WARNING,
 				Contributte\Logging\ILogger::ERROR
-			)
+			])
 ```
