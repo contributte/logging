@@ -34,7 +34,7 @@ abstract class AbstractLogger implements ILogger
 				$exception->getCode(),
 				$exception->getFile(),
 				$exception->getLine(),
-				array_map(function ($item) {
+				array_map(function ($item): array {
 					unset($item['args']);
 
 					return $item;
