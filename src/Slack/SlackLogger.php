@@ -13,10 +13,10 @@ final class SlackLogger implements ILogger
 {
 
 	/** @var mixed[] */
-	private $config;
+	private array $config;
 
 	/** @var IFormatter[] */
-	private $formatters = [];
+	private array $formatters = [];
 
 	/**
 	 * @param mixed[] $config
@@ -31,10 +31,7 @@ final class SlackLogger implements ILogger
 		$this->formatters[] = $formatter;
 	}
 
-	/**
-	 * @param mixed $message
-	 */
-	public function log($message, string $priority = ILogger::INFO): void
+	public function log(mixed $message, string $priority = ILogger::INFO): void
 	{
 		if (!in_array($priority, [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL], true)) {
 			return;
@@ -65,29 +62,28 @@ final class SlackLogger implements ILogger
 				'header' => 'Content-type: application/x-www-form-urlencoded',
 				'timeout' => $this->get('timeout', 30),
 				'content' => http_build_query([
-					'payload' => json_encode(array_filter($context->toArray())),
+					'payload' => json_encode(array_filter($context->toArray(), fn ($value): bool => $value !== null)),
 				]),
 			],
 		];
 
 		$response = @file_get_contents($url, false, stream_context_create($streamcontext));
 
+		// PHP 8.4+ uses http_get_last_response_headers(), older versions use $http_response_header
+		$headers = PHP_VERSION_ID >= 80400 ? http_get_last_response_headers() : ($http_response_header ?? []);
+
 		if ($response !== 'ok') {
 			throw new SlackBadRequestException([
 				'url' => $url,
 				'context' => $streamcontext,
 				'response' => [
-					'headers' => $http_response_header,
+					'headers' => $headers,
 				],
 			]);
 		}
 	}
 
-	/**
-	 * @param mixed $default
-	 * @return mixed
-	 */
-	protected function get(string $key, $default = null)
+	protected function get(string $key, mixed $default = null): mixed
 	{
 		return func_num_args() > 1
 			? Arrays::get($this->config, explode('.', $key), $default)

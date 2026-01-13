@@ -26,10 +26,10 @@ class SentryLogger implements ILogger
 	public const CONFIG_OPTIONS = 'options';
 
 	/** @var mixed[] */
-	protected $configuration;
+	protected array $configuration;
 
 	/** @var string[] */
-	private $allowedPriority = [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL];
+	private array $allowedPriority = [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL];
 
 	/**
 	 * @param mixed[] $configuration
@@ -58,9 +58,8 @@ class SentryLogger implements ILogger
 	/**
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
-	 * @param mixed $message
 	 */
-	public function log($message, string $priority = ILogger::INFO): void
+	public function log(mixed $message, string $priority = ILogger::INFO): void
 	{
 		if (!in_array($priority, $this->allowedPriority, true)) {
 			return;
@@ -77,10 +76,7 @@ class SentryLogger implements ILogger
 		$this->makeRequest($message, $scope);
 	}
 
-	/**
-	 * @param mixed $message
-	 */
-	protected function makeRequest($message, Scope $scope): void
+	protected function makeRequest(mixed $message, Scope $scope): void
 	{
 		$client = ClientBuilder::create($this->configuration[self::CONFIG_OPTIONS] + ['dsn' => $this->configuration[self::CONFIG_URL]])
 			->getClient();

@@ -8,7 +8,7 @@ final class SlackBadRequestException extends RuntimeException
 {
 
 	/** @var mixed[] */
-	private $request;
+	private array $request;
 
 	/**
 	 * @param mixed[] $request
@@ -16,6 +16,7 @@ final class SlackBadRequestException extends RuntimeException
 	public function __construct(array $request)
 	{
 		parent::__construct();
+
 		$this->request = $request;
 	}
 

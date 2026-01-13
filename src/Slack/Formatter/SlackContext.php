@@ -8,16 +8,16 @@ final class SlackContext
 {
 
 	/** @var mixed[] */
-	private $config = [];
+	private array $config = [];
 
 	/** @var mixed[] */
-	private $data = [];
+	private array $data = [];
 
 	/** @var SlackContextField[] */
-	private $fields = [];
+	private array $fields = [];
 
 	/** @var SlackContextAttachment[] */
-	private $attachments = [];
+	private array $attachments = [];
 
 	/**
 	 * @param mixed[] $config
@@ -27,11 +27,7 @@ final class SlackContext
 		$this->config = $config;
 	}
 
-	/**
-	 * @param mixed $default
-	 * @return mixed
-	 */
-	public function getConfig(string $key, $default = null)
+	public function getConfig(string $key, mixed $default = null): mixed
 	{
 		return func_num_args() > 1
 			? Arrays::get($this->config, explode('.', $key), $default)

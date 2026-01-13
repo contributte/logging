@@ -11,8 +11,7 @@ use Throwable;
 abstract class AbstractLogger implements ILogger
 {
 
-	/** @var string */
-	protected $directory;
+	protected string $directory;
 
 	public function __construct(string $directory)
 	{

@@ -11,11 +11,10 @@ use Tracy\Logger;
 class TracyMailer implements IMailer
 {
 
-	/** @var string|null */
-	private $from;
+	private ?string $from = null;
 
 	/** @var mixed[] */
-	private $to = [];
+	private array $to = [];
 
 	/**
 	 * @param mixed[] $to
@@ -26,10 +25,7 @@ class TracyMailer implements IMailer
 		$this->to = $to;
 	}
 
-	/**
-	 * @param mixed $message
-	 */
-	public function send($message): void
+	public function send(mixed $message): void
 	{
 		/** @var string $host */
 		$host = preg_replace('#[^\w.-]+#', '', $_SERVER['HTTP_HOST'] ?? php_uname('n'));

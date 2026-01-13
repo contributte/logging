@@ -8,7 +8,7 @@ class UniversalLogger implements TracyLogger
 {
 
 	/** @var ILogger[] */
-	private $loggers = [];
+	private array $loggers = [];
 
 	public function addLogger(ILogger $logger): void
 	{

@@ -6,10 +6,10 @@ final class SlackContextAttachment
 {
 
 	/** @var mixed[] */
-	private $data = [];
+	private array $data = [];
 
 	/** @var SlackContextField[] */
-	private $fields = [];
+	private array $fields = [];
 
 	public function setFallback(string $fallback): void
 	{

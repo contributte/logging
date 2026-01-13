@@ -8,18 +8,17 @@ use Nette\InvalidArgumentException;
 class SendMailLogger extends AbstractLogger
 {
 
-	/** @var string */
-	private $emailSnooze = '2 days';
+	private string $emailSnooze = '2 days';
 
-	/** @var IMailer */
-	private $mailer;
+	private IMailer $mailer;
 
 	/** @var string[] */
-	private $allowedPriority = [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL];
+	private array $allowedPriority = [ILogger::ERROR, ILogger::EXCEPTION, ILogger::CRITICAL];
 
 	public function __construct(IMailer $mailer, string $directory)
 	{
 		parent::__construct($directory);
+
 		$this->mailer = $mailer;
 	}
 
@@ -41,10 +40,7 @@ class SendMailLogger extends AbstractLogger
 		$this->mailer = $mailer;
 	}
 
-	/**
-	 * @param mixed $message
-	 */
-	public function log($message, string $priority = ILogger::INFO): void
+	public function log(mixed $message, string $priority = ILogger::INFO): void
 	{
 		if (!in_array($priority, $this->allowedPriority, true)) {
 			return;

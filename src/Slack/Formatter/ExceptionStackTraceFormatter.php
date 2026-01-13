@@ -16,7 +16,7 @@ final class ExceptionStackTraceFormatter implements IFormatter
 
 		$context = clone $context;
 		$attachment = $context->createAttachment();
-		$attachment->setText(sprintf('*Stack trace* (_%s_)', get_class($exception)));
+		$attachment->setText(sprintf('*Stack trace* (_%s_)', $exception::class));
 		$attachment->setMarkdown();
 
 		foreach ($exception->getTrace() as $id => $trace) {
@@ -24,7 +24,10 @@ final class ExceptionStackTraceFormatter implements IFormatter
 			$func->setTitle(sprintf(':fireworks: Trace #%s', $id + 1));
 			$file = $attachment->createField();
 			$file->setTitle(':open_file_folder: File');
-			$file->setValue('```Function: ' . $trace['function'] . "\nFile: " . $trace['file'] . ':' . $trace['line'] . '```');
+			$fileInfo = isset($trace['file']) && isset($trace['line'])
+				? $trace['file'] . ':' . $trace['line']
+				: '[internal function]';
+			$file->setValue('```Function: ' . $trace['function'] . "\nFile: " . $fileInfo . '```');
 		}
 
 		return $context;

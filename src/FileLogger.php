@@ -14,10 +14,7 @@ use Tracy\Logger;
 class FileLogger extends AbstractLogger implements ILogger
 {
 
-	/**
-	 * @param mixed $message
-	 */
-	public function log($message, string $priority = ILogger::INFO): void
+	public function log(mixed $message, string $priority = ILogger::INFO): void
 	{
 		if (!is_dir($this->directory)) {
 			throw new InvalidStateException('Directory "' . $this->directory . '" is not found or is not directory.');
