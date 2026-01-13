@@ -5,9 +5,6 @@ namespace Contributte\Logging\Mailer;
 interface IMailer
 {
 
-	/**
-	 * @param mixed $message
-	 */
-	public function send($message): void;
+	public function send(mixed $message): void;
 
 }

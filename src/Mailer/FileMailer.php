@@ -8,18 +8,14 @@ use Tracy\Logger;
 class FileMailer implements IMailer
 {
 
-	/** @var string */
-	private $directory;
+	private string $directory;
 
 	public function __construct(string $directory)
 	{
 		$this->directory = $directory;
 	}
 
-	/**
-	 * @param mixed $message
-	 */
-	public function send($message): void
+	public function send(mixed $message): void
 	{
 		/** @var string $host */
 		$host = preg_replace('#[^\w.-]+#', '', $_SERVER['HTTP_HOST'] ?? php_uname('n'));

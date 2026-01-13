@@ -15,19 +15,16 @@ use Tracy\BlueScreen;
 class BlueScreenFileLogger extends AbstractLogger implements ILogger
 {
 
-	/** @var BlueScreen|null */
-	private $blueScreen;
+	private ?BlueScreen $blueScreen = null;
 
 	public function __construct(string $directory, ?BlueScreen $blueScreen = null)
 	{
 		parent::__construct($directory);
+
 		$this->blueScreen = $blueScreen;
 	}
 
-	/**
-	 * @param mixed $message
-	 */
-	public function log($message, string $priority = ILogger::INFO): void
+	public function log(mixed $message, string $priority = ILogger::INFO): void
 	{
 		if (!is_dir($this->directory)) {
 			throw new InvalidStateException('Directory ' . $this->directory . ' is not found or is not directory.');

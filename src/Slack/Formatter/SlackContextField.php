@@ -6,7 +6,7 @@ final class SlackContextField
 {
 
 	/** @var mixed[] */
-	private $data = [];
+	private array $data = [];
 
 	public function setTitle(string $title): void
 	{

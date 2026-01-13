@@ -32,7 +32,7 @@ final class ExceptionFormatter implements IFormatter
 
 		$message = $attachment->createField();
 		$message->setTitle(':mag_right: Exception');
-		$message->setValue(get_class($exception));
+		$message->setValue($exception::class);
 
 		$message = $attachment->createField();
 		$message->setTitle(':envelope: Message');

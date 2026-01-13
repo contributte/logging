@@ -14,9 +14,6 @@ interface ILogger
 	public const EXCEPTION = TracyLogger::EXCEPTION;
 	public const CRITICAL = TracyLogger::CRITICAL;
 
-	/**
-	 * @param mixed $message
-	 */
-	public function log($message, string $priority = ILogger::INFO): void;
+	public function log(mixed $message, string $priority = ILogger::INFO): void;
 
 }

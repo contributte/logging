@@ -19,7 +19,7 @@ final class ExceptionPreviousExceptionsFormatter implements IFormatter
 
 			$message = $attachment->createField();
 			$message->setTitle(':mag_right: Exception');
-			$message->setValue(get_class($previous));
+			$message->setValue($previous::class);
 
 			$message = $attachment->createField();
 			$message->setTitle(':envelope: Message');
