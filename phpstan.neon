@@ -1,9 +1,15 @@
 includes:
-	- vendor/phpstan/phpstan-deprecation-rules/rules.neon
-	- vendor/phpstan/phpstan-nette/extension.neon
-	- vendor/phpstan/phpstan-nette/rules.neon
-	- vendor/phpstan/phpstan-strict-rules/rules.neon
+	- vendor/contributte/phpstan/phpstan.neon
 
 parameters:
+	level: 8
+	phpVersion: 80200
+	paths:
+		- src
+	fileExtensions:
+		- php
 	ignoreErrors:
-		- '#^.+ should be (contravariant|covariant) with .+$#'
+		# PHP 8.4+ function, guarded by PHP_VERSION_ID check
+		- '#Function http_get_last_response_headers not found#'
+		# $http_response_header is a predefined variable set by file_get_contents()
+		- '#Variable \$http_response_header on left side of \?\? always exists#'
