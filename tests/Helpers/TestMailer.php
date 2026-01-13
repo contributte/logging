@@ -8,12 +8,9 @@ class TestMailer implements IMailer
 {
 
 	/** @var mixed[] */
-	public $messages = [];
+	public array $messages = [];
 
-	/**
-	 * @param mixed $message
-	 */
-	public function send($message): void
+	public function send(mixed $message): void
 	{
 		$this->messages[] = $message;
 	}
