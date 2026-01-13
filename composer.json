@@ -18,19 +18,15 @@
     }
   ],
   "require": {
-    "php": ">=7.2",
+    "php": ">=8.2",
     "tracy/tracy": "^2.11.0"
   },
   "require-dev": {
-    "ext-json": "*",
-    "ninjify/qa": "^0.12",
-    "ninjify/nunjuck": "^0.4",
-    "nette/di": "^3.0.0",
-    "sentry/sdk": "^3.0.0",
-    "phpstan/phpstan": "^1.0",
-    "phpstan/phpstan-deprecation-rules": "^1.0",
-    "phpstan/phpstan-nette": "^1.0",
-    "phpstan/phpstan-strict-rules": "^1.0"
+    "contributte/phpstan": "~0.2.0",
+    "contributte/qa": "~0.4.0",
+    "contributte/tester": "~0.3.0",
+    "nette/di": "^3.2.0",
+    "sentry/sdk": "^4.0.0"
   },
   "conflict": {
     "nette/di": "<3.0"
@@ -46,7 +42,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\Helpers\\": "tests/helpers"
+      "Tests\\": "tests"
     }
   },
   "minimum-stability": "dev",
